@@ -51,7 +51,7 @@ const data = [
 
 steps.forEach((step, index) => {
   step.addEventListener("click", () => {
-    document.querySelector(".step.active").classList.remove("active");
+    document.querySelector(".step.active")?.classList.remove("active");
     step.classList.add("active");
 
     const { title, desc, what } = data[index];
