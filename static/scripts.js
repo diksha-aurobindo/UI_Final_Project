@@ -1,5 +1,6 @@
 const steps = document.querySelectorAll(".step");
 const content = document.getElementById("content");
+let currentIndex = 0;
 
 const data = [
   {
@@ -49,17 +50,40 @@ const data = [
   }
 ];
 
+function updateContent(index) {
+  const { title, desc, what } = data[index];
+  content.innerHTML = `
+    <h2>${title}</h2>
+    <p>${desc}</p>
+    <h4>What it does</h4>
+    <p>${what}</p>
+    <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
+      NEXT STEP →
+    </button>
+  `;
+  document.querySelector(".step.active")?.classList.remove("active");
+  steps[index].classList.add("active");
+  attachNextHandler(); // re-bind the new button
+}
+
 steps.forEach((step, index) => {
   step.addEventListener("click", () => {
-    document.querySelector(".step.active")?.classList.remove("active");
-    step.classList.add("active");
-
-    const { title, desc, what } = data[index];
-    content.innerHTML = `
-      <h2>${title}</h2>
-      <p>${desc}</p>
-      <h4>What it does</h4>
-      <p>${what}</p>
-    `;
+    currentIndex = index;
+    updateContent(currentIndex);
   });
 });
+
+function attachNextHandler() {
+  const nextBtn = document.getElementById("nextStep");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < data.length - 1) {
+        currentIndex++;
+        updateContent(currentIndex);
+      }
+    });
+  }
+}
+
+// Initial binding for first page load
+attachNextHandler();
