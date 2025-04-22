@@ -118,8 +118,8 @@ body {
 }
 
 .quiz-container {
-  background-color: #6d4c41;
-  color: #fcefe6;
+  background-color: #fefbfa;
+  color: #ec74d6;
   min-height: 100vh;
   padding: 60px 300px 200px 300px;
   font-family: 'Georgia', serif;
@@ -195,26 +195,32 @@ body {
 }
 
 .correct-message {
-  background-color: #e0ffe0;
-  color: #218739;
-  border: 2px solid #43b66c;
+  background-color: #fbefff;
+  color: #d835a4;
+  border: 2px solid #ec74d6;
   font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 
 .correct-message::before {
-  content: "✅ ";
-  font-size: 22px;
+  content: "🎉 ";
+  font-size: 20px;
   vertical-align: middle;
 }
 
 .wrong-message {
-  background-color: #fff0e8;
-  color: #e67300;
-  border: 2px solid #8b4513;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-  font-weight: 500;
-  font-family: 'Georgia', serif;
+  background-color: #fff3f7;
+  color: #c63e70;
+  border: 2px solid #f0b3c8;
+  font-weight: bold;
+  font-family: 'Helvetica Neue', sans-serif;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 20px;
 }
+
 
 .wrong-message strong {
   color: #000;

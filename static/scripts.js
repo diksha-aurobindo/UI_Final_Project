@@ -10,18 +10,6 @@ const data = [
     image: "images/cleanser.png"
   },
   {
-    title: "Water Based Cleanser",
-    desc: "Water-based cleansers remove sweat and water-based dirt. Use it after the oil cleanser to complete the double cleanse.",
-    what: "Cleanses leftover residue after oil cleansing.",
-    image: "images/water_cleanser.png"
-  },
-  {
-    title: "Exfoliator",
-    desc: "Exfoliators slough away dead skin cells, helping to brighten the complexion and prevent clogged pores.",
-    what: "Improves skin texture and clarity.",
-    image: "images/exfoliator.png"
-  },
-  {
     title: "Toner",
     desc: "Toners help to reset your skin's pH balance and prep it to better absorb the next steps.",
     what: "Balances skin and boosts absorption.",
@@ -34,16 +22,10 @@ const data = [
     image: "images/essence.png"
   },
   {
-    title: "Treatments",
-    desc: "This includes serums, ampoules, or spot treatments tailored to your specific skin concerns.",
-    what: "Targets specific skin concerns like acne or pigmentation.",
-    image: "images/treatments.png"
-  },
-  {
-    title: "Sheet Masks",
-    desc: "Sheet masks offer concentrated ingredients and intense hydration in just a few minutes.",
+    title: "Serum",
+    desc: "CONTENT NEEDS TO BE UPDATED",
     what: "Instant glow and moisture boost.",
-    image: "images/sheet_mask.png"
+    image: "images/serum.png"
   },
   {
     title: "Eye Cream",
@@ -52,16 +34,30 @@ const data = [
     image: "images/eye_cream.png"
   },
   {
+    title: "Spot Treatment",
+    desc: "This includes serums, ampoules, or spot treatments tailored to your specific skin concerns.",
+    what: "Targets specific skin concerns like acne or pigmentation.",
+    image: "images/spot_treatment.png"
+  },
+  {
     title: "Moisturizer",
     desc: "Locks in all previous layers and keeps your skin hydrated throughout the day or night.",
     what: "Seals in moisture and strengthens skin barrier.",
     image: "images/moisturizer.png"
+  }, 
+
+  {
+    title: "Sunscreen",
+    desc: "CONTENT NEEDS TO BE UPDATED",
+    what: "Seals in moisture and strengthens skin barrier.",
+    image: "images/sunscreen.png"
   }
+ 
 ];
 
 
 function updateContent(index) {
-  const { title, desc, what } = data[index];
+  const { title, desc, what, image } = data[index]; // ✅ added image
   content.innerHTML = `
     <div class="step-content">
       <div class="step-image">
@@ -80,8 +76,9 @@ function updateContent(index) {
   `;
   document.querySelector(".step.active")?.classList.remove("active");
   steps[index].classList.add("active");
-  attachNextHandler(); // re-bind the new button
+  attachNextHandler(); // ✅ rebind next button
 }
+
 
 steps.forEach((step, index) => {
   step.addEventListener("click", () => {
