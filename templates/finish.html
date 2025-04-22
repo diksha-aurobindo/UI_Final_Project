@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skincare Routine UI</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" crossorigin="anonymous">
+  
+  <!-- ✅ Flask-compatible CSS link -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+
+</head>
+<body>
+  
+<br><br><br><br><br><br>
+<center><h1>Thank you for taking the course!</h1></center>
+
+  <!-- ✅ Flask-compatible JS link -->
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

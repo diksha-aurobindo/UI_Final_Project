@@ -87,3 +87,123 @@ function attachNextHandler() {
 
 // Initial binding for first page load
 attachNextHandler();
+
+// drag and drop
+
+let box1="";
+let box2="";
+let box3="";
+
+function drag_drop() {
+  $("#cleanser").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#toner").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#essence").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#eye").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#moisturizer").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#sunscreen").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#box1").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box1 = ui.draggable.attr("id");
+    }
+  });
+
+  $("#box2").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box2 = ui.draggable.attr("id");
+    }
+  });
+
+  $("#box3").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box3 = ui.draggable.attr("id");
+        
+    }
+  });
+}
+
+drag_drop();
+
+function eval() {
+  if (box1==="" || box2==="" || box3==="") {
+    alert("Please fill all the steps!");
+  } else {
+    if (box1!=='cleanser') {
+      $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
+      $("#routinestatus").addClass("bad");
+    } else {
+      if (box2==='sunscreen') {
+        $("#routinestatus").text("Try again! \n You might want to use the sunscreen at the end!");
+        $("#routinestatus").addClass("bad");
+      } else {
+        if (box3!=='sunscreen') {
+          $("#routinestatus").text("Try again! \n You might want to end the routine with sunscreen for protection!");
+          $("#routinestatus").addClass("bad");
+        } else {
+          $("#routinestatus").text("Good Job! Your routine seems good");
+          $("#routinestatus").addClass("good");
+          $(".finish").prop("disabled", false);
+        }
+      }
+    }
+  }
+}
