@@ -1,0 +1,53 @@
+{
+    "routine_steps": [
+      {
+        "step": "Cleanser",
+        "image": "images/cleanser.png",
+        "description": "Gently cleanses your skin to remove dirt and oil.",
+        "benefit": "Removes makeup, sunscreen, and impurities."
+      },
+      {
+        "step": "Toner",
+        "image": "images/toner.png",
+        "description": "Balances the skin’s pH and preps for treatment.",
+        "benefit": "Refines pores and refreshes skin."
+      },
+      {
+        "step": "Essence",
+        "image": "images/essence.png",
+        "description": "Hydrates and helps active ingredients absorb better.",
+        "benefit": "Adds moisture and boosts skin resilience."
+      },
+      {
+        "step": "Serum",
+        "image": "images/serum.png",
+        "description": "Targets specific skin concerns with concentrated actives.",
+        "benefit": "Brightens, hydrates, or reduces wrinkles."
+      },
+      {
+        "step": "Eye Cream",
+        "image": "images/eye_cream.png",
+        "description": "Nourishes the delicate under-eye area.",
+        "benefit": "Reduces puffiness and dark circles."
+      },
+      {
+        "step": "Spot Treatment",
+        "image": "images/spot_treatment.png",
+        "description": "Directly treats blemishes and inflammation.",
+        "benefit": "Shrinks pimples and prevents scarring."
+      },
+      {
+        "step": "Moisturizer",
+        "image": "images/moisturizer.png",
+        "description": "Seals in hydration and keeps skin soft.",
+        "benefit": "Protects skin barrier and prevents dryness."
+      },
+      {
+        "step": "Sunscreen",
+        "image": "images/sunscreen.png",
+        "description": "Shields the skin from UV damage.",
+        "benefit": "Prevents sunburn, aging, and hyperpigmentation."
+      }
+    ]
+  }
+  

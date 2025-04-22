@@ -2,36 +2,51 @@
 
 {% block content %}
 <div id="learn">
+  <!-- Sidebar Steps -->
   <div class="sidebar">
+    <!-- Cleanse -->
     <div class="section-label">Cleanse</div>
-    <div class="step active">1. Makeup Remover & Oil Cleanser</div>
-    <div class="step">2. Water Based Cleanser</div>
-    <div class="step">3. Exfoliator</div>
+    <div class="step active">1. Cleanser</div>
 
+    <!-- Prep -->
     <div class="section-label">Prep</div>
-    <div class="step">4. Toner</div>
-    <div class="step">5. Essence</div>
+    <div class="step">2. Toner</div>
+    <div class="step">3. Essence</div>
 
+    <!-- Nourish -->
     <div class="section-label">Nourish</div>
-    <div class="step">6. Treatments</div>
-    <div class="step">7. Sheet Masks</div>
-    <div class="step">8. Eye Cream</div>
+    <div class="step">4. Serum</div>
+    <div class="step">5. Eye Cream</div>
+    <div class="step">6. Spot Treatment</div>
+    <div class="step">7. Moisturizer</div>
 
+    <!-- Protect -->
     <div class="section-label">Protect</div>
-    <div class="step">9. Moisturizer</div>
+    <div class="step">8. Sunscreen</div>
   </div>
 
+  <!-- Content Area -->
   <div class="content" id="content">
-    <h2>Makeup Remover & Oil Cleanser</h2>
-    <p>Oil cleansers are the base of the learn and the first step of the double cleanse. They are relaxing to use; as you gently massage your skin, they also remove makeup and oil-based impurities, such as sebum.</p>
-    <h4>What it does</h4>
-    <p>Breaks down oil-based debris such as makeup and sunscreen.</p>
+    <div class="step-content">
+      <!-- Image (dynamically updated) -->
+      <div class="step-image">
+        <img id="step-img" src="" alt="Step Image" />
+      </div>
 
-    <!-- ✅ Next Step Button -->
+      <!-- Text (dynamically updated) -->
+      <div class="step-text">
+        <h2 id="step-title"></h2>
+        <p id="step-description"></p>
+
+        <h4>What it does</h4>
+        <p id="step-benefit"></p>
+      </div>
+    </div>
+
+    <!-- Next Step Button -->
     <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
       NEXT STEP →
     </button>
   </div>
 </div>
-
 {% endblock %}
