@@ -5,7 +5,7 @@ let currentIndex = 0;
 const data = [
   {
     title: "Makeup Remover & Oil Cleanser",
-    desc: "Oil cleansers are the base of the routine and the first step of the double cleanse. They are relaxing to use; as you gently massage your skin, they also remove makeup and oil-based impurities, such as sebum.",
+    desc: "Oil cleansers are the base of the learn and the first step of the double cleanse. They are relaxing to use; as you gently massage your skin, they also remove makeup and oil-based impurities, such as sebum.",
     what: "Breaks down oil-based debris such as makeup and sunscreen."
   },
   {

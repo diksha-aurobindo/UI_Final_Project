@@ -6,8 +6,8 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
-@app.route('/routine')
-def routine():
+@app.route('/learn')
+def learn():
     return render_template('index.html')  # This is your existing UI
 
 @app.route('/build')
