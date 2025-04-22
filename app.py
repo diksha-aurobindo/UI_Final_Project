@@ -52,6 +52,10 @@ def submit_quiz_2():
         "message": "Answer is right!" if is_correct else "Oops! You got it wrong. Serum provides hydration while moisturizer locks the hydration in your skin."
     })
 
+# Final quiz
+@app.route('/final-quiz')
+def final_quiz():
+    return render_template('final_quiz.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5003)
