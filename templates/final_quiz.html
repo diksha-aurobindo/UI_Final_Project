@@ -1,0 +1,96 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="quiz-container" style="text-align: center; padding: 50px; background-color: #fff9fc; min-height: 100vh;">
+  <h1 style="font-family: 'Georgia', serif; font-size: 48px; color: #d835a4;">FINAL QUIZ</h1>
+  <p style="font-size: 20px; color: #333; margin: 30px auto; max-width: 600px;">
+    Q: Drag and drop the skincare step bubbles in the correct order one by one into the jar to fill it completely:
+  </p>
+
+  <div style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; gap: 50px;">
+    <!-- Draggable Bubbles -->
+    <div id="bubbles" style="display: flex; flex-direction: column; gap: 30px;">
+      <div class="bubble" id="cleanse">Cleansing & Prepping</div>
+      <div class="bubble" id="nourish">Nourishing</div>
+      <div class="bubble" id="protect">Protecting</div>
+    </div>
+
+    <!-- Drop Jar Area -->
+    <div id="jar" style="border: 3px dashed #d835a4; width: 180px; height: 400px; border-radius: 10px; background-image: url('/static/images/jar_outline.png'); background-repeat: no-repeat; background-position: center; background-size: contain; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 20px;">
+    </div>
+  </div>
+
+  <div style="margin-top: 40px;">
+    <button class="evaluate" onclick="checkJarOrder()">Check Answer</button>
+    <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
+  </div>
+</div>
+
+<style>
+  .bubble {
+    background-color: #e0f2ff;
+    border: 2px solid #80bfff;
+    border-radius: 30px;
+    padding: 20px;
+    width: 220px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+    cursor: move;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+
+  .evaluate {
+    padding: 12px 30px;
+    background-color: #d835a4;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const bubbleIds = ['cleanse', 'nourish', 'protect'];
+  const correctOrder = ['cleanse', 'nourish', 'protect'];
+
+  bubbleIds.forEach(id => {
+    const el = document.getElementById(id);
+    el.draggable = true;
+
+    el.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', id);
+    });
+  });
+
+  const jar = document.getElementById('jar');
+  const finalFeedback = document.getElementById('finalFeedback');
+
+  jar.addEventListener('dragover', e => {
+    e.preventDefault();
+  });
+
+  jar.addEventListener('drop', e => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('text');
+    const el = document.getElementById(id);
+    if (!Array.from(jar.children).includes(el)) {
+      jar.appendChild(el);
+    }
+  });
+
+  function checkJarOrder() {
+    const dropped = Array.from(jar.children).map(el => el.id);
+    if (JSON.stringify(dropped) === JSON.stringify(correctOrder)) {
+      finalFeedback.textContent = '🎉 Great job! You got the order right!';
+      finalFeedback.style.color = 'green';
+    } else {
+      finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
+      finalFeedback.style.color = 'red';
+    }
+  }
+</script>
+{% endblock %}
