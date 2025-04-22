@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h1>QUIZ</h1>
+    <p>This or That?</p>
+    <p class="question">Q2. Which product is more hydrating and great for dull or dehydrated skin?
+    </p>
+  </div>
+
+  <form class="quiz-options image-options">
+    <label class="image-option">
+      <input type="radio" name="product" value="Toner">
+      <div class="img-wrapper">
+        <img src="{{ url_for('static', filename='images/toner.png') }}" alt="Toner">
+        <div class="tick-overlay">✔</div>
+      </div>
+      <span>Toner</span>
+    </label>
+  
+    <label class="image-option">
+      <input type="radio" name="product" value="Essence">
+      <div class="img-wrapper">
+        <img src="{{ url_for('static', filename='images/essence.png') }}" alt="Essence">
+        <div class="tick-overlay">✔</div>
+      </div>
+      <span>Essence</span>
+    </label>
+  </form>
+  
+
+  <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
+  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
+
+  <button class="back-btn" onclick="history.back()">← Back</button>
+
+  <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
+  <button id="nextBtn" class="back-btn" style="display: none; margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
+
+
+</div>
+{% endblock %}
