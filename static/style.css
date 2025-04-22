@@ -115,7 +115,6 @@ body {
 
 .reset, .evaluate, #routinestatus, .finish {
   margin: 10px;
-  
 }
 
 .quiz-container {
@@ -153,7 +152,6 @@ body {
 
 .quiz-option {
   font-size: 18px;
-  /* display: flex; */
   text-align: inherit;
   gap: 10px;
 }
@@ -222,11 +220,6 @@ body {
   color: #000;
 }
 
-/* @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-} */
-
 .quiz-options .image-options {
   display: flex;
   flex-direction: row;
@@ -289,4 +282,22 @@ body {
 
 .image-option.selected .tick-overlay {
   opacity: 1;
+}
+
+/* ✅✅ Added for image + text layout inside step panel */
+.step-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.step-image img {
+  width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.step-text {
+  flex: 1;
 }

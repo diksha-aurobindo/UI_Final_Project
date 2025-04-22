@@ -6,60 +6,77 @@ const data = [
   {
     title: "Makeup Remover & Oil Cleanser",
     desc: "Oil cleansers are the base of the learn and the first step of the double cleanse. They are relaxing to use; as you gently massage your skin, they also remove makeup and oil-based impurities, such as sebum.",
-    what: "Breaks down oil-based debris such as makeup and sunscreen."
+    what: "Breaks down oil-based debris such as makeup and sunscreen.",
+    image: "images/cleanser.png"
   },
   {
     title: "Water Based Cleanser",
     desc: "Water-based cleansers remove sweat and water-based dirt. Use it after the oil cleanser to complete the double cleanse.",
-    what: "Cleanses leftover residue after oil cleansing."
+    what: "Cleanses leftover residue after oil cleansing.",
+    image: "images/water_cleanser.png"
   },
   {
     title: "Exfoliator",
     desc: "Exfoliators slough away dead skin cells, helping to brighten the complexion and prevent clogged pores.",
-    what: "Improves skin texture and clarity."
+    what: "Improves skin texture and clarity.",
+    image: "images/exfoliator.png"
   },
   {
     title: "Toner",
     desc: "Toners help to reset your skin's pH balance and prep it to better absorb the next steps.",
-    what: "Balances skin and boosts absorption."
+    what: "Balances skin and boosts absorption.",
+    image: "images/toner.png"
   },
   {
     title: "Essence",
     desc: "Essences hydrate the skin and enhance the effects of treatments that follow.",
-    what: "Deep hydration and preparation for serums."
+    what: "Deep hydration and preparation for serums.",
+    image: "images/essence.png"
   },
   {
     title: "Treatments",
     desc: "This includes serums, ampoules, or spot treatments tailored to your specific skin concerns.",
-    what: "Targets specific skin concerns like acne or pigmentation."
+    what: "Targets specific skin concerns like acne or pigmentation.",
+    image: "images/treatments.png"
   },
   {
     title: "Sheet Masks",
     desc: "Sheet masks offer concentrated ingredients and intense hydration in just a few minutes.",
-    what: "Instant glow and moisture boost."
+    what: "Instant glow and moisture boost.",
+    image: "images/sheet_mask.png"
   },
   {
     title: "Eye Cream",
     desc: "Formulated for the delicate under-eye area, these creams help reduce puffiness and dark circles.",
-    what: "Protects and hydrates under-eye skin."
+    what: "Protects and hydrates under-eye skin.",
+    image: "images/eye_cream.png"
   },
   {
     title: "Moisturizer",
     desc: "Locks in all previous layers and keeps your skin hydrated throughout the day or night.",
-    what: "Seals in moisture and strengthens skin barrier."
+    what: "Seals in moisture and strengthens skin barrier.",
+    image: "images/moisturizer.png"
   }
 ];
+
 
 function updateContent(index) {
   const { title, desc, what } = data[index];
   content.innerHTML = `
-    <h2>${title}</h2>
-    <p>${desc}</p>
-    <h4>What it does</h4>
-    <p>${what}</p>
-    <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
-      NEXT STEP →
-    </button>
+    <div class="step-content">
+      <div class="step-image">
+        <img id="step-img" src="/static/${image}" alt="Step Image" />
+      </div>
+      <div class="step-text">
+        <h2 id="step-title">${title}</h2>
+        <p id="step-description">${desc}</p>
+        <h4>What it does</h4>
+        <p id="step-benefit">${what}</p>
+        <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
+          NEXT STEP →
+        </button>
+      </div>
+    </div>
   `;
   document.querySelector(".step.active")?.classList.remove("active");
   steps[index].classList.add("active");
@@ -342,3 +359,41 @@ function goToNext() {
   // Redirect to next quiz page or logic
   window.location.href = "/quiz/2"; // adjust as needed
 }
+
+
+// Adding images 
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("/data")
+    .then(res => res.json())
+    .then(data => {
+      const steps = document.querySelectorAll(".step");
+      const img = document.getElementById("step-img");
+      const title = document.getElementById("step-title");
+      const desc = document.getElementById("step-description");
+      const benefit = document.getElementById("step-benefit");
+
+      steps.forEach(step => {
+        step.addEventListener("click", () => {
+          // Remove "active" class from all
+          steps.forEach(s => s.classList.remove("active"));
+          step.classList.add("active");
+
+          // Extract step name by removing number prefix
+          const rawText = step.textContent.trim();
+          const stepName = rawText.substring(rawText.indexOf(".") + 1).trim();
+
+          // Find the matching object in data.json
+          const product = data.routine_steps.find(p => p.step === stepName);
+          if (product) {
+            img.src = `/static/${product.image}`;
+            title.textContent = product.step;
+            desc.textContent = product.description;
+            benefit.textContent = product.benefit;
+          }
+        });
+      });
+    });
+});
+
+
