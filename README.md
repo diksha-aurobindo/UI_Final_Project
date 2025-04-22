@@ -9,3 +9,5 @@ Built a homepage with a “Start” button
 Set up Flask basics and routes
 
 Connected HTML with Flask using templates/static folders
+
+Create routine
