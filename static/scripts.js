@@ -207,3 +207,138 @@ function eval() {
     }
   }
 }
+
+// Quiz 1 functionality
+const path = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash if any
+const questionNumber = path.split('/').pop(); // Get last part
+
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const blanks = [document.getElementById('blank1'), document.getElementById('blank2'), document.getElementById('blank3')];
+const resultMsg = document.getElementById('result-msg');
+const radioButtons = document.querySelectorAll('input[name="product"]');
+const tryAgainBtn = document.getElementById('tryAgainBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+if (questionNumber === "1") {
+  // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  // const blanks = [document.getElementById('blank1'), document.getElementById('blank2'), document.getElementById('blank3')];
+  // const resultMsg = document.getElementById('result-msg');
+
+  let selectedAnswers = [];
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      selectedAnswers = Array.from(checkboxes)
+        .filter(c => c.checked)
+        .map(c => c.value);
+
+      // Reset blanks first
+      blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
+
+      if (selectedAnswers.length === 3) {
+        // Lock checkboxes
+        checkboxes.forEach(cb => cb.disabled = true);
+
+        // Send to backend
+        fetch("/submit-quiz", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ answer: selectedAnswers })
+        })
+        .then(res => res.json())
+        .then(data => {
+          resultMsg.textContent = data.message;
+          resultMsg.style.display = "block";
+          resultMsg.style.color = data.correct ? "green" : "red";
+
+          // Apply styles
+          resultMsg.classList.remove("correct-message", "wrong-message");
+
+          if (data.correct) {
+            resultMsg.classList.add("correct-message");
+            nextBtn.style.display = "inline-block";
+            tryAgainBtn.style.display = "none";
+          } else {
+            resultMsg.classList.add("wrong-message");
+            tryAgainBtn.style.display = "inline-block";
+            nextBtn.style.display = "none";
+          }
+
+        });
+      }
+    });
+  });
+}
+
+  // Quiz 2 functionality starts here
+else if (questionNumber === "2") {
+// const radioButtons = document.querySelectorAll('input[name="product"]');
+// const result2Msg = document.getElementById('result-msg');
+// const tryAgainBtn = document.getElementById('tryAgainBtn');
+// const nextBtn = document.getElementById('nextBtn');
+
+radioButtons.forEach(radio => {
+  radio.addEventListener('change', () => {
+    // Visually show tick
+    document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+    radio.closest('.image-option').classList.add('selected');
+
+    console.log(radio.value);
+
+    const selected = radio.value;
+    const quizId = questionNumber;
+
+    // fetch("/submit-quiz/2", {
+    fetch(`/submit-quiz/${quizId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer: [selected] })
+    })
+    .then(res => res.json())
+    .then(data => {
+      resultMsg.textContent = data.message;
+      resultMsg.style.display = "block";
+      resultMsg.style.color = data.correct ? "green" : "red";
+
+      // Apply styles
+      resultMsg.classList.remove("correct-message", "wrong-message");
+
+      if (data.correct) {
+        resultMsg.classList.add("correct-message");
+        nextBtn.style.display = "inline-block";
+        tryAgainBtn.style.display = "none";
+      } else {
+        resultMsg.classList.add("wrong-message");
+        tryAgainBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+    });
+  });
+});
+}
+
+function resetQuiz() {
+  if (questionNumber === "1") {
+    selectedWords = [];
+    checkboxes.forEach((box) => (box.checked = false, box.disabled = false));
+    blanks.forEach((blank) => (blank.textContent = "___"));
+    resultMsg.style.display = "none";
+    tryAgainBtn.style.display = "none";
+    nextBtn.style.display = "none";
+  }
+  else if(questionNumber === "2"){
+    radioButtons.forEach(r => r.checked = false);
+    document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+    resultMsg.textContent = "";
+    resultMsg.style.display = "none";
+    tryAgainBtn.style.display = "none";
+    nextBtn.style.display = "none";
+  }
+}
+
+function goToNext() {
+  // Redirect to next quiz page or logic
+  window.location.href = "/quiz/2"; // adjust as needed
+}
