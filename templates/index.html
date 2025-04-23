@@ -26,8 +26,9 @@
         <div class="navbar-nav">
           <a class="nav-link" href="/learn">Learn about products</a>
           <a class="nav-link" href="/quiz/1">Quiz yourself</a>
-          <a class="nav-link" href="/build">Build your routine</a>
+          <a class="nav-link" href="/quiz-result">Quiz Results</a>
           <a class="nav-link" href="/final-quiz">Final Quiz</a>
+          <a class="nav-link" href="/build">Build your routine</a>
 
 
         </div>
@@ -35,12 +36,19 @@
     </div>
   </nav>
 
-  <!-- <div class="container">    -->
     {% block content %}
     {% endblock %}
-  <!-- </div> -->
 
-  <!-- ✅ Flask-compatible JS link -->
+  {% if quiz_state %}
+  <script>
+    window.quizState = {{ quiz_state | tojson | safe }};
+  </script>
+  {% else %}
+  <script>
+    window.quizState = {};
+  </script>
+  {% endif %}
   <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
 </body>
 </html>
