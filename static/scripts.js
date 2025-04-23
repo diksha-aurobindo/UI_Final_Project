@@ -113,6 +113,14 @@ function attachNextHandler() {
         currentIndex++;
         updateContent(currentIndex);
       }
+      // if (currentIndex === data.length - 1) {
+      //   fetch("/save-timestamp", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ stage: "learn_complete", timestamp: Date.now() })
+      //   });
+      // }
+      
     });
   }
 }
@@ -234,6 +242,21 @@ function eval() {
           $("#routinestatus").text("Good Job! Your routine seems good");
           $("#routinestatus").addClass("good");
           $(".finish").prop("disabled", false);
+
+          fetch("/save-progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          })
+          .then(res => res.json())
+          .then(data => console.log("Progress saved:", data));
+          
+
+          // fetch("/save-timestamp", {
+          //   method: "POST",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify({ stage: "routine_complete", timestamp: Date.now() })
+          // });
+          
         }
       }
     }
@@ -242,7 +265,7 @@ function eval() {
 
 // Quiz 1 functionality
 const path = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash if any
-const questionNumber = path.split('/').pop(); // Get last part
+const quizId = path.split('/').pop(); // Get last part
 
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 const blanks = [document.getElementById('blank1'), document.getElementById('blank2'), document.getElementById('blank3')];
@@ -251,20 +274,51 @@ const radioButtons = document.querySelectorAll('input[name="product"]');
 const tryAgainBtn = document.getElementById('tryAgainBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-if (questionNumber === "1") {
-  // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  // const blanks = [document.getElementById('blank1'), document.getElementById('blank2'), document.getElementById('blank3')];
-  // const resultMsg = document.getElementById('result-msg');
+// This should be injected from Flask/Jinja in quiz1.html
+const quizState = window.quizState || {};
 
+if (quizId === "1") {
+  
   let selectedAnswers = [];
 
+  // 🔁 Restore previous quiz state (if exists)
+  if (quizState.answered) {
+    selectedAnswers = quizState.user_answer || [];
+
+    // ✅ Re-check the previously selected answers
+    checkboxes.forEach(cb => {
+      if (selectedAnswers.includes(cb.value)) {
+        cb.checked = true;
+        cb.disabled = true;
+      }
+    });
+
+      // ✅ Reset Fill the blanks
+      blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
+
+      // ✅ Show result message
+      resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
+      resultMsg.style.display = "block";
+      resultMsg.style.color = quizState.is_correct ? "green" : "red";
+      resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
+
+      // ✅ Toggle next/try again buttons
+      if (quizState.is_correct) {
+        nextBtn.style.display = "inline-block";
+       tryAgainBtn.style.display = "none";
+      } else {
+        tryAgainBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+  }
+
+  // 🔁 Add new selection handling
   checkboxes.forEach(cb => {
     cb.addEventListener('change', () => {
       selectedAnswers = Array.from(checkboxes)
         .filter(c => c.checked)
         .map(c => c.value);
 
-      // Reset blanks first
       blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
 
       if (selectedAnswers.length === 3) {
@@ -272,7 +326,7 @@ if (questionNumber === "1") {
         checkboxes.forEach(cb => cb.disabled = true);
 
         // Send to backend
-        fetch("/submit-quiz", {
+        fetch(`/submit-quiz/${quizId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -304,55 +358,75 @@ if (questionNumber === "1") {
   });
 }
 
-  // Quiz 2 functionality starts here
-else if (questionNumber === "2") {
-// const radioButtons = document.querySelectorAll('input[name="product"]');
-// const result2Msg = document.getElementById('result-msg');
-// const tryAgainBtn = document.getElementById('tryAgainBtn');
-// const nextBtn = document.getElementById('nextBtn');
+// Quiz 2 Functionality
+else if (quizId === "2") {
+  const radioButtons = document.querySelectorAll('input[name="product"]');
+  const resultMsg = document.getElementById('result-msg');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const nextBtn = document.getElementById('nextBtn');
 
-radioButtons.forEach(radio => {
-  radio.addEventListener('change', () => {
-    // Visually show tick
-    document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
-    radio.closest('.image-option').classList.add('selected');
+  // 🔁 Restore previous quiz state (if exists)
+  if (quizState.answered) {
+    const selected = quizState.user_answer?.[0]; // Radio buttons only have one answer
+    const selectedRadio = [...radioButtons].find(r => r.value === selected);
+    if (selectedRadio) {
+      selectedRadio.checked = true;
+      selectedRadio.disabled = true;
+      selectedRadio.closest('.image-option').classList.add('selected');
+    }
 
-    console.log(radio.value);
+    // ✅ Disable all radio buttons if answered
+    radioButtons.forEach(r => r.disabled = true);
 
-    const selected = radio.value;
-    const quizId = questionNumber;
+    resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
+    resultMsg.style.display = "block";
+    resultMsg.style.color = quizState.is_correct ? "green" : "red";
+    resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
 
-    // fetch("/submit-quiz/2", {
-    fetch(`/submit-quiz/${quizId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answer: [selected] })
-    })
-    .then(res => res.json())
-    .then(data => {
-      resultMsg.textContent = data.message;
-      resultMsg.style.display = "block";
-      resultMsg.style.color = data.correct ? "green" : "red";
+    if (quizState.is_correct) {
+      nextBtn.style.display = "inline-block";
+    } else {
+      tryAgainBtn.style.display = "inline-block";
+    }
+  }
 
-      // Apply styles
-      resultMsg.classList.remove("correct-message", "wrong-message");
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+      radio.closest('.image-option').classList.add('selected');
+      const selected = radio.value;
 
-      if (data.correct) {
-        resultMsg.classList.add("correct-message");
-        nextBtn.style.display = "inline-block";
-        tryAgainBtn.style.display = "none";
-      } else {
-        resultMsg.classList.add("wrong-message");
-        tryAgainBtn.style.display = "inline-block";
-        nextBtn.style.display = "none";
-      }
+      fetch(`/submit-quiz/2`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer: [selected] })
+      })
+      .then(res => res.json())
+      .then(data => {
+        resultMsg.textContent = data.message;
+        resultMsg.style.display = "block";
+        resultMsg.style.color = data.correct ? "green" : "red";
+
+        resultMsg.classList.remove("correct-message", "wrong-message");
+        if (data.correct) {
+          resultMsg.classList.add("correct-message");
+          nextBtn.style.display = "inline-block";
+          tryAgainBtn.style.display = "none";
+        } else {
+          resultMsg.classList.add("wrong-message");
+          tryAgainBtn.style.display = "inline-block";
+          nextBtn.style.display = "none";
+        }
+
+        radioButtons.forEach(r => r.disabled = true);
+
+      });
     });
   });
-});
 }
 
 function resetQuiz() {
-  if (questionNumber === "1") {
+  if (quizId === "1") {
     selectedWords = [];
     checkboxes.forEach((box) => (box.checked = false, box.disabled = false));
     blanks.forEach((blank) => (blank.textContent = "___"));
@@ -360,8 +434,8 @@ function resetQuiz() {
     tryAgainBtn.style.display = "none";
     nextBtn.style.display = "none";
   }
-  else if(questionNumber === "2"){
-    radioButtons.forEach(r => r.checked = false);
+  else if(quizId === "2"){    
+    radioButtons.forEach(r => {r.checked = false; r.disabled = false;});
     document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
     resultMsg.textContent = "";
     resultMsg.style.display = "none";
@@ -372,12 +446,28 @@ function resetQuiz() {
 
 function goToNext() {
   // Redirect to next quiz page or logic
-  window.location.href = "/quiz/2"; // adjust as needed
+  if (quizId === "1") {
+    // saveTimestamp("quiz1_complete");
+    window.location.href = "/quiz/2";
+  }
+  else if (quizId === "2") {
+    // saveTimestamp("quiz2_complete");
+    window.location.href = "/final-quiz";
+    // quiz-result
+  }
 }
+
+// function saveTimestamp(eventName) {
+//   fetch('/save-timestamp', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ event: eventName, time: new Date().toISOString() })
+//   });
+// }
+
 
 
 // Adding images 
-
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/data")
     .then(res => res.json())

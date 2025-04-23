@@ -12,7 +12,8 @@ Connected HTML with Flask using templates/static folders
 
 Create routine
 
-Designed quiz 1 and 
-started with quiz 2 (functionality pending)
+Designed quiz 1 and quiz 2
+
+Stored information in back-end that can be viewed on url: "/view-userdata"
 
 Added images

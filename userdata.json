@@ -1,0 +1,28 @@
+{
+  "1": {
+    "userId": 1,
+    "usertimeSpentOnLearn": 133.19,
+    "usertimeSpentOnQuiz": 59.71,
+    "usertimeSpentOnRoutine": 0,
+    "userQuizScore": 2,
+    "TotalTimeSpentTillNow": 192.9,
+    "Userquiz1State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": [
+        "Dirt",
+        "Excess Oil",
+        "Makeup"
+      ]
+    },
+    "quiz2State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": "Essence"
+    },
+    "finalQuizState": {},
+    "routineState": {}
+  }
+}
