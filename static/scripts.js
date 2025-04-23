@@ -58,22 +58,40 @@ const data = [
 
 function updateContent(index) {
   const { title, desc, what, image } = data[index]; // ✅ added image
-  content.innerHTML = `
-    <div class="step-content">
-      <div class="step-image">
-        <img id="step-img" src="/static/${image}" alt="Step Image" />
+  if (title!=='Sunscreen') {
+    content.innerHTML = `
+      <div class="step-content">
+        <div class="step-image">
+          <img id="step-img" src="/static/${image}" alt="Step Image" />
+        </div>
+        <div class="step-text">
+          <h2 id="step-title">${title}</h2>
+          <p id="step-description">${desc}</p>
+          <h4>What it does</h4>
+          <p id="step-benefit">${what}</p>
+          <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
+            NEXT STEP →
+          </button>
+        </div>
       </div>
-      <div class="step-text">
-        <h2 id="step-title">${title}</h2>
-        <p id="step-description">${desc}</p>
-        <h4>What it does</h4>
-        <p id="step-benefit">${what}</p>
-        <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
-          NEXT STEP →
-        </button>
+  `;} else {
+      content.innerHTML = `
+      <div class="step-content">
+        <div class="step-image">
+          <img id="step-img" src="/static/${image}" alt="Step Image" />
+        </div>
+        <div class="step-text">
+          <h2 id="step-title">${title}</h2>
+          <p id="step-description">${desc}</p>
+          <h4>What it does</h4>
+          <p id="step-benefit">${what}</p>
+          <button style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
+            <a href="/quiz/1">QUIZ → </a>
+          </button>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  }
   document.querySelector(".step.active")?.classList.remove("active");
   steps[index].classList.add("active");
   attachNextHandler(); // ✅ rebind next button
