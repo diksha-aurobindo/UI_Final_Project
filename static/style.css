@@ -84,6 +84,30 @@ body {
   justify-content: center;
 }
 
+#box1, #box2, #box3, #build3, #build5 {
+  color: white;
+  background-color: black;
+  margin: 40px;
+  height: 150px;
+  width: 200px;
+  justify-content: center;
+}
+
+.builds {
+  color: white;
+  font-weight: bold;
+}
+
+#boxx1, #boxx2, #boxx3, #boxx4, #boxx5 {
+  color: white;
+  background-color: black;
+  margin: 40px;
+  height: 150px;
+  width: 180px;
+  justify-content: center;
+}
+
+
 .products {
   color: white;
   background-color: mediumaquamarine;

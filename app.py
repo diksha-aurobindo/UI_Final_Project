@@ -48,10 +48,22 @@ def quiz2():
 def quiz_result():
     return render_template("quizresult.html", score=session['score'])
 
+
 @app.route('/build')
 def build():
     update_time_spent("usertimeSpentOnQuiz")
-    return render_template('routine.html')
+    #update_time_spent("usertimeSpentOnRoutine")
+    return render_template('build.html')
+
+@app.route('/build/3')
+def build_step(step=3):
+    update_time_spent("usertimeSpentOnQuiz")
+    return render_template('routine.html', step=step) 
+
+@app.route('/build/5')
+def build_step5(step=5):
+    return render_template('routine2.html', step=step)
+
 
 @app.route('/finish')
 def finish():
@@ -174,4 +186,4 @@ def get_user_data():
     
 # -------------------
 if __name__ == '__main__':
-    app.run(debug=True, port=5003)
+    app.run(debug=True, port=5005)

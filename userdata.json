@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 133.19,
-    "usertimeSpentOnQuiz": 59.71,
-    "usertimeSpentOnRoutine": 0,
+    "usertimeSpentOnLearn": 144.16,
+    "usertimeSpentOnQuiz": 611.23,
+    "usertimeSpentOnRoutine": 7.55,
     "userQuizScore": 2,
-    "TotalTimeSpentTillNow": 192.9,
+    "TotalTimeSpentTillNow": 762.93,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,

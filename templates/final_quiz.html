@@ -25,7 +25,10 @@
     <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
   </div>
 </div>
-
+<center>
+<button id="buildroutine" type="button" class="btn btn-outline-success" disabled><a href="/build">Build Your Routine-></a></button>
+</center>
+<br><br><br>
 <style>
   .bubble {
     background-color: #e0f2ff;
@@ -87,6 +90,7 @@
     if (JSON.stringify(dropped) === JSON.stringify(correctOrder)) {
       finalFeedback.textContent = '🎉 Great job! You got the order right!';
       finalFeedback.style.color = 'green';
+      $("#buildroutine").prop("disabled", false);
     } else {
       finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
       finalFeedback.style.color = 'red';

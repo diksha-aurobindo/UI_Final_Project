@@ -2,6 +2,8 @@ const steps = document.querySelectorAll(".step");
 const content = document.getElementById("content");
 let currentIndex = 0;
 
+const routine_order = {"cleanser":0, "toner":1, "essence":2, "serum":3, "eye":4, "spot":5, "moisturizer":6, "sunscreen":7};
+
 const data = [
   {
     title: "Makeup Remover & Oil Cleanser",
@@ -134,6 +136,9 @@ let box1="";
 let box2="";
 let box3="";
 
+let box4="";
+let box5="";
+
 function drag_drop() {
   $("#cleanser").draggable({
     revert: function(dropped) {
@@ -153,7 +158,19 @@ function drag_drop() {
     }
   });
 
+  $("#serum").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
   $("#eye").draggable({
+    revert: function(dropped) {
+      return !dropped; 
+    }
+  });
+
+  $("#spot").draggable({
     revert: function(dropped) {
       return !dropped; 
     }
@@ -219,9 +236,92 @@ function drag_drop() {
         
     }
   });
+
+  $("#boxx1").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box1 = ui.draggable.attr("id");
+    }
+  });
+
+  $("#boxx2").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box2 = ui.draggable.attr("id");
+    }
+  });
+
+  $("#boxx3").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box3 = ui.draggable.attr("id");
+        
+    }
+  });
+
+  $("#boxx4").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box4 = ui.draggable.attr("id");
+    }
+  });
+
+  $("#boxx5").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+
+        box5 = ui.draggable.attr("id");
+    }
+  });
+
 }
 
 drag_drop();
+
 
 function eval() {
   if (box1==="" || box2==="" || box3==="") {
@@ -231,14 +331,10 @@ function eval() {
       $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
       $("#routinestatus").addClass("bad");
     } else {
-      if (box2==='sunscreen') {
-        $("#routinestatus").text("Try again! \n You might want to use the sunscreen at the end!");
+      if (routine_order[box2]>routine_order[box3]) {
+        $("#routinestatus").text("Try again! \n You might want to use "+box3+" before "+box2+"!");
         $("#routinestatus").addClass("bad");
       } else {
-        if (box3!=='sunscreen') {
-          $("#routinestatus").text("Try again! \n You might want to end the routine with sunscreen for protection!");
-          $("#routinestatus").addClass("bad");
-        } else {
           $("#routinestatus").text("Good Job! Your routine seems good");
           $("#routinestatus").addClass("good");
           $(".finish").prop("disabled", false);
@@ -249,18 +345,46 @@ function eval() {
           })
           .then(res => res.json())
           .then(data => console.log("Progress saved:", data));
-          
-
-          // fetch("/save-timestamp", {
-          //   method: "POST",
-          //   headers: { "Content-Type": "application/json" },
-          //   body: JSON.stringify({ stage: "routine_complete", timestamp: Date.now() })
-          // });
-          
-        }
       }
     }
   }
+}
+
+function eval2() {
+  if (box1==="" || box2==="" || box3==="" || box4==="" || box5==="") {
+    alert("Please fill all the steps!");
+  } else {
+    if (box1!=='cleanser') {
+      $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
+      $("#routinestatus").addClass("bad");
+    } else {
+      if (routine_order[box2]>routine_order[box3]) {
+        $("#routinestatus").text("Try again! \n You might want to use "+box3+" before "+box2+"!");
+        $("#routinestatus").addClass("bad");
+      } else {
+        if (routine_order[box3]>routine_order[box4]) {
+          $("#routinestatus").text("Try again! \n You might want to use "+box4+" before "+box3+"!");
+          $("#routinestatus").addClass("bad");
+        } else {
+          if (routine_order[box4]>routine_order[box5]) {
+            $("#routinestatus").text("Try again! \n You might want to use "+box5+" before "+box4+"!");
+            $("#routinestatus").addClass("bad");
+          } else {
+          $("#routinestatus").text("Good Job! Your routine seems good");
+          $("#routinestatus").addClass("good");
+          $(".finish").prop("disabled", false);
+
+          fetch("/save-progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+          })
+          .then(res => res.json())
+          .then(data => console.log("Progress saved:", data));
+      }
+    }
+  }
+}
+}
 }
 
 // Quiz 1 functionality
