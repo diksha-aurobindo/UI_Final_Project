@@ -1,131 +1,95 @@
 const steps = document.querySelectorAll(".step");
 const content = document.getElementById("content");
 let currentIndex = 0;
+let maxUnlockedStep = 0;
+let routineData = [];
 
 const routine_order = {"cleanser":0, "toner":1, "essence":2, "serum":3, "eye":4, "spot":5, "moisturizer":6, "sunscreen":7};
 
-const data = [
-  {
-    title: "Makeup Remover & Oil Cleanser",
-    desc: "Oil cleansers are the base of the learn and the first step of the double cleanse. They are relaxing to use; as you gently massage your skin, they also remove makeup and oil-based impurities, such as sebum.",
-    what: "Breaks down oil-based debris such as makeup and sunscreen.",
-    image: "images/cleanser.png"
-  },
-  {
-    title: "Toner",
-    desc: "Toners help to reset your skin's pH balance and prep it to better absorb the next steps.",
-    what: "Balances skin and boosts absorption.",
-    image: "images/toner.png"
-  },
-  {
-    title: "Essence",
-    desc: "Essences hydrate the skin and enhance the effects of treatments that follow.",
-    what: "Deep hydration and preparation for serums.",
-    image: "images/essence.png"
-  },
-  {
-    title: "Serum",
-    desc: "CONTENT NEEDS TO BE UPDATED",
-    what: "Instant glow and moisture boost.",
-    image: "images/serum.png"
-  },
-  {
-    title: "Eye Cream",
-    desc: "Formulated for the delicate under-eye area, these creams help reduce puffiness and dark circles.",
-    what: "Protects and hydrates under-eye skin.",
-    image: "images/eye_cream.png"
-  },
-  {
-    title: "Spot Treatment",
-    desc: "This includes serums, ampoules, or spot treatments tailored to your specific skin concerns.",
-    what: "Targets specific skin concerns like acne or pigmentation.",
-    image: "images/spot_treatment.png"
-  },
-  {
-    title: "Moisturizer",
-    desc: "Locks in all previous layers and keeps your skin hydrated throughout the day or night.",
-    what: "Seals in moisture and strengthens skin barrier.",
-    image: "images/moisturizer.png"
-  }, 
-
-  {
-    title: "Sunscreen",
-    desc: "CONTENT NEEDS TO BE UPDATED",
-    what: "Seals in moisture and strengthens skin barrier.",
-    image: "images/sunscreen.png"
-  }
- 
-];
-
-
 function updateContent(index) {
-  const { title, desc, what, image } = data[index]; // ✅ added image
-  if (title!=='Sunscreen') {
-    content.innerHTML = `
-      <div class="step-content">
-        <div class="step-image">
-          <img id="step-img" src="/static/${image}" alt="Step Image" />
-        </div>
-        <div class="step-text">
-          <h2 id="step-title">${title}</h2>
-          <p id="step-description">${desc}</p>
-          <h4>What it does</h4>
-          <p id="step-benefit">${what}</p>
-          <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
-            NEXT STEP →
-          </button>
-        </div>
+  const { step, description, benefit, image } = routineData[index];
+  const prevButton = index > 0 ? `<button id="prevStep" style="margin-top: 40px; float: left; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">← PREVIOUS STEP</button>` : "";
+  const nextButton = index === routineData.length - 1
+    ? '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;"><a href="/quiz/1">QUIZ → </a></button>'
+    : '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">NEXT STEP →</button>';
+
+  content.innerHTML = `
+    <div class="step-content">
+      <div class="step-image">
+        <img id="step-img" src="/static/${image}" alt="Step Image" />
       </div>
-  `;} else {
-      content.innerHTML = `
-      <div class="step-content">
-        <div class="step-image">
-          <img id="step-img" src="/static/${image}" alt="Step Image" />
-        </div>
-        <div class="step-text">
-          <h2 id="step-title">${title}</h2>
-          <p id="step-description">${desc}</p>
-          <h4>What it does</h4>
-          <p id="step-benefit">${what}</p>
-          <button style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
-            <a href="/quiz/1">QUIZ → </a>
-          </button>
-        </div>
+      <div class="step-text">
+        <h2 id="step-title">${step}</h2>
+        <p id="step-description">${description}</p>
+        <h4>What it does</h4>
+        <p id="step-benefit">${benefit}</p>
+        ${prevButton}${nextButton}
       </div>
-    `;
-  }
+    </div>
+  `;
+
   document.querySelector(".step.active")?.classList.remove("active");
   steps[index].classList.add("active");
-  attachNextHandler(); // ✅ rebind next button
+  attachNextHandler();
+  updateStepStates();
 }
-
-
-steps.forEach((step, index) => {
-  step.addEventListener("click", () => {
-    currentIndex = index;
-    updateContent(currentIndex);
-  });
-});
 
 function attachNextHandler() {
   const nextBtn = document.getElementById("nextStep");
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
-      if (currentIndex < data.length - 1) {
+      if (currentIndex < routineData.length - 1) {
         currentIndex++;
+        maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
         updateContent(currentIndex);
       }
-      // if (currentIndex === data.length - 1) {
-      //   fetch("/save-timestamp", {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify({ stage: "learn_complete", timestamp: Date.now() })
-      //   });
-      // }
-      
+    });
+  }
+
+  const prevBtn = document.getElementById("prevStep");
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateContent(currentIndex);
+      }
     });
   }
 }
+
+function updateStepStates() {
+  steps.forEach((step, index) => {
+    if (index <= maxUnlockedStep) {
+      step.classList.remove("locked");
+      step.style.pointerEvents = "auto";
+    } else {
+      step.classList.add("locked");
+      step.style.pointerEvents = "none";
+    }
+  });
+}
+
+fetch("/data")
+  .then(res => res.json())
+  .then(data => {
+    routineData = data.routine_steps;
+    updateContent(0);
+    steps.forEach((step, index) => {
+      step.addEventListener("click", () => {
+        if (index <= maxUnlockedStep) {
+          currentIndex = index;
+          updateContent(index);
+        }
+      });
+    });
+  });
+
+
+
+
+
+  
+// ROUTINE 
 
 // Initial binding for first page load
 attachNextHandler();
@@ -602,17 +566,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const desc = document.getElementById("step-description");
       const benefit = document.getElementById("step-benefit");
 
-      steps.forEach(step => {
+      // ✨ Load first step (Cleanser) by default
+      const firstProduct = data.routine_steps[0];
+      if (firstProduct) {
+        img.src = `/static/${firstProduct.image}`;
+        title.textContent = firstProduct.step;
+        desc.textContent = firstProduct.description;
+        benefit.textContent = firstProduct.benefit;
+        steps[0].classList.add("active");
+      }
+
+      // 💡 Set up click handler for each sidebar step
+      steps.forEach((step, i) => {
         step.addEventListener("click", () => {
-          // Remove "active" class from all
           steps.forEach(s => s.classList.remove("active"));
           step.classList.add("active");
 
-          // Extract step name by removing number prefix
           const rawText = step.textContent.trim();
           const stepName = rawText.substring(rawText.indexOf(".") + 1).trim();
-
-          // Find the matching object in data.json
           const product = data.routine_steps.find(p => p.step === stepName);
           if (product) {
             img.src = `/static/${product.image}`;

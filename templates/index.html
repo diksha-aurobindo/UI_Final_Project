@@ -12,8 +12,8 @@
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-  
 </head>
+
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,20 +24,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/learn">Learn about products</a>
-          <a class="nav-link" href="/quiz/1">Quiz yourself</a>
-          <a class="nav-link" href="/quiz-result">Quiz Results</a>
-          <a class="nav-link" href="/final-quiz">Final Quiz</a>
-          <a class="nav-link" href="/build">Build your routine</a>
-
-
+          <a class="nav-link {% if request.path == '/learn' %}active{% endif %}" href="/learn">Learn about products</a>
+          <a class="nav-link {% if request.path.startswith('/quiz/1') %}active{% endif %}" href="/quiz/1">Quiz yourself</a>
+          <a class="nav-link {% if request.path == '/quiz-result' %}active{% endif %}" href="/quiz-result">Quiz Results</a>
+          <a class="nav-link {% if request.path == '/final-quiz' %}active{% endif %}" href="/final-quiz">Final Quiz</a>
+          <a class="nav-link {% if request.path.startswith('/build') %}active{% endif %}" href="/build">Build your routine</a>
         </div>
       </div>
     </div>
   </nav>
 
-    {% block content %}
-    {% endblock %}
+  {% block content %}
+  {% endblock %}
 
   {% if quiz_state %}
   <script>
@@ -48,6 +46,7 @@
     window.quizState = {};
   </script>
   {% endif %}
+  
   <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 
 </body>
