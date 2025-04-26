@@ -26,7 +26,7 @@
   </div>
 </div>
 <center>
-<button id="buildroutine" type="button" class="btn btn-outline-success" disabled><a href="/build">Build Your Routine-></a></button>
+<button id="buildroutine" type="button" class="btn btn-outline-success" disabled><a href="/build-routine">Build Your Routine-></a></button>
 </center>
 <br><br><br>
 <style>
@@ -94,6 +94,7 @@
     } else {
       finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
       finalFeedback.style.color = 'red';
+      $("#buildroutine").prop("disabled", false);
     }
   }
 </script>

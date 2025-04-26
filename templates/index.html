@@ -24,11 +24,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link {% if request.path == '/learn' %}active{% endif %}" href="/learn">Learn about products</a>
+          <!-- <a class="nav-link {% if request.path == '/learn' %}active{% endif %}" href="/learn">Learn about products</a> -->
+          <a class="nav-link {% if request.path.startswith('/learn') %}active{% endif %}" href="/learn">Learn about products</a>
           <a class="nav-link {% if request.path.startswith('/quiz/1') %}active{% endif %}" href="/quiz/1">Quiz yourself</a>
           <a class="nav-link {% if request.path == '/quiz-result' %}active{% endif %}" href="/quiz-result">Quiz Results</a>
           <a class="nav-link {% if request.path == '/final-quiz' %}active{% endif %}" href="/final-quiz">Final Quiz</a>
-          <a class="nav-link {% if request.path.startswith('/build') %}active{% endif %}" href="/build">Build your routine</a>
+          <a class="nav-link {% if request.path.startswith('/build-routine') %}active{% endif %}" href="/build-routine">Build your routine</a>
         </div>
       </div>
     </div>

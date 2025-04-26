@@ -9,6 +9,49 @@ body {
   background-color: #fff9fc;
 }
 
+/* Home-page */
+.home-body {
+  background-color: #fff9fc;
+  font-family: 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.home-h1 {
+  color: #d835a4;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.home-p {
+  color: #444;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.start-btn {
+  background-color: #ec74d6;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  text-decoration: none;
+}
+
+.start-btn:hover {
+  background-color: #d835a4;
+}
+
+
+
+
 #learn {
   display: flex;
   height: 100vh;
