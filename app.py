@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, json
+from flask import Flask, render_template, request, jsonify, session, json, redirect, url_for
 import os, json
 import time
 
@@ -26,10 +26,26 @@ def home():
       session['score'] = 0
     return render_template('home.html', score=session['score'])
 
-@app.route('/learn')
-def learn():
+# @app.route('/learn')
+# def learn():
+#     update_time_spent("usertimeSpentOnLearn")
+#     return render_template('learn.html')  # This is your existing UI
+
+# @app.route('/learn/cleanser', defaults={'product': None})
+@app.route('/learn/<product>')
+def learn(product):
     update_time_spent("usertimeSpentOnLearn")
-    return render_template('learn.html')  # This is your existing UI
+    session['last_product'] = product
+    return render_template('learn.html', product=product)  # Pass product to template
+
+@app.route('/learn')
+def learn_redirect():
+    # last_product = session.get('last_product', 'cleanser')  # default to cleanser
+    last_product = session.get('last_product')
+    print(">>> Last product in session:", last_product)
+    # last_product = session['last_product']
+    # return redirect(f"/learn/{last_product}")
+    return redirect(url_for("learn", product=last_product))
 
 @app.route('/quiz/1')
 def quiz():
@@ -49,18 +65,18 @@ def quiz_result():
     return render_template("quizresult.html", score=session['score'])
 
 
-@app.route('/build')
+@app.route('/build-routine')
 def build():
     update_time_spent("usertimeSpentOnQuiz")
     #update_time_spent("usertimeSpentOnRoutine")
     return render_template('build.html')
 
-@app.route('/build/3')
+@app.route('/build-routine/3')
 def build_step(step=3):
     update_time_spent("usertimeSpentOnQuiz")
     return render_template('routine.html', step=step) 
 
-@app.route('/build/5')
+@app.route('/build-routine/5')
 def build_step5(step=5):
     return render_template('routine2.html', step=step)
 

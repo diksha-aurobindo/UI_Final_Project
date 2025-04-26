@@ -4,7 +4,7 @@ let currentIndex = 0;
 let maxUnlockedStep = 0;
 let routineData = [];
 
-const routine_order = {"cleanser":0, "toner":1, "essence":2, "serum":3, "eye":4, "spot":5, "moisturizer":6, "sunscreen":7};
+const routine_order = {"cleanser":0, "toner":1, "essence":2, "serum":3, "eye-cream":4, "spot-treatment":5, "moisturizer":6, "sunscreen":7};
 
 function updateContent(index) {
   const { step, description, benefit, image } = routineData[index];
@@ -36,25 +36,29 @@ function updateContent(index) {
 
 function attachNextHandler() {
   const nextBtn = document.getElementById("nextStep");
+  const prevBtn = document.getElementById("prevStep");
+  
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       if (currentIndex < routineData.length - 1) {
         currentIndex++;
         maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
         updateContent(currentIndex);
+        history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
       }
     });
   }
-
-  const prevBtn = document.getElementById("prevStep");
+  
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       if (currentIndex > 0) {
         currentIndex--;
         updateContent(currentIndex);
+        history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
       }
     });
   }
+
 }
 
 function updateStepStates() {
@@ -73,22 +77,31 @@ fetch("/data")
   .then(res => res.json())
   .then(data => {
     routineData = data.routine_steps;
-    updateContent(0);
+
+    // Find the index based on the product name from URL  
+    if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
+      currentIndex = routine_order[initialProduct];
+      maxUnlockedStep = currentIndex; // 🛟 Important: lock steps after this
+    } else {
+      currentIndex = 0;
+      maxUnlockedStep = 0;
+    }
+
+    maxUnlockedStep = currentIndex;
+    updateContent(currentIndex);
+
     steps.forEach((step, index) => {
       step.addEventListener("click", () => {
         if (index <= maxUnlockedStep) {
           currentIndex = index;
           updateContent(index);
+          history.pushState(null, "", `/learn/${Object.keys(routine_order)[index]}`);
         }
       });
     });
   });
 
 
-
-
-
-  
 // ROUTINE 
 
 // Initial binding for first page load
@@ -544,15 +557,6 @@ function goToNext() {
     // quiz-result
   }
 }
-
-// function saveTimestamp(eventName) {
-//   fetch('/save-timestamp', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ event: eventName, time: new Date().toISOString() })
-//   });
-// }
-
 
 
 // Adding images 
