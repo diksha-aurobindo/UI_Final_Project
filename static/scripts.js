@@ -113,55 +113,140 @@ let box1="";
 let box2="";
 let box3="";
 
-let box4="";
-let box5="";
+let boxx1="";
+let boxx2="";
+let boxx3="";
+let boxx4="";
+let boxx5="";
 
 function drag_drop() {
   $("#cleanser").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#toner").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#essence").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#serum").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#eye").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#spot").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#moisturizer").draggable({
     revert: function(dropped) {
       return !dropped; 
-    }
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
   });
 
   $("#sunscreen").draggable({
     revert: function(dropped) {
       return !dropped; 
+    },
+    start: function(event, ui) {
+      var previousDrop = $(this).data("droppedOn");
+      if (previousDrop) {
+          $("#"+previousDrop).droppable('enable');
+      }
+  }
+  });
+
+  $(".products").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+        var previousDrop = ui.helper.data("droppedOn");
+        if (previousDrop==='box1') {
+          box1='';
+        } else if (previousDrop==='box2') {
+          box2='';
+        } else if (previousDrop==='box3') {
+          box3='';
+        } else if (previousDrop==='boxx1') {
+          boxx1='';
+        } else if (previousDrop==='boxx2') {
+          boxx2='';
+        } else if (previousDrop==='boxx3') {
+          boxx3='';
+        } else if (previousDrop==='boxx4') {
+          boxx4='';
+        } else if (previousDrop==='boxx5') {
+          boxx5='';
+        }
+        ui.helper.data("droppedOn", $(this).attr("id"));
+        
     }
   });
 
@@ -178,6 +263,16 @@ function drag_drop() {
         .droppable("disable")
 
         box1 = ui.draggable.attr("id");
+
+        if (box1===box2) {
+          box2='';
+          $("#box2").droppable("enable");
+        } else if (box1===box3) {
+          box3='';
+          $("#box3").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));
     }
   });
 
@@ -194,6 +289,16 @@ function drag_drop() {
         .droppable("disable")
 
         box2 = ui.draggable.attr("id");
+
+        if (box1===box2) {
+          box1='';
+          $("#box1").droppable("enable");
+        } else if (box2===box3) {
+          box3='';
+          $("#box3").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));  
     }
   });
 
@@ -210,7 +315,15 @@ function drag_drop() {
         .droppable("disable")
 
         box3 = ui.draggable.attr("id");
-        
+
+        if (box3===box1) {
+          box1='';
+          $("#box1").droppable("enable");
+        } else if (box2===box3) {
+          box2='';
+          $("#box2").droppable("enable");
+        }
+        ui.helper.data("droppedOn", $(this).attr("id")); 
     }
   });
 
@@ -226,7 +339,23 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
 
-        box1 = ui.draggable.attr("id");
+        boxx1 = ui.draggable.attr("id");
+
+        if (boxx1===boxx2) {
+          boxx2='';
+          $("#boxx2").droppable("enable");
+        } else if (boxx1===boxx3) {
+          boxx3='';
+          $("#boxx3").droppable("enable");
+        } else if (boxx1===boxx4) {
+          boxx4='';
+          $("#boxx4").droppable("enable");
+        } else if (boxx1===boxx5) {
+          boxx5='';
+          $("#boxx5").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id")); 
     }
   });
 
@@ -242,7 +371,23 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
 
-        box2 = ui.draggable.attr("id");
+        boxx2 = ui.draggable.attr("id");
+
+        if (boxx1===boxx2) {
+          boxx1='';
+          $("#boxx1").droppable("enable");
+        } else if (boxx2===boxx3) {
+          boxx3='';
+          $("#boxx3").droppable("enable");
+        } else if (boxx2===boxx4) {
+          boxx4='';
+          $("#boxx4").droppable("enable");
+        } else if (boxx2===boxx5) {
+          boxx5='';
+          $("#boxx5").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));  
     }
   });
 
@@ -258,8 +403,22 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
 
-        box3 = ui.draggable.attr("id");
-        
+        boxx3 = ui.draggable.attr("id");
+
+        if (boxx1===boxx3) {
+          boxx1='';
+          $("#boxx1").droppable("enable");
+        } else if (boxx2===boxx3) {
+          boxx2='';
+          $("#boxx2").droppable("enable");
+        } else if (boxx3===boxx4) {
+          boxx4='';
+          $("#boxx4").droppable("enable");
+        } else if (boxx3===boxx5) {
+          boxx5='';
+          $("#boxx5").droppable("enable");
+        }
+        ui.helper.data("droppedOn", $(this).attr("id")); 
     }
   });
 
@@ -275,7 +434,23 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
 
-        box4 = ui.draggable.attr("id");
+        boxx4 = ui.draggable.attr("id");
+
+        if (boxx1===boxx4) {
+          boxx1='';
+          $("#boxx1").droppable("enable");
+        } else if (boxx2===boxx4) {
+          boxx2='';
+          $("#boxx2").droppable("enable");
+        } else if (boxx3===boxx4) {
+          boxx3='';
+          $("#boxx3").droppable("enable");
+        } else if (boxx4===boxx5) {
+          boxx5='';
+          $("#boxx5").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));  
     }
   });
 
@@ -291,7 +466,23 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
 
-        box5 = ui.draggable.attr("id");
+        boxx5 = ui.draggable.attr("id");
+
+        if (boxx1===boxx5) {
+          boxx1='';
+          $("#boxx1").droppable("enable");
+        } else if (boxx2===boxx5) {
+          boxx2='';
+          $("#boxx2").droppable("enable");
+        } else if (boxx3===boxx5) {
+          boxx3='';
+          $("#boxx3").droppable("enable");
+        } else if (boxx4===boxx5) {
+          boxx4='';
+          $("#boxx4").droppable("enable");
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));  
     }
   });
 
@@ -299,21 +490,26 @@ function drag_drop() {
 
 drag_drop();
 
-
 function eval() {
+  $(".finish").prop("disabled", true);
+  $("#routinestatus").text("");
+  $("#routinestatus").css("background-color", '#fff9fc');
   if (box1==="" || box2==="" || box3==="") {
     alert("Please fill all the steps!");
   } else {
     if (box1!=='cleanser') {
       $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
-      $("#routinestatus").addClass("bad");
+      $("#routinestatus").css("background-color", "red");
+      $("#routinestatus").css("color", "white");
     } else {
       if (routine_order[box2]>routine_order[box3]) {
         $("#routinestatus").text("Try again! \n You might want to use "+box3+" before "+box2+"!");
-        $("#routinestatus").addClass("bad");
+        $("#routinestatus").css("background-color", "red");
+        $("#routinestatus").css("color", "white");
       } else {
           $("#routinestatus").text("Good Job! Your routine seems good");
-          $("#routinestatus").addClass("good");
+          $("#routinestatus").css("background-color", "lightgreen");
+          $("#routinestatus").css("color", "white");
           $(".finish").prop("disabled", false);
 
           fetch("/save-progress", {
@@ -328,27 +524,35 @@ function eval() {
 }
 
 function eval2() {
-  if (box1==="" || box2==="" || box3==="" || box4==="" || box5==="") {
+  $(".finish").prop("disabled", true);
+  $("#routinestatus").text("");
+  $("#routinestatus").css("background-color", '#fff9fc');
+  if (boxx1==="" || boxx2==="" || boxx3==="" || boxx4==="" || boxx5==="") {
     alert("Please fill all the steps!");
   } else {
-    if (box1!=='cleanser') {
+    if (boxx1!=='cleanser') {
       $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
-      $("#routinestatus").addClass("bad");
+      $("#routinestatus").css("background-color", "red");
+      $("#routinestatus").css("color", "white");
     } else {
-      if (routine_order[box2]>routine_order[box3]) {
-        $("#routinestatus").text("Try again! \n You might want to use "+box3+" before "+box2+"!");
-        $("#routinestatus").addClass("bad");
+      if (routine_order[boxx2]>routine_order[boxx3]) {
+        $("#routinestatus").text("Try again! \n You might want to use "+boxx3+" before "+boxx2+"!");
+        $("#routinestatus").css("background-color", "red");
+        $("#routinestatus").css("color", "white");
       } else {
-        if (routine_order[box3]>routine_order[box4]) {
-          $("#routinestatus").text("Try again! \n You might want to use "+box4+" before "+box3+"!");
-          $("#routinestatus").addClass("bad");
+        if (routine_order[boxx3]>routine_order[boxx4]) {
+          $("#routinestatus").text("Try again! \n You might want to use "+boxx4+" before "+boxx3+"!");
+          $("#routinestatus").css("background-color", "red");
+          $("#routinestatus").css("color", "white");
         } else {
-          if (routine_order[box4]>routine_order[box5]) {
-            $("#routinestatus").text("Try again! \n You might want to use "+box5+" before "+box4+"!");
-            $("#routinestatus").addClass("bad");
+          if (routine_order[boxx4]>routine_order[boxx5]) {
+            $("#routinestatus").text("Try again! \n You might want to use "+boxx5+" before "+boxx4+"!");
+            $("#routinestatus").css("background-color", "red");
+            $("#routinestatus").css("color", "white");
           } else {
           $("#routinestatus").text("Good Job! Your routine seems good");
-          $("#routinestatus").addClass("good");
+          $("#routinestatus").css("background-color", "lightgreen");
+          $("#routinestatus").css("color", "white");
           $(".finish").prop("disabled", false);
 
           fetch("/save-progress", {

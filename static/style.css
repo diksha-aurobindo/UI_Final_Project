@@ -134,7 +134,7 @@ body {
   color: white;
   background-color: black;
   margin: 40px;
-  height: 150px;
+  height: 200px;
   width: 200px;
   justify-content: center;
 }
@@ -143,7 +143,7 @@ body {
   color: white;
   background-color: black;
   margin: 40px;
-  height: 150px;
+  height: 200px;
   width: 200px;
   justify-content: center;
 }
@@ -165,31 +165,38 @@ body {
 
 .products {
   color: white;
-  background-color: mediumaquamarine;
+  background-color: #fff0f8;
   margin: 10px;
   width: 150px;
+  height: 150px;
   justify-content: center;
   cursor:move;
 }
 
+.product-images {
+    max-width: 150px;
+    max-height: 126px;
+    width: 100%; 
+    height: auto;
+}
+
 #box1.hover, #box2.hover, #box3.hover {
-  background-color: mediumorchid; 
+  background-color: #d835a4; 
+}
+
+#boxx1.hover, #boxx2.hover, #boxx3.hover, #boxx4.hover, #boxx5.hover {
+  background-color: #d835a4; 
+}
+
+.products.hover {
+  background-color: #d835a4; 
 }
 
 #routinetopic {
   background-color: #d835a4;
   color: white;
   height: 100px;
-}
-
-#routinestatus.good {
-  background-color: green;
-  color:white;
-}
-
-#routinestatus.bad {
-  background-color: red;
-  color: white;
+  padding-top: 20px;
 }
 
 .reset, .evaluate, #routinestatus, .finish {
