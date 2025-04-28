@@ -4,40 +4,122 @@ let currentIndex = 0;
 let maxUnlockedStep = 0;
 let routineData = [];
 
-const routine_order = {"cleanser":0, "toner":1, "essence":2, "serum":3, "eye-cream":4, "spot-treatment":5, "moisturizer":6, "sunscreen":7};
+const routine_order = {
+  "cleanser": 0,
+  "toner": 1,
+  "essence": 2,
+  "serum": 3,
+  "eye-cream": 4,
+  "spot-treatment": 5,
+  "moisturizer": 6,
+  "sunscreen": 7
+};
 
 function updateContent(index) {
-  const { step, description, benefit, image } = routineData[index];
-  const prevButton = index > 0 ? `<button id="prevStep" style="margin-top: 40px; float: left; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">← PREVIOUS STEP</button>` : "";
+  const { step, description, benefit, image, skin_type_ingredients, key_ingredients } = routineData[index];
+
+  const prevButton = index > 0
+    ? `<button id="prevStep" style="margin-top: 40px; float: left; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">← PREVIOUS STEP</button>`
+    : "";
+
   const nextButton = index === routineData.length - 1
-    ? '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;"><a href="/quiz/1">QUIZ → </a></button>'
+    ? '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;"><a href="/quiz/1" style="color: #d835a4; text-decoration: none;">QUIZ →</a></button>'
     : '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">NEXT STEP →</button>';
 
+  // Read user's skin type from localStorage
+  const userSkinType = localStorage.getItem("userSkinType") || "Oily"; // fallback default
+
+  // Create a list of product's key ingredient names for matching
+  const keyIngredientNames = key_ingredients.map(k => k.name.toLowerCase());
+
+  // Build Ingredients Table
+  let ingredientsTable = `
+    <h4 style="margin-top: 30px;">Ingredients to Look for Based on Skin Type</h4>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+      <thead>
+        <tr style="background-color: #f5f5f5;">
+          <th style="padding: 8px; border: 1px solid #ddd;">Skin Type</th>
+          <th style="padding: 8px; border: 1px solid #ddd;">Recommended Ingredients</th>
+        </tr>
+      </thead>
+      <tbody>`;
+
+  for (let skinType in skin_type_ingredients) {
+    if (skinType.toLowerCase() === userSkinType.toLowerCase()) { // Only show matching skin type
+      const ingredientsList = skin_type_ingredients[skinType].map(ingredient => {
+        if (keyIngredientNames.includes(ingredient.toLowerCase())) {
+          return `<strong>${ingredient}</strong>`; // Bold if in key ingredients
+        } else {
+          return ingredient;
+        }
+      }).join(", ");
+
+      ingredientsTable += `
+        <tr>
+          <td style="padding: 8px; border: 1px solid #ddd;">${skinType}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${ingredientsList}</td>
+        </tr>`;
+    }
+  }
+
+  ingredientsTable += `</tbody></table>`;
+
+  // Build Learn More Section
+  let learnMoreContent = `
+    <h4 style="margin-top: 30px;">Learn About Active Ingredients</h4>`;
+
+  key_ingredients.forEach(ingredient => {
+    learnMoreContent += `
+      <h5>${ingredient.name} (${ingredient.percentage})</h5>
+      <p><strong>Why Needed:</strong> ${ingredient.why_needed}</p>
+      <p><strong>Caution:</strong> ${ingredient.caution}</p>`;
+  });
+
+  // Set page content
   content.innerHTML = `
     <div class="step-content">
       <div class="step-image">
-        <img id="step-img" src="/static/${image}" alt="Step Image" />
+        <img id="step-img" src="/static/${image}" alt="Step Image" onerror="this.onerror=null;this.src='/static/images/placeholder.jpg';" />
       </div>
       <div class="step-text">
         <h2 id="step-title">${step}</h2>
         <p id="step-description">${description}</p>
+
         <h4>What it does</h4>
         <p id="step-benefit">${benefit}</p>
-        ${prevButton}${nextButton}
+
+        ${ingredientsTable}
+
+        <div style="margin-top: 30px; text-align: center;">
+          <button id="toggle-ingredients" style="padding: 10px 20px; color: #fff; background-color: #d835a4; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+            Learn About Active Ingredients
+          </button>
+        </div>
+
+        <div id="ingredients-content" style="display: none; margin-top: 20px;">
+          ${learnMoreContent}
+        </div>
+
+        <div style="margin-top: 40px;">
+          ${prevButton}
+          ${nextButton}
+        </div>
       </div>
     </div>
   `;
 
   document.querySelector(".step.active")?.classList.remove("active");
   steps[index].classList.add("active");
+
   attachNextHandler();
   updateStepStates();
+  attachToggleHandler();
 }
 
 function attachNextHandler() {
   const nextBtn = document.getElementById("nextStep");
   const prevBtn = document.getElementById("prevStep");
-  
+
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       if (currentIndex < routineData.length - 1) {
@@ -48,7 +130,7 @@ function attachNextHandler() {
       }
     });
   }
-  
+
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       if (currentIndex > 0) {
@@ -58,7 +140,23 @@ function attachNextHandler() {
       }
     });
   }
+}
 
+function attachToggleHandler() {
+  const toggleButton = document.getElementById("toggle-ingredients");
+  const ingredientsContent = document.getElementById("ingredients-content");
+
+  if (toggleButton && ingredientsContent) {
+    toggleButton.addEventListener("click", function () {
+      if (ingredientsContent.style.display === "none" || ingredientsContent.style.display === "") {
+        ingredientsContent.style.display = "block";
+        toggleButton.textContent = "Hide Active Ingredients";
+      } else {
+        ingredientsContent.style.display = "none";
+        toggleButton.textContent = "Learn About Active Ingredients";
+      }
+    });
+  }
 }
 
 function updateStepStates() {
@@ -73,18 +171,16 @@ function updateStepStates() {
   });
 }
 
+// Fetch data and initialize
 fetch("/data")
   .then(res => res.json())
   .then(data => {
     routineData = data.routine_steps;
 
-    // Find the index based on the product name from URL  
     if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
       currentIndex = routine_order[initialProduct];
-      maxUnlockedStep = currentIndex; // 🛟 Important: lock steps after this
     } else {
       currentIndex = 0;
-      maxUnlockedStep = 0;
     }
 
     maxUnlockedStep = currentIndex;
@@ -101,6 +197,20 @@ fetch("/data")
     });
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 // ROUTINE 
 
@@ -808,25 +918,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function handleForm(event) {
-
   event.preventDefault();
+
   const form = document.getElementById('skin-type-form');
   const formData = new FormData(form);
 
   let bare = formData.get('bare');
   let blot = formData.get('blot');
 
-  sessionStorage.setItem('blot', blot);
+  // Save the chosen skin type (blot result) both temporarily and permanently
+  sessionStorage.setItem('blot', blot);           // Temporary (for skintype-results page)
+  localStorage.setItem('userSkinType', blot);      // Permanent (for learning pages)
 
   if (bare && blot) {
-
-    // save variable 'blot' to userdata.json as 'skin_type'
-
-    window.location.href ='/skin-type/result';
+    window.location.href = '/skin-type/result';  // Move to results page
   }
-};
+}
+
 
 $(window).on('load', function() {
-  $("#skintyperesult").text(sessionStorage.getItem('blot'));
-  alert(blot);
+  const skinType = sessionStorage.getItem('blot');
+  if (skinType) {
+    $("#skintyperesult").text(skinType);
+  }
 });

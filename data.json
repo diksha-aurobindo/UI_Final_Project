@@ -1,53 +1,257 @@
 {
-    "routine_steps": [
-      {
-        "step": "Cleanser",
-        "image": "images/cleanser.png",
-        "description": "Gently cleanses your skin to remove dirt and oil.",
-        "benefit": "Removes makeup, sunscreen, and impurities."
+  "routine_steps": [
+    {
+      "step": "Cleanser",
+      "description": "Gently removes dirt, oil, and impurities without stripping the skin.",
+      "benefit": "Prepares the skin for the next steps by clearing pores and maintaining a healthy moisture balance.",
+      "image": "images/cleanser.png",
+      "skin_type_ingredients": {
+        "Oily": ["Salicylic Acid", "Niacinamide"],
+        "Dry": ["Glycerin", "Ceramides"],
+        "Sensitive": ["Aloe Vera", "Centella Asiatica"],
+        "Combination": ["Niacinamide", "Green Tea Extract"],
+        "Acne-Prone": ["Salicylic Acid", "Sulfur"]
       },
-      {
-        "step": "Toner",
-        "image": "images/toner.png",
-        "description": "Balances the skin’s pH and preps for treatment.",
-        "benefit": "Refines pores and refreshes skin."
+      "key_ingredients": [
+        {
+          "name": "Salicylic Acid",
+          "percentage": "2%",
+          "good_for": ["Oily", "Acne-Prone"],
+          "why_needed": "Penetrates deep into pores to dissolve oil and dead skin cells, preventing acne.",
+          "caution": "May cause dryness or irritation if overused. Start slowly."
+        },
+        {
+          "name": "Glycerin",
+          "percentage": "5%",
+          "good_for": ["Dry", "Sensitive"],
+          "why_needed": "Attracts moisture into the skin to maintain hydration.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Regulates oil production and improves skin texture.",
+          "caution": "Patch test recommended for very sensitive skin."
+        },
+        {
+          "name": "Ceramides",
+          "percentage": "1%",
+          "good_for": ["Dry", "Sensitive"],
+          "why_needed": "Strengthens the skin barrier and locks in moisture.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Sulfur",
+          "percentage": "3%",
+          "good_for": ["Acne-Prone"],
+          "why_needed": "Reduces oiliness and kills acne-causing bacteria.",
+          "caution": "May cause dryness; use moisturizer."
+        }
+      ]
+    },
+    {
+      "step": "Toner",
+      "description": "Balances the skin’s pH and preps for treatment.",
+      "benefit": "Refines pores and refreshes skin.",
+      "image": "images/toner.png",
+      "skin_type_ingredients": {
+        "Oily": ["Witch Hazel", "Niacinamide"],
+        "Dry": ["Glycerin", "Panthenol"],
+        "Sensitive": ["Chamomile", "Aloe Vera"],
+        "Combination": ["Niacinamide", "Green Tea"],
+        "Acne-Prone": ["Salicylic Acid", "Zinc PCA"]
       },
-      {
-        "step": "Essence",
-        "image": "images/essence.png",
-        "description": "Hydrates and helps active ingredients absorb better.",
-        "benefit": "Adds moisture and boosts skin resilience."
+      "key_ingredients": [
+        {
+          "name": "Witch Hazel",
+          "percentage": "10%",
+          "good_for": ["Oily", "Acne-Prone"],
+          "why_needed": "Tightens pores and reduces inflammation.",
+          "caution": "May be drying if overused."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Regulates oil and soothes redness.",
+          "caution": "Rare irritation with very sensitive skin."
+        }
+      ]
+    },
+    {
+      "step": "Essence",
+      "description": "Hydrates and helps active ingredients absorb better.",
+      "benefit": "Adds moisture and boosts skin resilience.",
+      "image": "images/essence.png",
+      "skin_type_ingredients": {
+        "Oily": ["Snail Mucin", "Green Tea"],
+        "Dry": ["Hyaluronic Acid", "Glycerin"],
+        "Sensitive": ["Centella Asiatica", "Panthenol"],
+        "Combination": ["Niacinamide", "Fermented Extracts"],
+        "Acne-Prone": ["Green Tea", "Centella Asiatica"]
       },
-      {
-        "step": "Serum",
-        "image": "images/serum.png",
-        "description": "Targets specific skin concerns with concentrated actives.",
-        "benefit": "Brightens, hydrates, or reduces wrinkles."
+      "key_ingredients": [
+        {
+          "name": "Hyaluronic Acid",
+          "percentage": "1%",
+          "good_for": ["Dry", "All Skin Types"],
+          "why_needed": "Deep hydration by binding water to the skin.",
+          "caution": "Safe for all skin types."
+        },
+        {
+          "name": "Snail Mucin",
+          "percentage": "90%",
+          "good_for": ["Oily", "Sensitive"],
+          "why_needed": "Repairs skin barrier and hydrates deeply.",
+          "caution": "Patch test if allergic to snail secretion."
+        }
+      ]
+    },
+    {
+      "step": "Serum",
+      "description": "Targets specific skin concerns with concentrated actives.",
+      "benefit": "Brightens, hydrates, or reduces wrinkles.",
+      "image": "images/serum.png",
+      "skin_type_ingredients": {
+        "Oily": ["Niacinamide", "Salicylic Acid"],
+        "Dry": ["Hyaluronic Acid", "Vitamin C"],
+        "Sensitive": ["Centella Asiatica", "Peptides"],
+        "Combination": ["Vitamin C", "Niacinamide"],
+        "Acne-Prone": ["Vitamin C", "Salicylic Acid"]
       },
-      {
-        "step": "Eye Cream",
-        "image": "images/eye_cream.png",
-        "description": "Nourishes the delicate under-eye area.",
-        "benefit": "Reduces puffiness and dark circles."
+      "key_ingredients": [
+        {
+          "name": "Vitamin C",
+          "percentage": "10%",
+          "good_for": ["Dry", "Combination", "Oily"],
+          "why_needed": "Brightens skin and fades dark spots.",
+          "caution": "May sting initially; introduce slowly."
+        },
+        {
+          "name": "Hyaluronic Acid",
+          "percentage": "1%",
+          "good_for": ["Dry", "All Skin Types"],
+          "why_needed": "Attracts and retains moisture.",
+          "caution": "Safe for all."
+        }
+      ]
+    },
+    {
+      "step": "Eye Cream",
+      "description": "Nourishes the delicate under-eye area.",
+      "benefit": "Reduces puffiness and dark circles.",
+      "image": "images/eye_cream.png",
+      "skin_type_ingredients": {
+        "Oily": ["Caffeine", "Peptides"],
+        "Dry": ["Hyaluronic Acid", "Ceramides"],
+        "Sensitive": ["Peptides", "Chamomile"],
+        "Combination": ["Caffeine", "Niacinamide"],
+        "Acne-Prone": ["Peptides"]
       },
-      {
-        "step": "Spot Treatment",
-        "image": "images/spot_treatment.png",
-        "description": "Directly treats blemishes and inflammation.",
-        "benefit": "Shrinks pimples and prevents scarring."
+      "key_ingredients": [
+        {
+          "name": "Caffeine",
+          "percentage": "5%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Reduces puffiness and tightens under-eye area.",
+          "caution": "Can be drying if overused."
+        },
+        {
+          "name": "Peptides",
+          "percentage": "2%",
+          "good_for": ["All Skin Types"],
+          "why_needed": "Promotes collagen production and reduces wrinkles.",
+          "caution": "Very safe."
+        }
+      ]
+    },
+    {
+      "step": "Spot Treatment",
+      "description": "Directly treats blemishes and inflammation.",
+      "benefit": "Shrinks pimples and prevents scarring.",
+      "image": "images/spot_treatment.png",
+      "skin_type_ingredients": {
+        "Oily": ["Benzoyl Peroxide", "Salicylic Acid"],
+        "Dry": ["Sulfur"],
+        "Sensitive": ["Sulfur", "Niacinamide"],
+        "Combination": ["Salicylic Acid", "Sulfur"],
+        "Acne-Prone": ["Benzoyl Peroxide", "Sulfur"]
       },
-      {
-        "step": "Moisturizer",
-        "image": "images/moisturizer.png",
-        "description": "Seals in hydration and keeps skin soft.",
-        "benefit": "Protects skin barrier and prevents dryness."
+      "key_ingredients": [
+        {
+          "name": "Benzoyl Peroxide",
+          "percentage": "5%",
+          "good_for": ["Acne-Prone"],
+          "why_needed": "Kills acne bacteria quickly.",
+          "caution": "Can cause dryness and irritation."
+        },
+        {
+          "name": "Sulfur",
+          "percentage": "3%",
+          "good_for": ["Acne-Prone", "Sensitive"],
+          "why_needed": "Dries out pimples and reduces oiliness.",
+          "caution": "May cause dryness."
+        }
+      ]
+    },
+    {
+      "step": "Moisturizer",
+      "description": "Seals in hydration and keeps skin soft.",
+      "benefit": "Protects skin barrier and prevents dryness.",
+      "image": "images/moisturizer.png",
+      "skin_type_ingredients": {
+        "Oily": ["Gel-Based Moisturizer", "Niacinamide"],
+        "Dry": ["Hyaluronic Acid", "Ceramides"],
+        "Sensitive": ["Aloe Vera", "Ceramides"],
+        "Combination": ["Niacinamide", "Hyaluronic Acid"],
+        "Acne-Prone": ["Oil-Free Moisturizers"]
       },
-      {
-        "step": "Sunscreen",
-        "image": "images/sunscreen.png",
-        "description": "Shields the skin from UV damage.",
-        "benefit": "Prevents sunburn, aging, and hyperpigmentation."
-      }
-    ]
-  }
-  
+      "key_ingredients": [
+        {
+          "name": "Ceramides",
+          "percentage": "3%",
+          "good_for": ["Dry", "Sensitive"],
+          "why_needed": "Strengthens skin’s natural barrier.",
+          "caution": "Safe."
+        },
+        {
+          "name": "Hyaluronic Acid",
+          "percentage": "1%",
+          "good_for": ["Dry", "Combination"],
+          "why_needed": "Provides hydration without greasiness.",
+          "caution": "Safe."
+        }
+      ]
+    },
+    {
+      "step": "Sunscreen",
+      "description": "Shields the skin from UV damage.",
+      "benefit": "Prevents sunburn, aging, and hyperpigmentation.",
+      "image": "images/sunscreen.png",
+      "skin_type_ingredients": {
+        "Oily": ["Zinc Oxide", "Niacinamide"],
+        "Dry": ["Hyaluronic Acid", "Ceramides"],
+        "Sensitive": ["Titanium Dioxide", "Zinc Oxide"],
+        "Combination": ["Zinc Oxide", "Hyaluronic Acid"],
+        "Acne-Prone": ["Mineral Sunscreens (Zinc)"]
+      },
+      "key_ingredients": [
+        {
+          "name": "Zinc Oxide",
+          "percentage": "20%",
+          "good_for": ["Sensitive", "Oily", "Acne-Prone"],
+          "why_needed": "Provides broad-spectrum sun protection safely.",
+          "caution": "May leave white cast on deeper skin tones."
+        },
+        {
+          "name": "Titanium Dioxide",
+          "percentage": "10%",
+          "good_for": ["Sensitive"],
+          "why_needed": "Physical blocker, less irritating than chemical sunscreens.",
+          "caution": "Minimal irritation risk."
+        }
+      ]
+    }
+  ]
+}
