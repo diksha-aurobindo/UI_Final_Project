@@ -15,6 +15,7 @@ const routine_order = {
   "sunscreen": 7
 };
 
+if (window.location.pathname.startsWith("/learn")) {
 function updateContent(index) {
   const { step, description, benefit, image, skin_type_ingredients, key_ingredients } = routineData[index];
 
@@ -128,6 +129,9 @@ function attachNextHandler() {
         updateContent(currentIndex);
         history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
       }
+      if(currentIndex === routineData.length - 1){
+        sessionStorage.setItem('learnCompleted', true);
+      }
     });
   }
 
@@ -196,26 +200,12 @@ fetch("/data")
       });
     });
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+}
 
 // ROUTINE 
 
 // Initial binding for first page load
-attachNextHandler();
+// attachNextHandler();
 
 // drag and drop
 
@@ -915,8 +905,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //skin type
-
-
 function handleForm(event) {
   event.preventDefault();
 
@@ -930,9 +918,25 @@ function handleForm(event) {
   sessionStorage.setItem('blot', blot);           // Temporary (for skintype-results page)
   localStorage.setItem('userSkinType', blot);      // Permanent (for learning pages)
 
-  if (bare && blot) {
-    window.location.href = '/skin-type/result';  // Move to results page
-  }
+  console.log("blot is: ", blot);
+
+  fetch("/save-skintype", {
+    method: "POST",
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify({ skinType: [blot] })  // Send it along
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Progress saved:", data);
+    // After successful save, navigate
+    if (bare && blot) {
+      window.location.href = '/skin-type/result';  // Move to results page
+      sessionStorage.setItem('skinTypeCompleted', true);
+    }
+  })
+  .catch(error => {
+    console.error("Error saving progress:", error);
+  });
 }
 
 
@@ -942,3 +946,138 @@ $(window).on('load', function() {
     $("#skintyperesult").text(skinType);
   }
 });
+
+// Lock-unlock navlinks
+document.addEventListener('DOMContentLoaded', function() {
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+  const buildRoutineBtn = document.getElementById('buildroutine');
+
+  if (buildRoutineBtn) {
+    buildRoutineBtn.addEventListener('click', function() {
+      sessionStorage.setItem('quizCompleted', 'true');
+      console.log('quizCompleted set to true');
+    });
+  }
+
+  function updateNavLocks() {
+    navLinks.forEach(link => {
+      const linkText = link.textContent.trim();
+
+      if (linkText === 'Learn') {
+        const skinTypeCompleted = sessionStorage.getItem('skinTypeCompleted');
+        if (!skinTypeCompleted) {
+          disableLink(link);
+        } else {
+          enableLink(link);
+        }
+      }
+
+      if (linkText === 'Knowledge Test' || linkText === 'Your Scores') {
+        const learnCompleted = sessionStorage.getItem('learnCompleted');
+        if (!learnCompleted) {
+          disableLink(link);
+        } else {
+          enableLink(link);
+        }
+      }
+
+      if (linkText === 'Build your routine') {
+        const quizCompleted = sessionStorage.getItem('quizCompleted');
+        if (!quizCompleted) {
+          disableLink(link);
+        } else {
+          enableLink(link);
+        }
+      }
+    });
+  }
+
+  function disableLink(link) {
+    link.classList.add('disabled');
+    link.style.pointerEvents = 'none';
+    link.style.opacity = 0.5;
+  }
+
+  function enableLink(link) {
+    link.classList.remove('disabled');
+    link.style.pointerEvents = 'auto';
+    link.style.opacity = 1;
+  }
+
+  updateNavLocks();
+});
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+//   // Home page buttons
+//   const btnIdentify = document.getElementById('identify-skintype');
+//   const btnLearn = document.getElementById('start-learning');
+//   const btnQuiz = document.getElementById('knowledge-test');
+//   const btnScore = document.getElementById('your-score');
+//   const btnBuild = document.getElementById('build-routine');
+
+//   const buildRoutineNavbarBtn = document.getElementById('buildroutine'); // Navbar buildroutine button if any
+  
+//   if (buildRoutineNavbarBtn) {
+//     buildRoutineNavbarBtn.addEventListener('click', function() {
+//       sessionStorage.setItem('quizCompleted', 'true');
+//       console.log('quizCompleted set to true');
+//     });
+//   }
+
+//   function updateLocks() {
+//     const skinTypeCompleted = sessionStorage.getItem('skinTypeCompleted');
+//     const learnCompleted = sessionStorage.getItem('learnCompleted');
+//     const quizCompleted = sessionStorage.getItem('quizCompleted');
+
+//     // ------ Update Navbar Links ------
+//     navLinks.forEach(link => {
+//       const linkText = link.textContent.trim();
+
+//       if (linkText === 'Learn') {
+//         toggleLink(link, skinTypeCompleted);
+//       }
+//       if (linkText === 'Knowledge Test' || linkText === 'Your Scores') {
+//         toggleLink(link, learnCompleted);
+//       }
+//       if (linkText === 'Build your routine') {
+//         toggleLink(link, quizCompleted);
+//       }
+//     });
+
+//     // ------ Update Home Page Buttons ------
+//     if (btnIdentify) {
+//       btnIdentify.disabled = false; // Always enabled
+//     }
+//     if (btnLearn) {
+//       btnLearn.disabled = !skinTypeCompleted;
+//     }
+//     if (btnQuiz) {
+//       btnQuiz.disabled = !learnCompleted;
+//     }
+//     if (btnScore) {
+//       btnScore.disabled = !learnCompleted;
+//     }
+//     if (btnBuild) {
+//       btnBuild.disabled = !quizCompleted;
+//     }
+//   }
+
+//   function toggleLink(link, isUnlocked) {
+//     if (!isUnlocked) {
+//       link.classList.add('disabled');
+//       link.style.pointerEvents = 'none';
+//       link.style.opacity = 0.5;
+//     } else {
+//       link.classList.remove('disabled');
+//       link.style.pointerEvents = 'auto';
+//       link.style.opacity = 1;
+//     }
+//   }
+
+//   updateLocks();
+// });
+
+
