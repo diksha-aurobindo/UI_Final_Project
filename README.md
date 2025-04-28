@@ -1,19 +1,11 @@
-# UI_Final_Project
+# SkinStarter — Personalized Skincare Learning Tool 🌸
 
-✅ What has been Done:
 
-Designed the skincare learning UI (index.html) which has a 'next' button to move to the next step
+Welcome to SkinStarter, a personalized skincare education platform!
+This website helps users discover their true skin type through simple tests, and then guides them through learning about essential skincare products — with a focus on key active ingredients tailored to their skin needs.
 
-Built a homepage with a “Start” button
 
-Set up Flask basics and routes
-
-Connected HTML with Flask using templates/static folders
-
-Create routine
-
-Designed quiz 1 and quiz 2
-
-Stored information in back-end that can be viewed on url: "/view-userdata"
-
-Added images
+Built by:
+Vidushi Bansal , 
+Felicia Sharon ,
+Diksha Aurobindo.
