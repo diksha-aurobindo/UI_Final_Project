@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+{% block content %}
+<center>
+    <br>
+
+    <h1 style="color: #d835a4;">Let's find your Skin type by answering the following questions</h1><br><br>
+<div id="skintype-content">
+
+  <div id="skin-type-questions">
+    
+    <form method="post" id="skin-type-form" onsubmit="handleForm(event)">
+
+    <fieldset>
+
+    <div>
+        <h4 style="color: #444;">Bare Face Test</h4>
+        <p>Select the image that best describes you after 30 minutes of washing your face</p><br>
+      </div>
+        
+      <div class="bare-group">  
+      <input type="radio" id="dry1" class="btn-check" name="bare" value="dry">
+        <label class="btn btn-outline-primary" for="dry1"><img src='static/images/dry.png' width="150px" height="150px"></label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="oily1" class="btn-check" name="bare" value="oily" required>
+        <label class="btn btn-outline-primary" for="oily1"><img src='static/images/oily.png' width="150px" height="150px"></label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="combination1" class="btn-check" name="bare" value="combination">
+        <label class="btn btn-outline-primary" for="combination1"><img src='static/images/combination.png' width="150px" height="150px"></label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="normal1" class="btn-check" name="bare" value="normal">
+        <label class="btn btn-outline-primary" for="normal1"><img src='static/images/normal.png' width="150px" height="150px"></label>
+    </div>
+      </fieldset>
+      <br><br>
+
+        <fieldset>
+            <div>
+            <h4 style="color: #444;">Blotting Paper Test</h4>
+            <p>Select the option that best describes you after 30 minutes of washing your face and pressing a 
+                blotting sheet to different areas of your face</p>
+          </div>
+      
+            <input type="radio" id="oily2" name="blot" value="oily" required>
+            <label for="oily2">The sheet picks up oil from all areas</label><br>
+            <input type="radio" id="normal2" name="blot" value="normal">
+            <label for="normal2">The sheet picks up minimal oil</label><br>
+            <input type="radio" id="combination2" name="blot" value="combination">
+            <label for="combination">The sheet picks up more oil in T-zone than other areas</label><br>
+            
+            <input type="radio" id="dry2" name="blot" value="dry">
+            <label for="dry2">The sheet did not pick up much oil or is clean</label>
+        </fieldset><br><br>
+        <button class="back-btn" onclick="history.back()" style="margin-left: 0%;">← Back</button> <button type="submit" class="findskin-btn">Submit</button>
+
+  </form>
+
+</div>
+  <div id="skintype-images"><br><br><br>
+    T-Zone<br>
+    <img src="static/images/combination.png">
+</div>
+
+  <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
+  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
+
+
+</div>
+</center>
+{% endblock %}

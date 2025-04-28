@@ -259,8 +259,25 @@ body {
   transition: background 0.2s ease-in-out;
 }
 
+.findskin-btn {
+  background-color: #d835a4;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
+  margin-left: 70%;
+}
+
 .back-btn:hover {
   background-color: #f3a562;
+}
+
+.findskin-btn:hover {
+  background-color: #b7137e;
 }
 
 .tryAgain-btn {
@@ -392,4 +409,22 @@ body {
 
 .step-text {
   flex: 1;
+}
+
+
+#skintype-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+#skintype-images img {
+  width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#skin-type-questions {
+  flex: 5;
 }

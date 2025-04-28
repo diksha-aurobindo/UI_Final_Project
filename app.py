@@ -155,6 +155,14 @@ def submit_quiz_2():
         "score": session['score']
     })
 
+@app.route('/skin-type')
+def skinType():
+    return render_template('skintype.html')
+
+@app.route('/skin-type/result')
+def skinTypeRes():
+    return render_template('skintype-result.html')
+
 # ------------------- Save and Get Progress -------------------
 def save_user_data(user_data):
     if os.path.exists(USER_DATA_FILE):
@@ -209,4 +217,4 @@ def get_routine_data():
 
 # -------------------
 if __name__ == '__main__':
-    app.run(debug=True, port=5004)
+    app.run(debug=True, port=5003)

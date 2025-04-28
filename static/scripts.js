@@ -804,4 +804,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+//skin type
 
+
+function handleForm(event) {
+
+  event.preventDefault();
+  const form = document.getElementById('skin-type-form');
+  const formData = new FormData(form);
+
+  let bare = formData.get('bare');
+  let blot = formData.get('blot');
+
+  sessionStorage.setItem('blot', blot);
+
+  if (bare && blot) {
+
+    // save variable 'blot' to userdata.json as 'skin_type'
+
+    window.location.href ='/skin-type/result';
+  }
+};
+
+$(window).on('load', function() {
+  $("#skintyperesult").text(sessionStorage.getItem('blot'));
+  alert(blot);
+});
