@@ -26,6 +26,14 @@ def home():
       session['score'] = 0
     return render_template('home.html', score=session['score'])
 
+@app.route('/skin-type')
+def skinType():
+    return render_template('skintype.html')
+
+@app.route('/skin-type/result')
+def skinTypeRes():
+    return render_template('skintype-result.html')
+
 # @app.route('/learn')
 # def learn():
 #     update_time_spent("usertimeSpentOnLearn")
@@ -41,7 +49,7 @@ def learn(product):
 @app.route('/learn')
 def learn_redirect():
     # last_product = session.get('last_product', 'cleanser')  # default to cleanser
-    last_product = session.get('last_product')
+    last_product = session.get('last_product', 'cleanser')
     print(">>> Last product in session:", last_product)
     # last_product = session['last_product']
     # return redirect(f"/learn/{last_product}")
@@ -155,13 +163,12 @@ def submit_quiz_2():
         "score": session['score']
     })
 
-@app.route('/skin-type')
-def skinType():
-    return render_template('skintype.html')
-
-@app.route('/skin-type/result')
-def skinTypeRes():
-    return render_template('skintype-result.html')
+@app.route("/save-skintype", methods=["POST"])
+def save_skintype():
+    data = request.get_json()
+    user_skin_type = data["skinType"][0]
+    session["skinType"] = user_skin_type
+    return jsonify({"status": "saved"})
 
 # ------------------- Save and Get Progress -------------------
 def save_user_data(user_data):
@@ -180,6 +187,7 @@ def save_user_data(user_data):
 @app.route("/save-progress", methods=["POST"])
 def save_progress():
     update_time_spent("TotalTimeSpentTillNow")
+
     user_data = {
         "userId": 1,
         "usertimeSpentOnLearn": round(session.get("usertimeSpentOnLearn", 0), 2),
@@ -194,8 +202,10 @@ def save_progress():
         "Userquiz1State": session.get("quiz_1", {}),
         "quiz2State": session.get("quiz_2", {}),
         "finalQuizState": session.get("finalQuizState", {}),
-        "routineState": session.get("routineState", {})
+        "routineState": session.get("routineState", {}),
+        "skinType": session.get("skinType", None)
     }
+
     save_user_data(user_data)
     return jsonify({"status": "saved", "userData": user_data})
 

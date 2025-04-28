@@ -21,6 +21,7 @@
     <p></p><p></p><p></p>
 
     <div class="button-container">
+      <a href="{{ url_for('skinType') }}" class="start-btn" id="identify-skintype" disabled>Identify your skintype →</a>
       <a href="{{ url_for('learn', product='cleanser') }}" class="start-btn" id="start-learning">Start Learning →</a>
       <a href="{{ url_for('quiz') }}" class="start-btn" id="knowledge-test" disabled>Knowledge Test →</a>
       <a href="{{ url_for('quiz_result') }}" class="start-btn" id="your-score" disabled>Your Score →</a>
