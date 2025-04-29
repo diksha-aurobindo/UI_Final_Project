@@ -6,50 +6,50 @@
 
 body {
   font-family: 'Helvetica Neue', sans-serif;
-  background-color: #fff9fc;
+  background-color: #e6ddf1;
 }
 
 /* Home-page */
 .home-body {
-  background-color: #fff9fc;
+  background-color: #e6ddf1;
   font-family: 'Helvetica Neue', sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 180px;
   align-items: center;
   height: 100vh;
   text-align: center;
 }
 
 .home-h1 {
-  color: #d835a4;
-  font-size: 3rem;
+  font-family: 'DM Serif Display', serif;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
 }
 
 .home-p {
-  color: #444;
-  font-size: 1.2rem;
-  max-width: 600px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 1.3rem;
+  max-width: 1000px;
   margin: 0 auto 2rem;
 }
 
 .start-btn {
-  background-color: #ec74d6;
+  background-color: #770fdb;
   color: white;
+  font-family: 'Helvetica Neue', sans-serif;
   padding: 12px 28px;
   font-size: 1.1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 25px;
   transition: background 0.3s ease;
   text-decoration: none;
 }
 
 .start-btn:hover {
-  background-color: #d835a4;
+  background-color: #450a7d;
+  color: #e6ddf1;
 }
-
-
 
 
 #learn {
@@ -88,8 +88,9 @@ body {
 
 .step.active {
   background: #fbefff;
-  border-left: 4px solid #ec74d6;
+  /* border-left: 4px solid #ec74d6; */
   font-weight: bold;
+  border-bottom: 2px solid white;
 }
 
 .content {
@@ -112,8 +113,9 @@ body {
 }
 
 .nav-link.active {
-  color: #d835a4 !important;
+  color: #ac75e1 !important;
   font-weight: bold;
+  /* border-bottom: 2px solid white; */
 }
 
 .step.locked {
@@ -204,7 +206,7 @@ body {
 }
 
 .quiz-container {
-  background-color: #fefbfa;
+  /* background-color: #fefbfa; */
   color: #ec74d6;
   min-height: 100vh;
   padding: 60px 300px 200px 300px;
