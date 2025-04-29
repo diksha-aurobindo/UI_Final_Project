@@ -27,8 +27,7 @@ function updateContent(index) {
     ? '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;"><a href="/quiz/1" style="color: #d835a4; text-decoration: none;">QUIZ →</a></button>'
     : '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">NEXT STEP →</button>';
 
-  // Read user's skin type from localStorage
-  const userSkinType = localStorage.getItem("userSkinType") || "Oily"; // fallback default
+  const userSkinType = skinType || "Oily";
 
   // Create a list of product's key ingredient names for matching
   const keyIngredientNames = key_ingredients.map(k => k.name.toLowerCase());
@@ -915,8 +914,8 @@ function handleForm(event) {
   let blot = formData.get('blot');
 
   // Save the chosen skin type (blot result) both temporarily and permanently
-  sessionStorage.setItem('blot', blot);           // Temporary (for skintype-results page)
-  localStorage.setItem('userSkinType', blot);      // Permanent (for learning pages)
+  // sessionStorage.setItem('blot', blot);           // Temporary (for skintype-results page)
+  // localStorage.setItem('userSkinType', blot);      // Permanent (for learning pages)
 
   console.log("blot is: ", blot);
 
