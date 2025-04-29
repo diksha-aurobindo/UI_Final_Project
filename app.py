@@ -32,7 +32,7 @@ def skinType():
 
 @app.route('/skin-type/result')
 def skinTypeRes():
-    return render_template('skintype-result.html')
+    return render_template('skintype-result.html', skinType = session.get("skinType", "Oily"))
 
 # @app.route('/learn')
 # def learn():
@@ -44,7 +44,7 @@ def skinTypeRes():
 def learn(product):
     update_time_spent("usertimeSpentOnLearn")
     session['last_product'] = product
-    return render_template('learn.html', product=product)  # Pass product to template
+    return render_template('learn.html', product=product, skinType = session.get("skinType", "Oily"))  # Pass product to template
 
 @app.route('/learn')
 def learn_redirect():

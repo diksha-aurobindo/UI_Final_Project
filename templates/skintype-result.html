@@ -5,10 +5,12 @@
     <br><br><br><br><br>
 
     <h1 style="color: #d835a4;">Based on your replies, you have 
-        <span id='skintyperesult' style="color: black;"> </span> skin</h1>
+        <span id='skintyperesult' style="color: black;">{{ skinType }} </span> skin</h1>
 
 <br><br><br><br><br><br>
 <button type="submit" class="findskin-btn" style="margin: 0%;" onclick="window.location.href='/learn/cleanser'">Start Learning products -></button>
 </center>
-
+<script>
+  const skinType = "{{ skinType }}";
+</script>
 {% endblock %}
