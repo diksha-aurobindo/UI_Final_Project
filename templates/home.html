@@ -2,18 +2,7 @@
 
 {% block content %}
   <div class="home-body">
-    <h1 class="home-h1">Welcome to SkinStarter</h1>
-    <!-- <p class="home-p">Your personalized journey to understanding skincare learns begins here.</p> -->
-    <!-- <a href="{{ url_for('learn', product='cleanser') }}" class="start-btn">Start Your learn →</a> -->
-
-
-
-
-    <!-- <h1>Welcome to SkinStarter</h1> -->
-    <!-- <p class="home-p">Unlock the secrets of glowing skin, one click at a time.</p>
-    <p class="home-p">Learn, test, and build your ultimate skincare routine effortlessly!</p>
-    <p class="home-p">Your personalized journey to understanding skincare learns begins here.</p> -->
-
+    <h1 class="home-h1">The Skincare Lab</h1>
     <p class="home-p">Unlock the secrets of glowing skin, one click at a time.
       <br>Learn, test, and build your ultimate skincare routine effortlessly!
       <br><br>Your personalized journey to understanding skincare begins here.
@@ -21,15 +10,11 @@
     <p></p><p></p><p></p>
 
     <div class="button-container">
-      <a href="{{ url_for('skinType') }}" class="start-btn" id="identify-skintype" disabled>Identify your skintype →</a>
-      <a href="{{ url_for('learn', product='cleanser') }}" class="start-btn" id="start-learning">Start Learning →</a>
-      <a href="{{ url_for('quiz') }}" class="start-btn" id="knowledge-test" disabled>Knowledge Test →</a>
-      <a href="{{ url_for('quiz_result') }}" class="start-btn" id="your-score" disabled>Your Score →</a>
-      <a href="{{ url_for('build') }}" class="start-btn" id="build-routine" disabled>Build Skincare Routine →</a>
+      <a href="{{ url_for('skinType') }}" class="start-btn" id="identify-skintype" disabled> KNOW YOUR SKIN TYPE</a>
+      <a href="{{ url_for('learn', product='cleanser') }}" class="start-btn" id="start-learning">LEARN ABOUT PRODUCTS</a>
+      <!-- <a href="{{ url_for('quiz') }}" class="start-btn" id="knowledge-test" disabled>Knowledge Test →</a>
+      <a href="{{ url_for('quiz_result') }}" class="start-btn" id="your-score" disabled>Your Score →</a> -->
+      <a href="{{ url_for('build') }}" class="start-btn" id="build-routine" disabled>BUILD YOUR ROUTINE</a>
     </div>
-
-
-
-
   </div>
   {% endblock %}
