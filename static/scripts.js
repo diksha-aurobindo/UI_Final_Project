@@ -24,7 +24,7 @@ function updateContent(index) {
   : "";
 
     const nextButton = index === routineData.length - 1
-    ? '<button id="nextStep" class="next-step-btn"><a href="/quiz/1" class="quiz-link">QUIZ →</a></button>'
+    ? '<button id="nextStep" class="next-step-btn"><a href="/final-quiz/q1" class="quiz-link">QUIZ →</a></button>'
     : '<button id="nextStep" class="next-step-btn">NEXT STEP →</button>';
   
   const userSkinType = skinType || "Oily";
@@ -1028,7 +1028,8 @@ document.addEventListener('DOMContentLoaded', function() {
       link.style.opacity = 0.5;
     }
     else{
-      link.style.opacity = 0.8;
+      link.style.opacity = 0.3;
+      // link.background-color = '#4b464b37';
     }
   }
 
