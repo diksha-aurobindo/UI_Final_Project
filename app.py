@@ -55,18 +55,52 @@ def learn_redirect():
     # return redirect(f"/learn/{last_product}")
     return redirect(url_for("learn", product=last_product))
 
-@app.route('/quiz/1')
-def quiz():
+# QUIZ URL
+@app.route('/quiz1/q1')   # CORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRECTTTTTTTTTTTTTTT
+def quiz1_q1():
     update_time_spent("usertimeSpentOnLearn")
     quiz_data = session.get("quiz_1", {})
     # print(json.dumps(quiz_data))  # check if it's serializable
-    return render_template("quiz.html", quiz_state=quiz_data, score=session.get('score', 0))
+    return render_template("quiz1ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
 
-@app.route("/quiz/2")
-def quiz2():
+@app.route("/quiz1/q2")   # CORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRECTTTTTTTTTTTTTTT
+def quiz1_q2():
     update_time_spent("usertimeSpentOnQuiz")
     quiz_data = session.get("quiz_2", {})
-    return render_template("quiz2.html", quiz_state=quiz_data, score=session.get('score', 0))
+    return render_template("quiz1ques2.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+@app.route('/quiz2/q1')
+def quiz2_q1():
+    update_time_spent("usertimeSpentOnLearn")
+    quiz_data = session.get("quiz_1", {})
+    # print(json.dumps(quiz_data))  # check if it's serializable
+    return render_template("quiz2ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+@app.route('/quiz2/q2')
+def quiz2_q2():
+    update_time_spent("usertimeSpentOnLearn")
+    quiz_data = session.get("quiz_1", {})
+    # print(json.dumps(quiz_data))  # check if it's serializable
+    return render_template("quiz2ques2.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+@app.route('/quiz3/q1')
+def quiz3_q1():
+    update_time_spent("usertimeSpentOnLearn")
+    quiz_data = session.get("quiz_1", {})
+    # print(json.dumps(quiz_data))  # check if it's serializable
+    return render_template("quiz3ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+@app.route('/final-quiz/q1')
+def final_quiz_q1():
+    update_time_spent("usertimeSpentOnLearn")
+    quiz_data = session.get("quiz_1", {})
+    # print(json.dumps(quiz_data))  # check if it's serializable
+    return render_template("finalquiz_ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+@app.route('/final-quiz/q2')   # CORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRECTTTTTTTTTTTTTTT
+def final_quiz_q2():
+    update_time_spent("usertimeSpentOnQuiz")
+    return render_template('finalquiz_ques2.html')
 
 @app.route("/quiz-result")
 def quiz_result():
@@ -93,12 +127,6 @@ def build_step5(step=5):
 def finish():
     update_time_spent("usertimeSpentOnRoutine")
     return render_template('finish.html')
-
-# Final quiz
-@app.route('/final-quiz')
-def final_quiz():
-    update_time_spent("usertimeSpentOnQuiz")
-    return render_template('final_quiz.html')
 
 @app.route("/view-userdata")
 def view_userdata():
