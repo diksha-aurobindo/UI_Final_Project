@@ -1039,5 +1039,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateNavLocks();
 });
-
-
