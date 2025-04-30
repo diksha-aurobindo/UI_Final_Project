@@ -63,7 +63,7 @@ body {
 
 .sidebar {
   width: 28%;
-  height: 97%;
+  height: 100%;
   justify-content: space-between;
   background: #fdfbfd;
   padding: 20px 24px;
@@ -79,13 +79,16 @@ body {
 
 
 .section-label {
-  font-size: 11px;
+  font-size: 14px;                  /* Increased from 11px */
+  font-weight: bold;
   letter-spacing: 1px;
   color: #770fdb;
   text-transform: uppercase;
   margin-top: 20px;
   margin-bottom: 6px;
+
 }
+
 
 .step {
   padding: 10px 10px;
@@ -134,7 +137,7 @@ body {
 
 .content h2 {
   font-family: 'DM Serif Display', serif;
-  color: #770fdb;
+  color: #0a0a0a;
   font-size: 36px;
   font-weight: normal;
   margin-bottom: 20px;
@@ -289,21 +292,16 @@ body {
 }
 
 .back-btn {
-  background-color: #770fdb;
+  background-color: #f8bb86;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
-  color: white;
+  color: #3e2723;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  transition: background 0.2s ease-in-out;
 }
-
-.back-btn:hover {
-  background-color: #5e0eb1;
-}
-
 
 .findskin-btn {
   background-color: #d835a4;
