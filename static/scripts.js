@@ -20,13 +20,13 @@ function updateContent(index) {
   const { step, description, benefit, image, skin_type_ingredients, key_ingredients } = routineData[index];
 
   const prevButton = index > 0
-    ? `<button id="prevStep" style="margin-top: 40px; float: left; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">← PREVIOUS STEP</button>`
-    : "";
+  ? '<button id="prevStep" class="prev-step-btn">← PREVIOUS STEP</button>'
+  : "";
 
-  const nextButton = index === routineData.length - 1
-    ? '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;"><a href="/quiz/1" style="color: #d835a4; text-decoration: none;">QUIZ →</a></button>'
-    : '<button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">NEXT STEP →</button>';
-
+    const nextButton = index === routineData.length - 1
+    ? '<button id="nextStep" class="next-step-btn"><a href="/quiz/1" class="quiz-link">QUIZ →</a></button>'
+    : '<button id="nextStep" class="next-step-btn">NEXT STEP →</button>';
+  
   const userSkinType = skinType || "Oily";
 
   // Create a list of product's key ingredient names for matching
@@ -91,10 +91,11 @@ function updateContent(index) {
         ${ingredientsTable}
 
         <div style="margin-top: 30px; text-align: center;">
-          <button id="toggle-ingredients" style="padding: 10px 20px; color: #fff; background-color: #d835a4; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-            Learn About Active Ingredients
-          </button>
-        </div>
+  <button id="toggle-ingredients">
+    Learn About Active Ingredients
+  </button>
+</div>
+
 
         <div id="ingredients-content" style="display: none; margin-top: 20px;">
           ${learnMoreContent}

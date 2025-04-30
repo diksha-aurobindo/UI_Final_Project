@@ -55,43 +55,77 @@ body {
 #learn {
   display: flex;
   height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
 }
+
+
 
 .sidebar {
-  width: 35%;
+  width: 28%;
+  height: 97%;
+  justify-content: space-between;
   background: #fdfbfd;
-  padding: 30px;
+  padding: 20px 24px;
   border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
+
+
+
 .section-label {
-  margin-top: 20px;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 1px;
-  color: #d835a4;
+  color: #770fdb;
   text-transform: uppercase;
-  border-top: 1px solid #f0d5ec;
-  padding-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 6px;
 }
 
 .step {
-  padding: 15px 10px;
-  margin: 8px 0;
+  padding: 10px 10px;
+  margin: 4px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #444;
+  transition: background 0.3s ease, color 0.3s ease;
   cursor: pointer;
-  border-left: 4px solid transparent;
-  transition: background 0.3s, border-left 0.3s;
 }
 
 .step:hover {
-  background: #f8e9f3;
+  background-color: #f3eaff;
+  color: #770fdb;
 }
 
 .step.active {
-  background: #fbefff;
-  /* border-left: 4px solid #ec74d6; */
+  background-color: #f5e6ff;
   font-weight: bold;
-  border-bottom: 2px solid white;
+  color: #000;
+  border-left: 4px solid #770fdb;
 }
+
+.step.locked {
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Purple divider after every section group */
+.section-label + .step:last-of-type::after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #d5b7f4;
+  margin: 12px 0;
+}
+
+
+
 
 .content {
   flex: 1;
@@ -99,8 +133,10 @@ body {
 }
 
 .content h2 {
-  color: #d835a4;
-  font-size: 28px;
+  font-family: 'DM Serif Display', serif;
+  color: #770fdb;
+  font-size: 36px;
+  font-weight: normal;
   margin-bottom: 20px;
 }
 
@@ -219,16 +255,19 @@ body {
   font-weight: bold;
   letter-spacing: 2px;
   margin-bottom: 20px;
+  color: #770fdb;
 }
 
 .quiz-header p {
   font-size: 20px;
   margin-bottom: 15px;
+  color: #770fdb;
 }
 
 .quiz-header .question {
   font-size: 18px;
   margin-bottom: 30px;
+  color: #770fdb;
 }
 
 .quiz-options {
@@ -250,16 +289,21 @@ body {
 }
 
 .back-btn {
-  background-color: #f8bb86;
+  background-color: #770fdb;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
-  color: #3e2723;
+  color: white;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.2s ease-in-out;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
+
+.back-btn:hover {
+  background-color: #5e0eb1;
+}
+
 
 .findskin-btn {
   background-color: #d835a4;
@@ -398,21 +442,31 @@ body {
 /* ✅✅ Added for image + text layout inside step panel */
 .step-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 3rem;
   align-items: flex-start;
 }
 
+
 .step-image img {
-  width: 200px;
+  max-width: 100%;
+  height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .step-text {
-  flex: 1;
+  flex: 2;
+  order: 1;
 }
 
+.step-image {
+  flex: 1;
+  order: 2;
+  display: flex;
+  justify-content: center;
+}
 
 #skintype-content {
   display: flex;
@@ -429,4 +483,61 @@ body {
 
 #skin-type-questions {
   flex: 5;
+}
+
+#toggle-ingredients {
+  padding: 10px 24px;
+  background-color: #770fdb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-ingredients:hover {
+  background-color: #5e0eb1;
+}
+
+.next-step-btn {
+  margin-top: 40px;
+  float: right;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: #770fdb;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.next-step-btn:hover {
+  color: #5e0eb1;
+}
+
+.quiz-link {
+  color: #770fdb;
+  text-decoration: none;
+}
+
+.quiz-link:hover {
+  text-decoration: underline;
+}
+
+.prev-step-btn {
+  margin-top: 40px;
+  float: left;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  color: #770fdb;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.prev-step-btn:hover {
+  color: #5e0eb1;
 }

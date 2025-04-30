@@ -1,26 +1,25 @@
 {% extends "index.html" %}
 
 {% block content %}
+<!-- Add this in your <head> in index.html if not already included -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+
 <div id="learn">
-  <!-- Sidebar Steps -->
+  <!-- Sidebar -->
   <div class="sidebar">
-    <!-- Cleanse -->
     <div class="section-label">Cleanse</div>
     <div class="step active">1. Cleanser</div>
 
-    <!-- Prep -->
     <div class="section-label">Prep</div>
     <div class="step">2. Toner</div>
     <div class="step">3. Essence</div>
 
-    <!-- Nourish -->
     <div class="section-label">Nourish</div>
     <div class="step">4. Serum</div>
     <div class="step">5. Eye Cream</div>
     <div class="step">6. Spot Treatment</div>
     <div class="step">7. Moisturizer</div>
 
-    <!-- Protect -->
     <div class="section-label">Protect</div>
     <div class="step">8. Sunscreen</div>
   </div>
@@ -28,12 +27,7 @@
   <!-- Content Area -->
   <div class="content" id="content">
     <div class="step-content">
-      <!-- Image (dynamically updated) -->
-      <div class="step-image">
-        <img id="step-img" src="" alt="Step Image" />
-      </div>
-
-      <!-- Text (dynamically updated) -->
+      <!-- TEXT ON LEFT -->
       <div class="step-text">
         <h2 id="step-title">Cleanser</h2>
         <p id="step-description">
@@ -46,67 +40,25 @@
         </p>
 
         <h4>Ingredients to Look for Based on Skin Type</h4>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-          <thead>
-            <tr style="background-color: #f5f5f5;">
-              <th style="padding: 8px; border: 1px solid #ddd;">Skin Type</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">Recommended Ingredients</th>
-              <th style="padding: 8px; border: 1px solid #ddd;">Why These Ingredients?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #ddd;">Oily</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Salicylic Acid, Tea Tree Oil, Niacinamide</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Control excess oil, unclog pores</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #ddd;">Dry</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Hyaluronic Acid, Glycerin, Ceramides</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Hydrate and strengthen skin barrier</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #ddd;">Sensitive</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Aloe Vera, Chamomile, Centella Asiatica</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Calm irritation and redness</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #ddd;">Combination</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Niacinamide, Green Tea Extract, Lactic Acid</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Balance oil production and gentle exfoliation</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #ddd;">Acne-Prone</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Benzoyl Peroxide, Salicylic Acid, Sulfur</td>
-              <td style="padding: 8px; border: 1px solid #ddd;">Fight acne-causing bacteria and clear pores</td>
-            </tr>
-          </tbody>
-        </table>
 
-        <!-- Collapsible Active Ingredients Section -->
-<button id="toggle-ingredients" style="margin-top: 40px; padding: 10px 20px; color: #fff; background-color: #d835a4; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-  Learn About Active Ingredients
-</button>
+        <button id="toggle-ingredients">
+          Learn About Active Ingredients
+        </button>
 
-<div id="ingredients-content" style="display: none; margin-top: 20px;">
+        <div id="ingredients-content">
+          <!-- ingredient details go here -->
+        </div>
 
-  <h4 style="margin-top: 20px;">Know About Active Ingredients</h4>
+        <button id="nextStep">
+          NEXT STEP →
+        </button>
+      </div>
 
-  <h5>Salicylic Acid</h5>
-  <p>A beta-hydroxy acid (BHA) that exfoliates inside the pores to remove dead skin cells and clear acne. Best for oily and acne-prone skin.</p>
-
-  <h5>Hyaluronic Acid</h5>
-  <p>A powerful hydrator that binds water to skin cells, keeping the skin plump and moisturized. Great for dry and dehydrated skin.</p>
-
-  <h5>Niacinamide</h5>
-  <p>A form of Vitamin B3 that strengthens the skin barrier, reduces redness, and controls oil production. Suitable for all skin types.</p>
-
-</div>
-
-    <!-- Next Step Button -->
-    <button id="nextStep" style="margin-top: 40px; float: right; color: #d835a4; background: none; border: none; font-weight: bold; cursor: pointer;">
-      NEXT STEP →
-    </button>
+      <!-- IMAGE ON RIGHT -->
+      <div class="step-image">
+        <img id="step-img" src="" alt="Step Image" />
+      </div>
+    </div>
   </div>
 </div>
 
