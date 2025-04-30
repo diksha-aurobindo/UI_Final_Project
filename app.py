@@ -253,10 +253,6 @@ def get_routine_data():
         data = json.load(f)
     return jsonify(data)
 
-@app.route("/quiz/1")
-def quiz_q1():
-    return render_template("quiz_q1.html")
-
 # -------------------
 if __name__ == '__main__':
     app.run(debug=True, port=5003)

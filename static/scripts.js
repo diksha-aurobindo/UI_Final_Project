@@ -123,6 +123,13 @@ function attachNextHandler() {
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
+      const currentStepName = Object.keys(routine_order)[currentIndex];
+
+      // Redirect to quiz after 'essence'
+      if (currentStepName === "essence") {
+        window.location.href = "/quiz1/q1";
+        return;
+      }
       if (currentIndex < routineData.length - 1) {
         currentIndex++;
         maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
@@ -682,7 +689,7 @@ const nextBtn = document.getElementById('nextBtn');
 // This should be injected from Flask/Jinja in quiz1.html
 const quizState = window.quizState || {};
 
-if (quizId === "1") {
+if (window.location.pathname.includes("/quiz1/q1")) {
   
   let selectedAnswers = [];
 
@@ -731,7 +738,7 @@ if (quizId === "1") {
         checkboxes.forEach(cb => cb.disabled = true);
 
         // Send to backend
-        fetch(`/submit-quiz/${quizId}`, {
+        fetch(`/submit-quiz/1`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -764,7 +771,7 @@ if (quizId === "1") {
 }
 
 // Quiz 2 Functionality
-else if (quizId === "2") {
+else if (window.location.pathname.includes("/quiz1/q2")) {
   const radioButtons = document.querySelectorAll('input[name="product"]');
   const resultMsg = document.getElementById('result-msg');
   const tryAgainBtn = document.getElementById('tryAgainBtn');
@@ -831,7 +838,7 @@ else if (quizId === "2") {
 }
 
 function resetQuiz() {
-  if (quizId === "1") {
+  if (window.location.pathname.includes("/quiz1/q1")) {
     selectedWords = [];
     checkboxes.forEach((box) => (box.checked = false, box.disabled = false));
     blanks.forEach((blank) => (blank.textContent = "___"));
@@ -839,7 +846,7 @@ function resetQuiz() {
     tryAgainBtn.style.display = "none";
     nextBtn.style.display = "none";
   }
-  else if(quizId === "2"){    
+  else if(window.location.pathname.includes("/quiz1/q2")){    
     radioButtons.forEach(r => {r.checked = false; r.disabled = false;});
     document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
     resultMsg.textContent = "";
@@ -851,13 +858,13 @@ function resetQuiz() {
 
 function goToNext() {
   // Redirect to next quiz page or logic
-  if (quizId === "1") {
+  if (window.location.pathname.includes("/quiz1/q1")) {
     // saveTimestamp("quiz1_complete");
-    window.location.href = "/quiz/2";
+    window.location.href = "/quiz1/q2";
   }
-  else if (quizId === "2") {
+  else if (window.location.pathname.includes("/quiz1/q2")) {
     // saveTimestamp("quiz2_complete");
-    window.location.href = "/final-quiz";
+    window.location.href = "/learn/serum";
     // quiz-result
   }
 }
