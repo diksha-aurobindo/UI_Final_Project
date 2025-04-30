@@ -946,9 +946,13 @@ $(window).on('load', function() {
   }
 });
 
-// Lock-unlock navlinks
 document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  
+  // Home page buttons
+  const btnIdentify = document.getElementById('identify-skintype');
+  const btnLearn = document.getElementById('start-learning');
+  const btnBuild = document.getElementById('build-routine');
 
   const buildRoutineBtn = document.getElementById('buildroutine');
 
@@ -972,7 +976,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      if (linkText === 'Knowledge Test' || linkText === 'Your Scores') {
+      if (linkText === 'Quiz') {
         const learnCompleted = sessionStorage.getItem('learnCompleted');
         if (!learnCompleted) {
           disableLink(link);
@@ -981,7 +985,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-      if (linkText === 'Build your routine') {
+      if (linkText === 'Routine') {
         const quizCompleted = sessionStorage.getItem('quizCompleted');
         if (!quizCompleted) {
           disableLink(link);
@@ -990,12 +994,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
+    // ------ Update Home Page Buttons ------
+    if (btnIdentify) {
+      btnIdentify.disabled = false; // Always enabled
+    }
+    if (btnLearn) {
+      const skinTypeCompleted = sessionStorage.getItem('skinTypeCompleted');
+      if (!skinTypeCompleted) {
+        disableLink(btnLearn);
+      } else {
+        enableLink(btnLearn);
+      }
+      // btnLearn.disabled = !skinTypeCompleted;
+      // btnLearn.disabled = true;
+    }
+    if (btnBuild) {
+      const quizCompleted = sessionStorage.getItem('quizCompleted');
+        if (!quizCompleted) {
+          disableLink(btnBuild);
+        } else {
+          enableLink(btnBuild);
+        }
+      // btnBuild.disabled = !quizCompleted;
+      // btnBuild.disabled = true;
+    }
   }
 
   function disableLink(link) {
     link.classList.add('disabled');
     link.style.pointerEvents = 'none';
-    link.style.opacity = 0.5;
+    if (link !== btnBuild && link !== btnLearn) {
+      link.style.opacity = 0.5;
+    }
+    else{
+      link.style.opacity = 0.8;
+    }
   }
 
   function enableLink(link) {
@@ -1006,77 +1039,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateNavLocks();
 });
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-
-//   // Home page buttons
-//   const btnIdentify = document.getElementById('identify-skintype');
-//   const btnLearn = document.getElementById('start-learning');
-//   const btnQuiz = document.getElementById('knowledge-test');
-//   const btnScore = document.getElementById('your-score');
-//   const btnBuild = document.getElementById('build-routine');
-
-//   const buildRoutineNavbarBtn = document.getElementById('buildroutine'); // Navbar buildroutine button if any
-  
-//   if (buildRoutineNavbarBtn) {
-//     buildRoutineNavbarBtn.addEventListener('click', function() {
-//       sessionStorage.setItem('quizCompleted', 'true');
-//       console.log('quizCompleted set to true');
-//     });
-//   }
-
-//   function updateLocks() {
-//     const skinTypeCompleted = sessionStorage.getItem('skinTypeCompleted');
-//     const learnCompleted = sessionStorage.getItem('learnCompleted');
-//     const quizCompleted = sessionStorage.getItem('quizCompleted');
-
-//     // ------ Update Navbar Links ------
-//     navLinks.forEach(link => {
-//       const linkText = link.textContent.trim();
-
-//       if (linkText === 'Learn') {
-//         toggleLink(link, skinTypeCompleted);
-//       }
-//       if (linkText === 'Knowledge Test' || linkText === 'Your Scores') {
-//         toggleLink(link, learnCompleted);
-//       }
-//       if (linkText === 'Build your routine') {
-//         toggleLink(link, quizCompleted);
-//       }
-//     });
-
-//     // ------ Update Home Page Buttons ------
-//     if (btnIdentify) {
-//       btnIdentify.disabled = false; // Always enabled
-//     }
-//     if (btnLearn) {
-//       btnLearn.disabled = !skinTypeCompleted;
-//     }
-//     if (btnQuiz) {
-//       btnQuiz.disabled = !learnCompleted;
-//     }
-//     if (btnScore) {
-//       btnScore.disabled = !learnCompleted;
-//     }
-//     if (btnBuild) {
-//       btnBuild.disabled = !quizCompleted;
-//     }
-//   }
-
-//   function toggleLink(link, isUnlocked) {
-//     if (!isUnlocked) {
-//       link.classList.add('disabled');
-//       link.style.pointerEvents = 'none';
-//       link.style.opacity = 0.5;
-//     } else {
-//       link.classList.remove('disabled');
-//       link.style.pointerEvents = 'auto';
-//       link.style.opacity = 1;
-//     }
-//   }
-
-//   updateLocks();
-// });
 
 
