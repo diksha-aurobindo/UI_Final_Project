@@ -1,44 +1,217 @@
 {% extends "index.html" %}
 
 {% block content %}
+<style>
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #e6ddf1, #f3eafd);
+    margin: 0;
+    padding: 2rem;
+  }
 
-<div class="quiz-container">
-  <div class="quiz-header">
-    <h1>QUIZ</h1>
-    <p>Fill in the Blank:</p>
-    <p class="question">Q1. Cleansing is important because it removes 
-      <u id="blank1">___</u>, 
-      <u id="blank2">___</u>, and 
-      <u id="blank3">___</u>.
-    </p>
+  h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+  }
+
+  .list, .targets {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .item {
+    background-color: #d8c4f2;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    box-shadow: 4px 4px 0 #770fdb;
+    font-size: 1.2rem;
+    color: #000;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.25s ease;
+  }
+
+  .item:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0 #770fdb;
+  }
+
+  .target {
+    background-color: #fefaf1;
+    border: 2px dashed #ccc;
+    min-height: 80px;
+    border-radius: 15px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    box-shadow: 4px 4px 0 #770fdb;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .target.over {
+    background-color: #f5edff;
+    border-color: #770fdb;
+  }
+
+  .target.pulsed {
+    animation: pulse 0.4s ease;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 #770fdb; }
+    50% { transform: scale(1.02); box-shadow: 0 0 12px #770fdb; }
+    100% { transform: scale(1); }
+  }
+
+  .target .drop-slot {
+    margin-top: 0.5rem;
+  }
+
+  .feedback {
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .wiggle {
+    animation: wiggle 0.4s ease;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  button {
+    margin-top: 2rem;
+    background: #770fdb;
+    border: none;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #5f0bb7;
+  }
+</style>
+
+<h2>Drag the products into its use</h2>
+
+<div class="container">
+  <div class="list" id="draggables">
+    <div class="item" draggable="true" data-match="serum">Serum</div>
+    <div class="item" draggable="true" data-match="eye">Eye Cream</div>
+    <div class="item" draggable="true" data-match="spot">Spot Treatment</div>
+    <div class="item" draggable="true" data-match="moisturizer">Moisturizer</div>
   </div>
 
-  <form class="quiz-options">
-    <label class="quiz-option">
-      <input type="checkbox" value="Dirt"> Dirt
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Excess Oil"> Excess Oil
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Makeup"> Makeup
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Dead Hair"> Dead Hair
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Nail Polish"> Nail Polish
-    </label>
-  </form>
-
-  <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
-  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
-
-  <button class="back-btn" onclick="history.back()">← Back</button>
-
-  <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
-  <button id="nextBtn" class="back-btn" style="display: none; margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
-
-
+  <div class="targets">
+    <div class="target" data-accept="serum">
+      <div>🌿 Targets hydration & exfoliation</div>
+      <div class="drop-slot"></div>
+    </div>
+    <div class="target" data-accept="spot">
+      <div>🔴 Clears breakouts or dark spots</div>
+      <div class="drop-slot"></div>
+    </div>
+    <div class="target" data-accept="eye">
+      <div>👁️ Hydrates delicate under-eye area</div>
+      <div class="drop-slot"></div>
+    </div>
+    <div class="target" data-accept="moisturizer">
+      <div>🔒 Locks in hydration</div>
+      <div class="drop-slot"></div>
+    </div>
+  </div>
 </div>
+
+<button onclick="checkMatches()">Submit</button>
+<div class="feedback" id="feedback"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  let draggedItem = null;
+
+  function addDragEvents(item) {
+    item.addEventListener('dragstart', () => {
+      draggedItem = item;
+      item.classList.add('dragging');
+    });
+
+    item.addEventListener('dragend', () => {
+      draggedItem = null;
+      item.classList.remove('dragging');
+    });
+  }
+
+  document.querySelectorAll('.item').forEach(addDragEvents);
+
+  const targets = document.querySelectorAll('.target');
+
+  targets.forEach(target => {
+    const dropSlot = target.querySelector('.drop-slot');
+
+    target.addEventListener('dragover', e => {
+      e.preventDefault();
+      target.classList.add('over');
+    });
+
+    target.addEventListener('dragleave', () => {
+      target.classList.remove('over');
+    });
+
+    target.addEventListener('drop', () => {
+      if (draggedItem) {
+        dropSlot.innerHTML = '';
+        dropSlot.appendChild(draggedItem);
+        target.classList.remove('over');
+        target.classList.add('pulsed');
+        setTimeout(() => target.classList.remove('pulsed'), 400);
+      }
+    });
+  });
+
+  function checkMatches() {
+    let correct = 0;
+    const feedback = document.getElementById('feedback');
+    feedback.classList.remove('wiggle');
+
+    targets.forEach(target => {
+      const dropped = target.querySelector('.drop-slot .item');
+      if (dropped && dropped.dataset.match === target.dataset.accept) {
+        correct++;
+      }
+    });
+
+    if (correct === targets.length) {
+      feedback.textContent = '🎉 All correct! You nailed it!';
+      feedback.style.color = '#008000';
+
+      confetti({
+        particleCount: 120,
+        spread: 90,
+        origin: { y: 0.6 }
+      });
+    } else {
+      feedback.textContent = `❌ You got ${correct} out of ${targets.length} correct. Try again!`;
+      feedback.style.color = '#cc0000';
+      feedback.classList.add('wiggle');
+    }
+  }
+</script>
 {% endblock %}

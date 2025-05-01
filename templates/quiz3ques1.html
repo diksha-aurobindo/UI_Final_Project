@@ -1,44 +1,142 @@
 {% extends "index.html" %}
 
 {% block content %}
+<style>
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #e6ddf1;
+    margin: 0;
+    padding: 3rem 5rem;
+    color: #333;
+  }
 
-<div class="quiz-container">
-  <div class="quiz-header">
+  .quiz-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .quiz-left {
+    max-width: 600px;
+  }
+
+  .quiz-left h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .quiz-left h2 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1.2rem;
+  }
+
+  .question {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .option {
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .option input[type="radio"] {
+    margin-right: 0.6rem;
+    transform: scale(1.2);
+    accent-color: #770fdb;
+  }
+
+  .quiz-right img {
+    max-height: 350px;
+    object-fit: contain;
+  }
+
+  .feedback {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+
+  .submit-btn {
+    margin-top: 1rem;
+    background: #770fdb;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .submit-btn:hover {
+    background-color: #5f0bb7;
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+</style>
+
+<div class="quiz-section">
+  <div class="quiz-left">
     <h1>QUIZ</h1>
-    <p>Fill in the Blank:</p>
-    <p class="question">Q1. Cleansing is important because it removes 
-      <u id="blank1">___</u>, 
-      <u id="blank2">___</u>, and 
-      <u id="blank3">___</u>.
-    </p>
+    <h2>Choose the correct option</h2>
+    <div class="question">Q: Why is sunscreen an essential step in skincare?</div>
+
+    <label class="option"><input type="radio" name="quiz" value="wrong"> Hydrates</label>
+    <label class="option"><input type="radio" name="quiz" value="wrong"> Removes dead skin cells</label>
+    <label class="option"><input type="radio" name="quiz" value="correct"> Shields UV damage and signs of aging</label>
+    <label class="option"><input type="radio" name="quiz" value="wrong"> Unclogs pores</label>
+
+    <button class="submit-btn" onclick="checkQuizAnswer()">Submit</button>
+    <div class="feedback" id="quiz-feedback"></div>
   </div>
 
-  <form class="quiz-options">
-    <label class="quiz-option">
-      <input type="checkbox" value="Dirt"> Dirt
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Excess Oil"> Excess Oil
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Makeup"> Makeup
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Dead Hair"> Dead Hair
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Nail Polish"> Nail Polish
-    </label>
-  </form>
-
-  <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
-  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
-
-  <button class="back-btn" onclick="history.back()">← Back</button>
-
-  <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
-  <button id="nextBtn" class="back-btn" style="display: none; margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
-
-
+  <div class="quiz-right">
+    <img src="{{ url_for('static', filename='images/sunscreen.png') }}" alt="Sunscreen bottle" />
+  </div>
 </div>
+
+<!-- Confetti script -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+  function checkQuizAnswer() {
+    const selected = document.querySelector('input[name="quiz"]:checked');
+    const feedback = document.getElementById("quiz-feedback");
+
+    if (!selected) {
+      feedback.textContent = "⚠️ Please select an option.";
+      feedback.style.color = "orange";
+      return;
+    }
+
+    // Disable all options and button
+    document.querySelectorAll('input[name="quiz"]').forEach(input => input.disabled = true);
+    document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+    document.querySelector('.submit-btn').disabled = true;
+
+    if (selected.value === "correct") {
+      feedback.textContent = "✅ Correct! Sunscreen protects from UV and signs of aging.";
+      feedback.style.color = "green";
+
+      // Trigger confetti 🎉
+      confetti({
+        particleCount: 120,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    } else {
+      feedback.textContent = "❌ Not quite. The right answer is: Shields UV damage and signs of aging.";
+      feedback.style.color = "#cc0000";
+    }
+  }
+</script>
 {% endblock %}
