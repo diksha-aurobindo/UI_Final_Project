@@ -1,6 +1,13 @@
 const steps = document.querySelectorAll(".step");
 const content = document.getElementById("content");
-let currentIndex = 0;
+const storedIndex = sessionStorage.getItem("currentIndex");
+if (storedIndex !== null) {
+  currentIndex = parseInt(storedIndex);
+} else {
+  currentIndex = 0; // First visit: initialize to 0
+  sessionStorage.setItem("currentIndex", currentIndex);
+}
+
 let maxUnlockedStep = 0;
 let routineData = [];
 
@@ -15,7 +22,34 @@ const routine_order = {
   "sunscreen": 7
 };
 
-if (window.location.pathname.startsWith("/learn")) {
+// line 204
+// Fetch data and initialize
+fetch("/data")
+  .then(res => res.json())
+  .then(data => {
+    routineData = data.routine_steps;
+
+    if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
+      currentIndex = routine_order[initialProduct];
+    } else {
+      currentIndex = 0;
+    }
+
+    maxUnlockedStep = currentIndex;
+    updateContent(currentIndex);
+
+    steps.forEach((step, index) => {
+      step.addEventListener("click", () => {
+        if (index <= maxUnlockedStep) {
+          currentIndex = index;
+          updateContent(index);
+          history.pushState(null, "", `/learn/${Object.keys(routine_order)[index]}`);
+        }
+      });
+    });
+  });
+
+// if (window.location.pathname.startsWith("/learn")) {
 function updateContent(index) {
   const { step, description, benefit, image, skin_type_ingredients, key_ingredients } = routineData[index];
 
@@ -91,10 +125,10 @@ function updateContent(index) {
         ${ingredientsTable}
 
         <div style="margin-top: 30px; text-align: center;">
-  <button id="toggle-ingredients">
-    Learn About Active Ingredients
-  </button>
-</div>
+          <button id="toggle-ingredients">
+            Learn About Active Ingredients
+          </button>
+        </div>
 
 
         <div id="ingredients-content" style="display: none; margin-top: 20px;">
@@ -122,26 +156,9 @@ function attachNextHandler() {
   const prevBtn = document.getElementById("prevStep");
 
   if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      const currentStepName = Object.keys(routine_order)[currentIndex];
-
-      // Redirect to quiz after 'essence'
-      if (currentStepName === "essence") {
-        window.location.href = "/quiz1/q1";
-        return;
-      }
-      if (currentIndex < routineData.length - 1) {
-        currentIndex++;
-        maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
-        updateContent(currentIndex);
-        history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
-      }
-      if(currentIndex === routineData.length - 1){
-        sessionStorage.setItem('learnCompleted', true);
-      }
-    });
+    nextBtn.addEventListener("click", goToNext);
   }
-
+  
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       if (currentIndex > 0) {
@@ -179,33 +196,6 @@ function updateStepStates() {
       step.classList.add("locked");
       step.style.pointerEvents = "none";
     }
-  });
-}
-
-// Fetch data and initialize
-fetch("/data")
-  .then(res => res.json())
-  .then(data => {
-    routineData = data.routine_steps;
-
-    if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
-      currentIndex = routine_order[initialProduct];
-    } else {
-      currentIndex = 0;
-    }
-
-    maxUnlockedStep = currentIndex;
-    updateContent(currentIndex);
-
-    steps.forEach((step, index) => {
-      step.addEventListener("click", () => {
-        if (index <= maxUnlockedStep) {
-          currentIndex = index;
-          updateContent(index);
-          history.pushState(null, "", `/learn/${Object.keys(routine_order)[index]}`);
-        }
-      });
-    });
   });
 }
 
@@ -857,15 +847,64 @@ function resetQuiz() {
 }
 
 function goToNext() {
-  // Redirect to next quiz page or logic
-  if (window.location.pathname.includes("/quiz1/q1")) {
-    // saveTimestamp("quiz1_complete");
-    window.location.href = "/quiz1/q2";
+  const path = window.location.pathname;
+
+  // If in the LEARN section
+  if (path.startsWith("/learn")) {
+    const currentStepName = Object.keys(routine_order)[currentIndex];
+
+    // Go to next learn step
+    if (currentIndex < routineData.length - 1) {
+      currentIndex++;
+      maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+      updateContent(currentIndex);
+      history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
+    }
+
+    // If it's the last step, mark as complete
+    if (currentIndex === routineData.length - 1) {
+      sessionStorage.setItem('learnCompleted', true);
+    }
+
+    // Move to quiz after 'essence'
+    if (currentStepName === "essence") {
+      window.location.href = "/quiz1/q1";
+      return;
+    }
+    // Move to quiz after 'moisturizer'
+    if (currentStepName === "moisturizer") {
+      window.location.href = "/quiz2/q1";
+      return;
+    }
+    // Move to quiz after 'sunscreen'
+    if (currentStepName === "sunscreen") {
+      window.location.href = "/quiz3/q1";
+      return;
+    }
   }
-  else if (window.location.pathname.includes("/quiz1/q2")) {
-    // saveTimestamp("quiz2_complete");
+
+  // If in QUIZ section
+  else if (path.includes("/quiz1/q1")) {
+    window.location.href = "/quiz1/q2";
+  } else if (path.includes("/quiz1/q2")) {
+    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    sessionStorage.setItem("currentIndex", 3);
+    history.pushState(currentIndex=3, "", "/learn/serum");
     window.location.href = "/learn/serum";
-    // quiz-result
+  }
+  else if (path.includes("/quiz2/q1")) {
+    window.location.href = "/quiz2/q2";
+  } else if (path.includes("/quiz2/q2")) {
+    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    sessionStorage.setItem("currentIndex", 7);
+    history.pushState(currentIndex=7, "", "/learn/sunscreen");
+    window.location.href = "/learn/sunscreen";
+  }
+  else if (path.includes("/quiz3/q1")) {
+    window.location.href = "/final-quiz/q1";
+  }
+  else if (path.includes("/final-quiz/q1")) {
+    window.location.href = "/final-quiz/q2";
   }
 }
 
@@ -888,7 +927,7 @@ document.addEventListener("DOMContentLoaded", () => {
         title.textContent = firstProduct.step;
         desc.textContent = firstProduct.description;
         benefit.textContent = firstProduct.benefit;
-        steps[0].classList.add("active");
+        // steps[0].classList.add("active");
       }
 
       // 💡 Set up click handler for each sidebar step
@@ -908,6 +947,9 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       });
+
+      currentIndex=sessionStorage.getItem("currentIndex");
+      updateContent(currentIndex);
     });
 });
 
