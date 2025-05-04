@@ -6,7 +6,27 @@
 <div class="quiz-container">
   <div class="quiz-header">
     <h1>YOUR QUIZ RESULTS</h1>
-    <p class="user-score">Your Score: {{ score }}</p>
+    <div class="final-score">
+      <h2>Your Score: {{ total_score }}/7</h2>
+    </div>
+  </div>
+  <div class="results-container">
+    <h1 class="results-title">Your Quiz Results</h1>
+
+    {% for q in questions %}
+    <div class="result-card">
+      <h3>Q{{ loop.index }}. {{ q.question }}</h3>
+      <p><strong>Correct Answer{{ q.correct_answer | length > 1 and 's' or '' }}:</strong> {{ q.correct_answer | join(', ') }}</p>
+      <p><strong>Your Answer{{ q.user_answer | length > 1 and 's' or '' }}:</strong> {{ q.user_answer | join(', ') }}</p>
+      <span class="score-tag {{ 'correct' if q.is_correct else 'wrong' }}">
+        {{ '+1' if q.is_correct else '+0' }}
+      </span>
+    </div>
+    {% endfor %}
+
+    
+
+    <!-- <a href="/" class="back-btn">← Back to Home</a> -->
   </div>
 
   <!-- <form class="quiz-options">
@@ -34,6 +54,16 @@
   <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
   <button id="nextBtn" class="back-btn" style="display: none; margin-top: 20px; float:right;" onclick="goToNext()">Next-></button> -->
 
+
+  <!-- <center>
+    <button id="buildroutine" type="button" class="btn btn-outline-success"><a href="/build-routine">Build Your Routine-></a></button>
+  </center> -->
+  <!-- <a href="/build-routine" class="build-routine-btn">BUILD YOUR<br>ROUTINE →</a> -->
+  <div class="nav-buttons">
+    <a href="/" class="prev-step-btn">← Back to Home</a>
+    <a href="/build-routine" class="build-routine-btn">BUILD YOUR<br>ROUTINE →</a>
+  </div>  
+  
 
 </div>
 {% endblock %}

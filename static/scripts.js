@@ -665,7 +665,7 @@ function eval2() {
 }
 }
 
-// Quiz 1 functionality
+// QUIZ
 const path = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash if any
 const quizId = path.split('/').pop(); // Get last part
 
@@ -679,6 +679,7 @@ const nextBtn = document.getElementById('nextBtn');
 // This should be injected from Flask/Jinja in quiz1.html
 const quizState = window.quizState || {};
 
+// Quiz 1 ques1 functionality
 if (window.location.pathname.includes("/quiz1/q1")) {
   
   let selectedAnswers = [];
@@ -760,12 +761,9 @@ if (window.location.pathname.includes("/quiz1/q1")) {
   });
 }
 
-// Quiz 2 Functionality
+// Quiz 1 ques 2 Functionality
 else if (window.location.pathname.includes("/quiz1/q2")) {
   const radioButtons = document.querySelectorAll('input[name="product"]');
-  const resultMsg = document.getElementById('result-msg');
-  const tryAgainBtn = document.getElementById('tryAgainBtn');
-  const nextBtn = document.getElementById('nextBtn');
 
   // 🔁 Restore previous quiz state (if exists)
   if (quizState.answered) {
@@ -825,6 +823,95 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
       });
     });
   });
+}
+
+// Quiz 2 ques2 Functionality
+else if (window.location.pathname.includes("/quiz1/q2")) {
+
+  const options = document.querySelectorAll('input[name="nourishQuiz"]');
+
+  options.forEach(option => {
+    option.addEventListener('change', () => {
+      if (option.value === "B") {
+        resultMsg.textContent = "✅ Correct! Great choice for dry, winter skin.";
+        resultMsg.style.color = "green";
+        tryAgainBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      } else {
+        resultMsg.textContent = "❌ Oops! Try again.";
+        resultMsg.style.color = "red";
+        tryAgainBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+    });
+  });
+
+  function resetQuiz() {
+    options.forEach(opt => opt.checked = false);
+    resultMsg.textContent = "";
+    tryAgainBtn.style.display = "none";
+  }
+
+  // const radioButtons = document.querySelectorAll('input[name="product"]');
+
+  // // 🔁 Restore previous quiz state (if exists)
+  // if (quizState.answered) {
+  //   const selected = quizState.user_answer?.[0]; // Radio buttons only have one answer
+  //   const selectedRadio = [...radioButtons].find(r => r.value === selected);
+  //   if (selectedRadio) {
+  //     selectedRadio.checked = true;
+  //     selectedRadio.disabled = true;
+  //     selectedRadio.closest('.image-option').classList.add('selected');
+  //   }
+
+  //   // ✅ Disable all radio buttons if answered
+  //   radioButtons.forEach(r => r.disabled = true);
+
+  //   resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
+  //   resultMsg.style.display = "block";
+  //   resultMsg.style.color = quizState.is_correct ? "green" : "red";
+  //   resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
+
+  //   if (quizState.is_correct) {
+  //     nextBtn.style.display = "inline-block";
+  //   } else {
+  //     tryAgainBtn.style.display = "inline-block";
+  //   }
+  // }
+
+  // radioButtons.forEach(radio => {
+  //   radio.addEventListener('change', () => {
+  //     document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+  //     radio.closest('.image-option').classList.add('selected');
+  //     const selected = radio.value;
+
+  //     fetch(`/submit-quiz/2`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ answer: [selected] })
+  //     })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       resultMsg.textContent = data.message;
+  //       resultMsg.style.display = "block";
+  //       resultMsg.style.color = data.correct ? "green" : "red";
+
+  //       resultMsg.classList.remove("correct-message", "wrong-message");
+  //       if (data.correct) {
+  //         resultMsg.classList.add("correct-message");
+  //         nextBtn.style.display = "inline-block";
+  //         tryAgainBtn.style.display = "none";
+  //       } else {
+  //         resultMsg.classList.add("wrong-message");
+  //         tryAgainBtn.style.display = "inline-block";
+  //         nextBtn.style.display = "none";
+  //       }
+
+  //       radioButtons.forEach(r => r.disabled = true);
+
+  //     });
+  //   });
+  // });
 }
 
 function resetQuiz() {

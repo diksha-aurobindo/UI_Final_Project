@@ -110,9 +110,30 @@ def final_quiz_q2():
     update_time_spent("usertimeSpentOnQuiz")
     return render_template('finalquiz_ques2.html')
 
-@app.route("/quiz-result")
-def quiz_result():
-    return render_template("quizresult.html", score=session['score'])
+# @app.route("/quiz-result")
+# def quiz_result():
+#     return render_template("quizresult.html", score=session['score'])
+
+@app.route("/quiz-results")
+def quiz_results():
+    questions = [
+        {
+            "question": "Cleansing is important because it removes ___, ___, and ___.",
+            "correct_answer": ["Dirt", "Excess Oil", "Makeup"],
+            "user_answer": session.get("quiz_1", {}).get("user_answer", []),
+            "is_correct": session.get("quiz_1", {}).get("is_correct", False),
+        },
+        {
+            "question": "Which product is more hydrating and great for dull or dehydrated skin?",
+            "correct_answer": ["Essence"],
+            "user_answer": [session.get("quiz_2", {}).get("user_answer", "")],
+            "is_correct": session.get("quiz_2", {}).get("is_correct", False),
+        },
+        # Add more questions as you implement them
+    ]
+
+    total_score = session.get("score", 0)
+    return render_template("quizresult.html", questions=questions, total_score=session['score'])
 
 
 @app.route('/build-routine')

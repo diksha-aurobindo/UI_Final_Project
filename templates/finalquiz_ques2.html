@@ -4,7 +4,7 @@
 <div class="quiz-container" style="text-align: center; padding: 50px; background-color: #fff9fc; min-height: 100vh;">
   <h1 style="font-family: 'Georgia', serif; font-size: 48px; color: #d835a4;">FINAL QUIZ</h1>
   <p style="font-size: 20px; color: #333; margin: 30px auto; max-width: 600px;">
-    Q: Drag and drop the skincare step bubbles in the correct order one by one into the jar to fill it completely:
+    Finally, Drag and drop the skincare step bubbles in the correct order one by one into the jar to fill it completely:
   </p>
 
   <div style="display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; gap: 50px;">
@@ -26,7 +26,7 @@
   </div>
 </div>
 <center>
-<button id="buildroutine" type="button" class="btn btn-outline-success" disabled><a href="/build-routine">Build Your Routine-></a></button>
+<button id="quiz-results" type="button" class="btn btn-outline-success" disabled><a href="/quiz-results">Quiz Results</a></button>
 </center>
 <br><br><br>
 <style>
@@ -90,11 +90,11 @@
     if (JSON.stringify(dropped) === JSON.stringify(correctOrder)) {
       finalFeedback.textContent = '🎉 Great job! You got the order right!';
       finalFeedback.style.color = 'green';
-      $("#buildroutine").prop("disabled", false);
+      $("#quiz-results").prop("disabled", false);
     } else {
       finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
       finalFeedback.style.color = 'red';
-      $("#buildroutine").prop("disabled", false);
+      $("#quiz-results").prop("disabled", false);
     }
   }
 </script>

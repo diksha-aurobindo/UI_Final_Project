@@ -1,44 +1,93 @@
 {% extends "index.html" %}
 
 {% block content %}
+<div class="quiz-container" style="text-align: center; padding: 50px; background-color: #fff9fc; min-height: 100vh;">
+  <h1>🔍 SKINCARE DETECTIVE</h1>
+  <p style="font-size: 20px; color: #333; margin: 20px auto; max-width: 700px;">
+    Your friend <strong>Maya</strong> has acne-prone, sensitive skin and just started breaking out. She's overwhelmed by products. Help her make smart choices!
+  </p>
 
-<div class="quiz-container">
-  <div class="quiz-header">
-    <h1>QUIZ</h1>
-    <p>Fill in the Blank:</p>
-    <p class="question">Q1. Cleansing is important because it removes 
-      <u id="blank1">___</u>, 
-      <u id="blank2">___</u>, and 
-      <u id="blank3">___</u>.
-    </p>
-  </div>
+  <form id="detectiveQuiz" style="text-align: left; max-width: 600px; margin: 40px auto; font-size: 18px; color: #333;">
+    
+    <div class="question-block">
+      <p><strong>1. What should Maya use to clean her face?</strong></p>
+      <label><input type="radio" name="q1" value="correct"> ✅ Cleanser with Salicylic Acid</label><br>
+      <label><input type="radio" name="q1" value="wrong"> ❌ Toner with Witch Hazel</label>
+    </div><br>
 
-  <form class="quiz-options">
-    <label class="quiz-option">
-      <input type="checkbox" value="Dirt"> Dirt
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Excess Oil"> Excess Oil
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Makeup"> Makeup
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Dead Hair"> Dead Hair
-    </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Nail Polish"> Nail Polish
-    </label>
+    <div class="question-block">
+      <p><strong>2. Which treatment will help her most without irritation?</strong></p>
+      <label><input type="radio" name="q2" value="correct"> ✅ Spot Treatment with Sulfur</label><br>
+      <label><input type="radio" name="q2" value="wrong"> ❌ Retinol Serum</label>
+    </div><br>
+
+    <div class="question-block">
+      <p><strong>3. What’s the best ingredient for moisture?</strong></p>
+      <label><input type="radio" name="q3" value="correct"> ✅ Ceramides</label><br>
+      <label><input type="radio" name="q3" value="wrong"> ❌ Heavy Oils</label>
+    </div><br>
+
+    <div class="question-block">
+      <p><strong>4. True or False: Sunscreen with Zinc Oxide is good for acne-prone skin.</strong></p>
+      <label><input type="radio" name="q4" value="correct"> ✅ True</label><br>
+      <label><input type="radio" name="q4" value="wrong"> ❌ False</label>
+    </div><br>
+
+    <button type="button" class="evaluate" onclick="checkDetectiveQuiz()">Submit Answers</button>
+    <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
   </form>
-
-  <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
-  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
-
-  <button class="back-btn" onclick="history.back()">← Back</button>
-
-  <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
-  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
-
-
+  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()" disabled>Next →</button>
 </div>
+
+
+<br><br><br>
+
+<style>
+  .evaluate {
+    padding: 12px 30px;
+    background-color: #d835a4;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .question-block {
+    background-color: #fff;
+    border: 2px solid #ffd6eb;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+</style>
+
+<script>
+  function checkDetectiveQuiz() {
+    const form = document.getElementById("detectiveQuiz");
+    const answers = form.querySelectorAll("input[type='radio']:checked");
+    let correctCount = 0;
+
+    answers.forEach(answer => {
+      if (answer.value === "correct") correctCount++;
+    });
+
+    const feedback = document.getElementById("finalFeedback");
+
+    if (correctCount === 4) {
+      feedback.textContent = "🎉 You helped Maya clear her skin safely! You've earned the ‘Glow Guide’ badge!";
+      feedback.style.color = "green";
+    } else {
+      feedback.textContent = `❌ You got ${correctCount}/4 correct. We're sad that you missed the badge :()`;
+      feedback.style.color = "red";
+    }
+
+    document.getElementById("nextBtn").disabled = false;
+  }
+</script>
 {% endblock %}
