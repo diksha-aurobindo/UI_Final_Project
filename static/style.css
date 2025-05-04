@@ -304,7 +304,7 @@ body {
 }
 
 .findskin-btn {
-  background-color: #d835a4;
+  background-color: #770fdb;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -321,7 +321,14 @@ body {
 }
 
 .findskin-btn:hover {
-  background-color: #b7137e;
+  background-color: #5b07aa;
+}
+
+#skintypeheader {
+  background-color: #770fdb;
+  color: white;
+  height: 120px;
+  padding: 30px;
 }
 
 .tryAgain-btn {
@@ -481,6 +488,27 @@ body {
 
 #skin-type-questions {
   flex: 5;
+}
+
+.btn-outline-primary:hover {
+  background-color: #5e0eb1;
+  border-color: #770fdb;
+}
+
+.btn-outline-primary {
+  border-color: #770fdb;
+  color:#000
+}
+
+#skintype2span {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-outline-primary:active {
+  border-color: #770fdb !important;
+  background-color: #770fdb !important;
 }
 
 #toggle-ingredients {

@@ -954,43 +954,103 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //skin type
+
+function backskin1(event) {
+window.location.href = '/skin-type/1';
+
+$("input[type='radio'][name='skintype1'][value='3']").prop("checked", true);
+
+}
+
+function submitskin1(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('skin-type-form1');
+  const formData = new FormData(form);
+
+  let skintype1 = formData.get('skintype1');
+  if (skintype1==null) {
+    alert("Please select an option!");
+  } else {
+    sessionStorage.setItem('skintype1', skintype1);
+    window.location.href = '/skin-type/2';
+  }
+}
+
+function submitskin2(event) {
+  event.preventDefault();
+
+  const form = document.getElementById('skin-type-form2');
+  const formData = new FormData(form);
+
+  let skintype2 = formData.get('skintype2');
+
+  if (skintype2==null) {
+    alert("Please select an option!");
+  } else {
+  sessionStorage.setItem('skintype2', skintype2);
+  window.location.href = '/skin-type/3';
+  }
+}
+
 function handleForm(event) {
   event.preventDefault();
 
-  const form = document.getElementById('skin-type-form');
+  const form = document.getElementById('skin-type-form3');
   const formData = new FormData(form);
 
-  let bare = formData.get('bare');
-  let blot = formData.get('blot');
+  let skintype3 = formData.get('skintype3');
 
-  // Save the chosen skin type (blot result) both temporarily and permanently
-  // sessionStorage.setItem('blot', blot);           // Temporary (for skintype-results page)
-  // localStorage.setItem('userSkinType', blot);      // Permanent (for learning pages)
+  if (skintype3==null) {
+    alert("Please select an option!");
+  } else {
+  let skintype1 = sessionStorage.getItem('skintype1');
+  let skintype2 = sessionStorage.getItem('skintype2');
 
-  console.log("blot is: ", blot);
+  let skintype = 'normal';
+
+  if (skintype1 === '1') {
+      skintype = "oily";
+  }
+
+  if (skintype1 === '3') {
+    if (skintype3 === '3') {
+      skintype = "dry";
+    } else if (skintype3 === '2'){
+      skintype = "normal";
+    }
+  }
+  if (skintype3 === '3') {
+    if (skintype2 === '2') {
+      skintype = "combination";
+    } else if (skintype2 === '3'){
+      skintype = "oily";
+    }
+  }
+
+  sessionStorage.setItem('skintype', skintype);
 
   fetch("/save-skintype", {
     method: "POST",
     headers: { "Content-Type": "application/json"},
-    body: JSON.stringify({ skinType: [blot] })  // Send it along
+    body: JSON.stringify({ skinType: [skintype] })  // Send it along
   })
   .then(response => response.json())
   .then(data => {
     console.log("Progress saved:", data);
     // After successful save, navigate
-    if (bare && blot) {
       window.location.href = '/skin-type/result';  // Move to results page
       sessionStorage.setItem('skinTypeCompleted', true);
-    }
   })
   .catch(error => {
     console.error("Error saving progress:", error);
   });
 }
+}
 
 
 $(window).on('load', function() {
-  const skinType = sessionStorage.getItem('blot');
+  const skinType = sessionStorage.getItem('skintype');
   if (skinType) {
     $("#skintyperesult").text(skinType);
   }

@@ -26,9 +26,17 @@ def home():
       session['score'] = 0
     return render_template('home.html', score=session['score'])
 
-@app.route('/skin-type')
+@app.route('/skin-type/1')
 def skinType():
     return render_template('skintype.html')
+
+@app.route('/skin-type/2')
+def skinType2():
+    return render_template('skintype2.html')
+
+@app.route('/skin-type/3')
+def skinType3():
+    return render_template('skintype3.html')
 
 @app.route('/skin-type/result')
 def skinTypeRes():
@@ -259,4 +267,4 @@ def quiz_q1():
 
 # -------------------
 if __name__ == '__main__':
-    app.run(debug=True, port=5003)
+    app.run(debug=True, port=5004)
