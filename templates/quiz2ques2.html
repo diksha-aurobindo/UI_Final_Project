@@ -5,40 +5,88 @@
 <div class="quiz-container">
   <div class="quiz-header">
     <h1>QUIZ</h1>
-    <p>Fill in the Blank:</p>
-    <p class="question">Q1. Cleansing is important because it removes 
-      <u id="blank1">___</u>, 
-      <u id="blank2">___</u>, and 
-      <u id="blank3">___</u>.
+    <p>Scenario-Based Question:</p>
+    <p class="question">
+      Q4. You’re heading into winter and your skin starts feeling tight and flaky. You already use a cleanser and sunscreen. What combination of nourish products might help the most?
     </p>
   </div>
 
-  <form class="quiz-options">
-    <label class="quiz-option">
-      <input type="checkbox" value="Dirt"> Dirt
+  <form class="quiz-options" style="display: grid; gap: 30px;">
+
+    <label class="quiz-option" style="display: block; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+      <input type="radio" name="nourishQuiz" value="A" style="margin-bottom: 10px;">
+      <strong>A. Spot treatment and toner</strong>
+      <div style="display: flex; gap: 20px; margin-top: 10px;">
+        <img src="{{ url_for('static', filename='images/spot_treatment.png') }}" alt="Spot Treatment" style="width: 120px; height: 120px;">
+        <img src="{{ url_for('static', filename='images/toner.png') }}" alt="Toner" style="width: 120px; height: 120px;">
+      </div>
     </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Excess Oil"> Excess Oil
+
+    <label class="quiz-option" style="display: block; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+      <input type="radio" name="nourishQuiz" value="B" style="margin-bottom: 10px;">
+      <strong>B. Serum with hyaluronic acid and a moisturizer with ceramides</strong>
+      <div style="display: flex; gap: 20px; margin-top: 10px;">
+        <img src="{{ url_for('static', filename='images/serum.png') }}" alt="Serum" style="width: 120px; height: 120px;">
+        <img src="{{ url_for('static', filename='images/moisturizer.png') }}" alt="Moisturizer" style="width: 120px; height: 120px;">
+      </div>
     </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Makeup"> Makeup
+
+    <label class="quiz-option" style="display: block; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+      <input type="radio" name="nourishQuiz" value="C" style="margin-bottom: 10px;">
+      <strong>C. Eye cream with caffeine and spot treatment</strong>
+      <div style="display: flex; gap: 20px; margin-top: 10px;">
+        <img src="{{ url_for('static', filename='images/eye_cream.png') }}" alt="Eye Cream" style="width: 120px; height: 120px;">
+        <img src="{{ url_for('static', filename='images/spot_treatment.png') }}" alt="Spot Treatment" style="width: 120px; height: 120px;">
+      </div>
     </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Dead Hair"> Dead Hair
+
+    <label class="quiz-option" style="display: block; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+      <input type="radio" name="nourishQuiz" value="D" style="margin-bottom: 10px;">
+      <strong>D. Only sunscreen</strong>
+      <div style="display: flex; gap: 20px; margin-top: 10px;">
+        <img src="{{ url_for('static', filename='images/sunscreen.png') }}" alt="Sunscreen" style="width: 120px; height: 120px;">
+      </div>
     </label>
-    <label class="quiz-option">
-      <input type="checkbox" value="Nail Polish"> Nail Polish
-    </label>
+
   </form>
 
   <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
-  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
 
   <button class="back-btn" onclick="history.back()">← Back</button>
 
   <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
-  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
-
+  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()">Next →</button>
 
 </div>
+
+<!-- <script>
+  const options = document.querySelectorAll('input[name="nourishQuiz"]');
+  const resultMsg = document.getElementById('result-msg');
+  const tryAgainBtn = document.getElementById('tryAgainBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  options.forEach(option => {
+    option.addEventListener('change', () => {
+      if (option.value === "B") {
+        resultMsg.textContent = "✅ Correct! Great choice for dry, winter skin.";
+        resultMsg.style.color = "green";
+        tryAgainBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      } else {
+        resultMsg.textContent = "❌ Oops! Try again.";
+        resultMsg.style.color = "red";
+        tryAgainBtn.style.display = "inline-block";
+        nextBtn.style.display = "none";
+      }
+    });
+  });
+
+  function resetQuiz() {
+    options.forEach(opt => opt.checked = false);
+    resultMsg.textContent = "";
+    tryAgainBtn.style.display = "none";
+  }
+
+</script> -->
+
 {% endblock %}
