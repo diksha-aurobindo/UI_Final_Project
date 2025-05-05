@@ -484,6 +484,30 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.step-image-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 1); /* <-- deep shadow */
+  max-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.step-image-card:hover {
+  transform: scale(1.02);
+}
+
+.step-image img {
+  border-radius: 16px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+
 #skin-type-questions {
   flex: 5;
 }

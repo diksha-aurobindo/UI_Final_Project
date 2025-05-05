@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 78.1,
-    "usertimeSpentOnQuiz": 12.45,
+    "usertimeSpentOnLearn": 118.26,
+    "usertimeSpentOnQuiz": 254.15,
     "usertimeSpentOnRoutine": 0,
     "userQuizScore": 2,
-    "TotalTimeSpentTillNow": 90.55,
+    "TotalTimeSpentTillNow": 372.41,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -23,6 +23,7 @@
       "user_answer": "Essence"
     },
     "finalQuizState": {},
-    "routineState": {}
+    "routineState": {},
+    "skinType": "normal"
   }
 }
