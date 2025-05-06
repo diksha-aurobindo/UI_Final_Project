@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 118.26,
-    "usertimeSpentOnQuiz": 254.15,
+    "usertimeSpentOnLearn": 65.81,
+    "usertimeSpentOnQuiz": 9.3,
     "usertimeSpentOnRoutine": 0,
     "userQuizScore": 2,
-    "TotalTimeSpentTillNow": 372.41,
+    "TotalTimeSpentTillNow": 75.11,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -21,6 +21,17 @@
       "is_correct": true,
       "scored": true,
       "user_answer": "Essence"
+    },
+    "quiz3State": {
+      "answered": true,
+      "is_correct": false,
+      "scored": false,
+      "user_answer": {
+        "eye": "Eye Cream",
+        "moisturizer": "Moisturizer",
+        "serum": "Spot Treatment",
+        "spot": "Serum"
+      }
     },
     "finalQuizState": {},
     "routineState": {},

@@ -129,11 +129,17 @@ def quiz_results():
             "user_answer": [session.get("quiz_2", {}).get("user_answer", "")],
             "is_correct": session.get("quiz_2", {}).get("is_correct", False),
         },
-        # Add more questions as you implement them
+        {
+            "question": "Match each product to its correct use case.",
+            "correct_answer": ["Serum", "Eye Cream", "Spot Treatment", "Moisturizer"],
+            "user_answer": list(session.get("quiz_3", {}).get("user_answer", {}).values()),
+            "is_correct": session.get("quiz_3", {}).get("is_correct", False),
+        }
     ]
 
     total_score = session.get("score", 0)
-    return render_template("quizresult.html", questions=questions, total_score=session['score'])
+    return render_template("quizresult.html", questions=questions, total_score=total_score)
+
 
 
 @app.route('/build-routine')
@@ -220,6 +226,45 @@ def submit_quiz_2():
         "score": session['score']
     })
 
+@app.route("/submit-quiz/3", methods=["POST"])
+def submit_quiz_3():
+    data = request.get_json()
+    user_answers = data.get("answer", {})  # Dictionary: {target: droppedItem}
+
+    correct_mapping = {
+        "serum": "Serum",
+        "eye": "Eye Cream",
+        "spot": "Spot Treatment",
+        "moisturizer": "Moisturizer"
+    }
+
+    correct = 0
+    for key in correct_mapping:
+        if user_answers.get(key) == correct_mapping[key]:
+            correct += 1
+
+    is_correct = correct == len(correct_mapping)
+
+    session["quiz_3"] = {
+        "answered": True,
+        "user_answer": user_answers,
+        "is_correct": is_correct,
+        "scored": False  # will be updated below
+    }
+
+    if is_correct and not session["quiz_3"].get("scored", False):
+        session["score"] = session.get("score", 0) + 1
+        session["quiz_3"]["scored"] = True
+
+    return jsonify({
+        "correct": is_correct,
+        "correctCount": correct,
+        "total": len(correct_mapping),
+        "score": session["score"]
+    })
+
+
+
 @app.route("/save-skintype", methods=["POST"])
 def save_skintype():
     data = request.get_json()
@@ -258,6 +303,7 @@ def save_progress():
         ),
         "Userquiz1State": session.get("quiz_1", {}),
         "quiz2State": session.get("quiz_2", {}),
+        "quiz3State": session.get("quiz_3", {}),  # ✅ ADD THIS LINE
         "finalQuizState": session.get("finalQuizState", {}),
         "routineState": session.get("routineState", {}),
         "skinType": session.get("skinType", None)
@@ -265,6 +311,7 @@ def save_progress():
 
     save_user_data(user_data)
     return jsonify({"status": "saved", "userData": user_data})
+
 
 @app.route("/get-user-data")
 def get_user_data():

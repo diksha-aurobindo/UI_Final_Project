@@ -672,16 +672,15 @@ const quizId = path.split('/').pop(); // Get last part
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 const blanks = [document.getElementById('blank1'), document.getElementById('blank2'), document.getElementById('blank3')];
 const resultMsg = document.getElementById('result-msg');
-const radioButtons = document.querySelectorAll('input[name="product"]');
-const tryAgainBtn = document.getElementById('tryAgainBtn');
 const nextBtn = document.getElementById('nextBtn');
 
 // This should be injected from Flask/Jinja in quiz1.html
 const quizState = window.quizState || {};
 
 // Quiz 1 ques1 functionality
+
 if (window.location.pathname.includes("/quiz1/q1")) {
-  
+
   let selectedAnswers = [];
 
   // 🔁 Restore previous quiz state (if exists)
@@ -696,23 +695,26 @@ if (window.location.pathname.includes("/quiz1/q1")) {
       }
     });
 
-      // ✅ Reset Fill the blanks
-      blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
+    // ✅ Reset Fill the blanks
+    blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
 
-      // ✅ Show result message
-      resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
-      resultMsg.style.display = "block";
-      resultMsg.style.color = quizState.is_correct ? "green" : "red";
-      resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
+    // ✅ Show result message
+    resultMsg.textContent = quizState.is_correct ? "🎉 Good job!" : "That’s not correct.";
+    resultMsg.style.display = "block";
+    resultMsg.style.color = quizState.is_correct ? "green" : "red";
+    resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
 
-      // ✅ Toggle next/try again buttons
-      if (quizState.is_correct) {
-        nextBtn.style.display = "inline-block";
-       tryAgainBtn.style.display = "none";
-      } else {
-        tryAgainBtn.style.display = "inline-block";
-        nextBtn.style.display = "none";
-      }
+    // ✅ Show next button
+    nextBtn.style.display = "inline-block";
+
+    // ✅ Fire confetti if already correct
+    if (quizState.is_correct && typeof confetti === "function") {
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
   }
 
   // 🔁 Add new selection handling
@@ -738,28 +740,30 @@ if (window.location.pathname.includes("/quiz1/q1")) {
         })
         .then(res => res.json())
         .then(data => {
-          resultMsg.textContent = data.message;
+          resultMsg.textContent = data.correct ? "🎉 Good job!" : "That’s not correct.";
           resultMsg.style.display = "block";
           resultMsg.style.color = data.correct ? "green" : "red";
 
-          // Apply styles
           resultMsg.classList.remove("correct-message", "wrong-message");
+          resultMsg.classList.add(data.correct ? "correct-message" : "wrong-message");
 
-          if (data.correct) {
-            resultMsg.classList.add("correct-message");
-            nextBtn.style.display = "inline-block";
-            tryAgainBtn.style.display = "none";
-          } else {
-            resultMsg.classList.add("wrong-message");
-            tryAgainBtn.style.display = "inline-block";
-            nextBtn.style.display = "none";
+          // 🎊 Confetti on correct answer
+          if (data.correct && typeof confetti === "function") {
+            confetti({
+              particleCount: 150,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
           }
 
+          nextBtn.style.display = "inline-block";
+          checkboxes.forEach(cb => cb.disabled = true);
         });
       }
     });
   });
 }
+
 
 // Quiz 1 ques 2 Functionality
 else if (window.location.pathname.includes("/quiz1/q2")) {
@@ -802,25 +806,33 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
         body: JSON.stringify({ answer: [selected] })
       })
       .then(res => res.json())
-      .then(data => {
-        resultMsg.textContent = data.message;
-        resultMsg.style.display = "block";
-        resultMsg.style.color = data.correct ? "green" : "red";
+.then(data => {
+  resultMsg.textContent = data.correct ? "Good job!" : "That’s not correct.";
+  resultMsg.style.display = "block";
+  resultMsg.style.color = data.correct ? "green" : "red";
 
-        resultMsg.classList.remove("correct-message", "wrong-message");
-        if (data.correct) {
-          resultMsg.classList.add("correct-message");
-          nextBtn.style.display = "inline-block";
-          tryAgainBtn.style.display = "none";
-        } else {
-          resultMsg.classList.add("wrong-message");
-          tryAgainBtn.style.display = "inline-block";
-          nextBtn.style.display = "none";
-        }
+  resultMsg.classList.remove("correct-message", "wrong-message");
 
-        radioButtons.forEach(r => r.disabled = true);
+  if (data.correct) {
+    resultMsg.classList.add("correct-message");
 
-      });
+    // 🎉 Trigger confetti
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  } else {
+    resultMsg.classList.add("wrong-message");
+  }
+
+  // ✅ Always show Next button
+  nextBtn.style.display = "inline-block";
+
+  // ✅ Lock all options
+  checkboxes.forEach(cb => cb.disabled = true);
+});
+
     });
   });
 }
@@ -846,12 +858,7 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
     });
   });
 
-  function resetQuiz() {
-    options.forEach(opt => opt.checked = false);
-    resultMsg.textContent = "";
-    tryAgainBtn.style.display = "none";
-  }
-
+  
   // const radioButtons = document.querySelectorAll('input[name="product"]');
 
   // // 🔁 Restore previous quiz state (if exists)
@@ -914,24 +921,7 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
   // });
 }
 
-function resetQuiz() {
-  if (window.location.pathname.includes("/quiz1/q1")) {
-    selectedWords = [];
-    checkboxes.forEach((box) => (box.checked = false, box.disabled = false));
-    blanks.forEach((blank) => (blank.textContent = "___"));
-    resultMsg.style.display = "none";
-    tryAgainBtn.style.display = "none";
-    nextBtn.style.display = "none";
-  }
-  else if(window.location.pathname.includes("/quiz1/q2")){    
-    radioButtons.forEach(r => {r.checked = false; r.disabled = false;});
-    document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
-    resultMsg.textContent = "";
-    resultMsg.style.display = "none";
-    tryAgainBtn.style.display = "none";
-    nextBtn.style.display = "none";
-  }
-}
+
 
 function goToNext() {
   const path = window.location.pathname;

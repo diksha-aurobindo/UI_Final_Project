@@ -66,4 +66,14 @@
   
 
 </div>
+
+<script>
+  fetch("/save-progress", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  }).then(res => res.json())
+    .then(data => console.log("Progress saved:", data))
+    .catch(err => console.error("Error saving progress:", err));
+</script>
+
 {% endblock %}

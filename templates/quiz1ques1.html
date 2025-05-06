@@ -1,6 +1,31 @@
 {% extends "index.html" %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+  .next-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  background-color: #770fdb;
+  color: white;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.next-btn:hover {
+  background-color: #5f09b0;
+  color: white;  /* ✅ force white text on hover */
+}
+
+</style>
 
 <div class="quiz-container">
   <div class="quiz-header">
@@ -32,13 +57,12 @@
   </form>
 
   <p id="result-msg" style="font-weight: bold; margin-top: 20px;"></p>
-  <!-- <div id="quizMessage" class="quiz-message" style="display: none;"></div> -->
 
   <button class="back-btn" onclick="history.back()">← Back</button>
 
-  <button id="tryAgainBtn" class="tryAgain-btn" style="display: none; margin-top: 20px;" onclick="resetQuiz()">Try again</button>
-  <button id="nextBtn" class="back-btn" style="display: none; margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
-
+  <!-- ✅ Inline Next Button using anchor tag -->
+  <a href="/quiz1/q2" id="nextBtn" class="next-btn" style="display: none;">Next →</a>
 
 </div>
+
 {% endblock %}

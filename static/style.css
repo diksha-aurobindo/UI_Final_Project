@@ -245,11 +245,14 @@ body {
 }
 
 .quiz-container {
-  min-height: 100vh;
-  padding: 60px 300px 200px 300px;
+  min-height: auto;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
   font-family: 'Georgia', serif;
-  position:relative;
+  position: relative;
 }
+
 
 .quiz-header h1 {
   font-size: 48px;
@@ -260,15 +263,16 @@ body {
 }
 
 .quiz-header p {
-  font-size: 20px;
+  font-size: 26px;
   margin-bottom: 15px;
   color: #770fdb;
 }
 
 .quiz-header .question {
-  font-size: 18px;
+  font-size: 28px;
   margin-bottom: 30px;
   color: #770fdb;
+  
 }
 
 .quiz-options {
@@ -279,27 +283,36 @@ body {
 }
 
 .quiz-option {
-  font-size: 18px;
+  font-size: 25px;
   text-align: inherit;
   gap: 10px;
 }
 
 .quiz-option input[type="checkbox"] {
   transform: scale(1.4);
-  accent-color: #f8bb86;
+  accent-color: #770fdb;
+}
+.back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  background-color: #770fdb;
+  color: white;  /* ✅ white text */
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.back-btn {
-  background-color: #f8bb86;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #3e2723;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.2s ease-in-out;
+.back-btn:hover {
+  background-color: #5f09b0;
 }
+
+
 
 .findskin-btn {
   background-color: #770fdb;
@@ -314,9 +327,7 @@ body {
   margin-left: 70%;
 }
 
-.back-btn:hover {
-  background-color: #f3a562;
-}
+
 
 .findskin-btn:hover {
   background-color: #5b07aa;
@@ -347,14 +358,17 @@ body {
 }
 
 .correct-message {
-  background-color: #fbefff;
-  color: #d835a4;
-  border: 2px solid #ec74d6;
+  background-color: #f0e7ff;
+  color: #2e7d32;
+  border: 2px solid #770fdb;
   font-weight: bold;
-  padding: 12px;
+  font-size: 1.1rem;
+  padding: 12px 20px;
   border-radius: 8px;
-  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+
 
 .correct-message::before {
   content: "🎉 ";
@@ -363,15 +377,17 @@ body {
 }
 
 .wrong-message {
-  background-color: #fff3f7;
-  color: #c63e70;
-  border: 2px solid #f0b3c8;
+  background-color: #ffe7e7;
+  color: #d32f2f;
+  border: 2px solid #ff99a1;
   font-weight: bold;
-  font-family: 'Helvetica Neue', sans-serif;
-  padding: 12px;
+  font-size: 1.1rem;
+  padding: 12px 20px;
   border-radius: 8px;
-  margin-top: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+
 
 
 .wrong-message strong {
@@ -434,13 +450,20 @@ body {
 }
 
 .image-option.selected {
-  border-color: #f8bb86;
-  box-shadow: 0 0 8px #f8bb86;
+  border: 3px solid #a970f1;
+  box-shadow: 0 0 10px rgba(167, 112, 241, 0.5);
+  background-color: #f8f0ff;
+  border-radius: 12px;
+  transition: 0.3s;
 }
 
-.image-option.selected .tick-overlay {
-  opacity: 1;
+
+
+.image-option:hover {
+  box-shadow: 0 0 12px rgba(119, 15, 219, 0.6);
+  transform: scale(1.02);
 }
+
 
 /* ✅✅ Added for image + text layout inside step panel */
 .step-content {
@@ -661,7 +684,7 @@ body {
 
 .back-btn {
   font-size: 1rem;
-  color: #333;
+  color: #f4f1f1;
   text-decoration: none;
 }
 
