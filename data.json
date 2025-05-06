@@ -4,7 +4,7 @@
       "step": "Cleanser",
       "description": "Gently removes dirt, oil, and impurities without stripping the skin.",
       "benefit": "Prepares the skin for the next steps by clearing pores and maintaining a healthy moisture balance.",
-      "image": "images/cleanser.png",
+      "image": "images/cleanser2.png",
       "skin_type_ingredients": {
         "Oily": ["Salicylic Acid", "Niacinamide"],
         "Dry": ["Glycerin", "Ceramides"],

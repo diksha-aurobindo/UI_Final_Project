@@ -138,14 +138,14 @@ body {
 .content h2 {
   font-family: 'DM Serif Display', serif;
   color: #0a0a0a;
-  font-size: 64px;
+  font-size: 72px;
   font-weight: normal;
   margin-bottom: 20px;
 }
 
 .content h4 {
   margin-top: 30px;
-  font-size: 14px;
+  font-size: 19px;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #444;
@@ -166,7 +166,7 @@ body {
 
 .content p {
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 18px;
   color: #333;
   line-height: 1.6;
 }
@@ -485,16 +485,24 @@ body {
 }
 
 .step-image-card {
-  background-color: #fff;
+  background-color: #111; /* changed from white to dark gray/black */
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 1); /* <-- deep shadow */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6); /* softened shadow for balance */
   max-width: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: transform 0.3s ease;
 }
+
+#step-img {
+  border-radius: 12px;
+  max-width: 100%;
+  background-color: #fff; /* optional: helps contrast on dark bg */
+  padding: 8px;           /* optional: creates spacing around image */
+}
+
 
 .step-image-card:hover {
   transform: scale(1.02);
