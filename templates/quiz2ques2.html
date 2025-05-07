@@ -26,7 +26,7 @@
       box-shadow: 2px 2px 8px rgba(119, 15, 219, 0.1);
       cursor: pointer;
     ">
-      <input type="radio" name="nourishQuiz" value="{{ opt.val }}" style="margin-bottom: 10px; transform: scale(1.3); margin-right: 10px;" />
+      <input type="radio" name="nourishQuiz" value="{{ opt.val }}" data-text="{{ opt.text }}" style="margin-bottom: 10px; transform: scale(1.3); margin-right: 10px;" />
       <strong style="font-size: 1.1rem;">{{ opt.val }}. {{ opt.text }}</strong>
       <div style="display: flex; gap: 20px; margin-top: 15px;">
         {% for img in opt.imgs %}
@@ -51,6 +51,7 @@
   options.forEach(option => {
     option.addEventListener("change", () => {
       const selectedValue = option.value;
+      const selectedText = option.dataset.text;
       const isCorrect = selectedValue === "B";
 
       // Show feedback message
@@ -66,7 +67,7 @@
       fetch("/submit-quiz/4", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answer: selectedValue, is_correct: isCorrect })
+        body: JSON.stringify({ answer: selectedText, is_correct: isCorrect })
       })
         .then(() =>
           fetch("/save-progress", {
