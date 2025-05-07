@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="quiz-container" style="text-align: center; padding: 50px; background-color: #fff9fc; min-height: 100vh;">
+<div class="quiz-container" style="text-align: center; padding: 50px; min-height: 100vh;">
   <h1>🔍 SKINCARE DETECTIVE</h1>
   <p style="font-size: 20px; color: #333; margin: 20px auto; max-width: 700px;">
     Your friend <strong>Maya</strong> has acne-prone, sensitive skin and just started breaking out. She's overwhelmed by products. Help her make smart choices!
@@ -11,32 +11,32 @@
     
     <div class="question-block">
       <p><strong>1. What should Maya use to clean her face?</strong></p>
-      <label><input type="radio" name="q1" value="correct"> ✅ Cleanser with Salicylic Acid</label><br>
-      <label><input type="radio" name="q1" value="wrong"> ❌ Toner with Witch Hazel</label>
+      <label><input type="radio" name="q1" value="correct"> Cleanser with Salicylic Acid</label><br>
+      <label><input type="radio" name="q1" value="wrong"> Toner with Witch Hazel</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>2. Which treatment will help her most without irritation?</strong></p>
-      <label><input type="radio" name="q2" value="correct"> ✅ Spot Treatment with Sulfur</label><br>
-      <label><input type="radio" name="q2" value="wrong"> ❌ Retinol Serum</label>
+      <label><input type="radio" name="q2" value="correct"> Spot Treatment with Sulfur</label><br>
+      <label><input type="radio" name="q2" value="wrong"> Retinol Serum</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>3. What’s the best ingredient for moisture?</strong></p>
-      <label><input type="radio" name="q3" value="correct"> ✅ Ceramides</label><br>
-      <label><input type="radio" name="q3" value="wrong"> ❌ Heavy Oils</label>
+      <label><input type="radio" name="q3" value="correct"> Ceramides</label><br>
+      <label><input type="radio" name="q3" value="wrong"> Heavy Oils</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>4. True or False: Sunscreen with Zinc Oxide is good for acne-prone skin.</strong></p>
-      <label><input type="radio" name="q4" value="correct"> ✅ True</label><br>
-      <label><input type="radio" name="q4" value="wrong"> ❌ False</label>
+      <label><input type="radio" name="q4" value="correct"> True</label><br>
+      <label><input type="radio" name="q4" value="wrong"> False</label>
     </div><br>
 
     <button type="button" class="evaluate" onclick="checkDetectiveQuiz()">Submit Answers</button>
     <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
   </form>
-  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()" disabled>Next →</button>
+  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right; display: none;" onclick="goToNext()">Next →</button>
 </div>
 
 
@@ -45,7 +45,7 @@
 <style>
   .evaluate {
     padding: 12px 30px;
-    background-color: #d835a4;
+    background-color: #770fdb;
     border: none;
     color: #fff;
     font-weight: bold;
@@ -53,10 +53,13 @@
     border-radius: 8px;
     cursor: pointer;
   }
+  .evaluate:hover {
+    background-color: #5e0eb1;
+  }
 
   .question-block {
     background-color: #fff;
-    border: 2px solid #ffd6eb;
+    border: 2px solid #770fdb;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 15px;
@@ -68,26 +71,88 @@
 </style>
 
 <script>
+  window.onload = function() {
+    // const quizStates = {{ quiz_state|tojson }};
+    // const submitted = {{ submitted|tojson }};
+    const quizStates = JSON.parse('{{ quiz_state|tojson | safe }}');
+    const submitted = JSON.parse('{{ submitted|tojson | safe }}');
+
+    if (submitted) {
+      for (const [key, state] of Object.entries(quizStates)) {
+        const qNum = key.replace("State", "");
+        const userAnswer = state.user_answer;
+  
+        const options = document.querySelectorAll(`input[name="${qNum}"]`);
+        options.forEach(option => {
+          if (option.value === userAnswer) {
+            option.checked = true;
+          }
+          option.disabled = true;
+        });
+      }
+      document.getElementById("nextBtn").style.display = "inline-block";
+      document.getElementById("finalFeedback").textContent = "✅ Quiz already submitted.";
+    }
+  };
+  
   function checkDetectiveQuiz() {
     const form = document.getElementById("detectiveQuiz");
-    const answers = form.querySelectorAll("input[type='radio']:checked");
-    let correctCount = 0;
-
-    answers.forEach(answer => {
-      if (answer.value === "correct") correctCount++;
-    });
-
-    const feedback = document.getElementById("finalFeedback");
-
-    if (correctCount === 4) {
-      feedback.textContent = "🎉 You helped Maya clear her skin safely! You've earned the ‘Glow Guide’ badge!";
-      feedback.style.color = "green";
-    } else {
-      feedback.textContent = `❌ You got ${correctCount}/4 correct. We're sad that you missed the badge :()`;
-      feedback.style.color = "red";
+    const totalQuestions = 4;
+    let allAnswered = true;
+    let userAnswers = {};
+  
+    for (let i = 1; i <= totalQuestions; i++) {
+      const options = form.querySelectorAll(`input[name="q${i}"]`);
+      let answered = false;
+      options.forEach(option => {
+        if (option.checked) {
+          answered = true;
+          userAnswers[`q${i}`] = option.value;
+        }
+      });
+      if (!answered) {
+        allAnswered = false;
+        break;
+      }
     }
+  
+    const feedback = document.getElementById("finalFeedback");
+  
+    if (!allAnswered) {
+      feedback.textContent = "⚠️ Please answer all the questions before submitting!";
+      feedback.style.color = "darkgoldenrod";
+      return;
+    }
+  
+    fetch("/submit-detective-quiz", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        answers: userAnswers
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      const correctCount = data.total_correct;
 
-    document.getElementById("nextBtn").disabled = false;
+      console.log("correctCount: ", correctCount);
+      console.log("totalQe: ", totalQuestions);
+  
+      if (correctCount === totalQuestions) {
+        feedback.textContent = "🎉 You helped Maya clear her skin safely! You've earned the ‘Scenario Master’ badge! 😊";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = `❌ You got ${correctCount}/${totalQuestions} correct. We're sad that you missed the 'Scenario Master' badge :(`;
+        feedback.style.color = "red";
+      }
+  
+      document.getElementById("nextBtn").style.display = "inline-block";
+  
+      // Disable all options
+      const radios = form.querySelectorAll("input[type='radio']");
+      radios.forEach(radio => radio.disabled = true);
+    });
   }
-</script>
+  </script>
+
 {% endblock %}
