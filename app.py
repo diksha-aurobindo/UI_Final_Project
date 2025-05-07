@@ -154,8 +154,14 @@ def quiz_results():
         {
             "question": "You’re heading into winter and your skin starts feeling tight and flaky. You already use a cleanser and sunscreen. What combination of nourish products might help the most?",
             "correct_answer": ["Serum with hyaluronic acid and a moisturizer with ceramides"],
-            "user_answer": list(session.get("quiz4State", {}).get("user_answer", {}).values()),
+            "user_answer": [session.get("quiz4State", {}).get("user_answer")],
             "is_correct": session.get("quiz4State", {}).get("is_correct", False),
+        },
+        {
+            "question": "Why is sunscreen an essential step in skincare?",
+            "correct_answer": ["Shields UV damage and signs of aging"],
+            "user_answer": ["Shields UV damage and signs of aging"],
+            "is_correct": True,
         }
     ]
 
@@ -178,6 +184,13 @@ def quiz_results():
             "correct_answer": [correct_answer],
             "user_answer": [user_answer],
             "is_correct": is_correct
+        })
+
+    questions.append({
+            "question": "Drag and drop the skincare step bubbles in the correct order one by one into the jar to fill it completely",
+            "correct_answer": ["Cleansing & Prepping","Nourishing","Protecting"],
+            "user_answer": ["Cleansing & Prepping","Nourishing","Protecting"],
+            "is_correct": True
         })
 
     total_score = session.get("score", 0)
@@ -322,6 +335,10 @@ def submit_quiz_4():
         "scored": is_correct,
         "user_answer": answer
     }
+    print("User answers values")
+    print(answer)
+    print(session.get("quiz4State", {}).get("user_answer"))
+    # print(list(session.get("quiz4State", {}).get("user_answer", {}).values()))
 
     # ✅ Optional: increment score if correct and not already counted
     if is_correct and not session["quiz4State"].get("scored", False):
@@ -331,7 +348,7 @@ def submit_quiz_4():
     return jsonify({"message": "Quiz 4 answer saved successfully."})
 
 
-ORRECT_ORDER = ['cleanse', 'nourish', 'protect']
+CORRECT_ORDER = ['cleanse', 'nourish', 'protect']
 
 @app.route('/submit-final-order', methods=['POST'])
 def submit_final_order():
