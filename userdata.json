@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 185.79,
-    "usertimeSpentOnQuiz": 105.84,
-    "usertimeSpentOnRoutine": 12.55,
-    "userQuizScore": 2,
-    "TotalTimeSpentTillNow": 304.18,
+    "usertimeSpentOnLearn": 676.66,
+    "usertimeSpentOnQuiz": 2.82,
+    "usertimeSpentOnRoutine": 0,
+    "userQuizScore": 1,
+    "TotalTimeSpentTillNow": 679.49,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -18,18 +18,19 @@
     },
     "quiz2State": {
       "answered": true,
-      "is_correct": true,
-      "scored": true,
-      "user_answer": "Essence"
+      "is_correct": false,
+      "user_answer": "Toner"
     },
     "quiz3State": {},
+    "quiz4State": {
+      "answered": true,
+      "is_correct": false,
+      "scored": false,
+      "user_answer": "C"
+    },
     "finalQuizState": {},
     "routineState": {},
     "skinType": "oily",
-    "routine_step": [
-      "cleanser",
-      "spot-treatment",
-      "sunscreen"
-    ]
+    "routine_step": null
   }
 }

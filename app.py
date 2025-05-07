@@ -175,9 +175,6 @@ def build_step(step=3):
 def build_step5(step=5):
     return render_template('routine2.html', step=step)
 
-@app.route('/routine-summary')
-def routine_summary():
-    return render_template('routine_summary.html')
 
 
 @app.route('/finish')
@@ -285,6 +282,29 @@ def submit_quiz_3():
         "score": session["score"]
     })
 
+@app.route("/submit-quiz/4", methods=["POST"])
+def submit_quiz_4():
+    data = request.get_json()
+    answer = data.get("answer")
+    is_correct = data.get("is_correct")
+
+    # Save quiz 4 state directly to session (like quiz_1, quiz_2, etc.)
+    session["quiz4State"] = {
+        "answered": True,
+        "is_correct": is_correct,
+        "scored": is_correct,
+        "user_answer": answer
+    }
+
+    # ✅ Optional: increment score if correct and not already counted
+    if is_correct and not session["quiz4State"].get("scored", False):
+        session["score"] = session.get("score", 0) + 1
+        session["quiz4State"]["scored"] = True
+
+    return jsonify({"message": "Quiz 4 answer saved successfully."})
+
+
+
 @app.route("/submit-detective-quiz", methods=["POST"])
 def submit_detective_quiz():
     data = request.get_json()
@@ -388,7 +408,8 @@ def save_progress():
         ),
         "Userquiz1State": session.get("quiz_1", {}),
         "quiz2State": session.get("quiz_2", {}),
-        "quiz3State": session.get("quiz_3", {}),  # ✅ ADD THIS LINE
+        "quiz3State": session.get("quiz_3", {}), 
+        "quiz4State": session.get("quiz4State", {}),  # ✅ Now it will save properly
         "finalQuizState": session.get("finalQuizState", {}),
         "routineState": session.get("routineState", {}),
         "skinType": session.get("skinType", None),

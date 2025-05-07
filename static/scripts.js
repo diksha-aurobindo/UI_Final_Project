@@ -35,11 +35,15 @@ fetch("/data")
   .then(data => {
     routineData = data.routine_steps;
 
-    if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
-      currentIndex = routine_order[initialProduct];
-    } else {
-      currentIndex = 0;
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialProduct = urlParams.get('start');
+
+if (initialProduct && routine_order.hasOwnProperty(initialProduct)) {
+  currentIndex = routine_order[initialProduct];
+} else {
+  currentIndex = 0;
+}
+
 
     maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);;
     sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
@@ -1089,93 +1093,9 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
   });
 }
 
-// Quiz 2 ques2 Functionality
-else if (window.location.pathname.includes("/quiz1/q2")) {
+// ...existing code before
 
-  const options = document.querySelectorAll('input[name="nourishQuiz"]');
-
-  options.forEach(option => {
-    option.addEventListener('change', () => {
-      if (option.value === "B") {
-        resultMsg.textContent = "✅ Correct! Great choice for dry, winter skin.";
-        resultMsg.style.color = "green";
-        tryAgainBtn.style.display = "none";
-        nextBtn.style.display = "inline-block";
-      } else {
-        resultMsg.textContent = "❌ Oops! Try again.";
-        resultMsg.style.color = "red";
-        tryAgainBtn.style.display = "inline-block";
-        nextBtn.style.display = "none";
-      }
-    });
-  });
-
-  
-  // const radioButtons = document.querySelectorAll('input[name="product"]');
-
-  // // 🔁 Restore previous quiz state (if exists)
-  // if (quizState.answered) {
-  //   const selected = quizState.user_answer?.[0]; // Radio buttons only have one answer
-  //   const selectedRadio = [...radioButtons].find(r => r.value === selected);
-  //   if (selectedRadio) {
-  //     selectedRadio.checked = true;
-  //     selectedRadio.disabled = true;
-  //     selectedRadio.closest('.image-option').classList.add('selected');
-  //   }
-
-  //   // ✅ Disable all radio buttons if answered
-  //   radioButtons.forEach(r => r.disabled = true);
-
-  //   resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
-  //   resultMsg.style.display = "block";
-  //   resultMsg.style.color = quizState.is_correct ? "green" : "red";
-  //   resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
-
-  //   if (quizState.is_correct) {
-  //     nextBtn.style.display = "inline-block";
-  //   } else {
-  //     tryAgainBtn.style.display = "inline-block";
-  //   }
-  // }
-
-  // radioButtons.forEach(radio => {
-  //   radio.addEventListener('change', () => {
-  //     document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
-  //     radio.closest('.image-option').classList.add('selected');
-  //     const selected = radio.value;
-
-  //     fetch(`/submit-quiz/2`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ answer: [selected] })
-  //     })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       resultMsg.textContent = data.message;
-  //       resultMsg.style.display = "block";
-  //       resultMsg.style.color = data.correct ? "green" : "red";
-
-  //       resultMsg.classList.remove("correct-message", "wrong-message");
-  //       if (data.correct) {
-  //         resultMsg.classList.add("correct-message");
-  //         nextBtn.style.display = "inline-block";
-  //         tryAgainBtn.style.display = "none";
-  //       } else {
-  //         resultMsg.classList.add("wrong-message");
-  //         tryAgainBtn.style.display = "inline-block";
-  //         nextBtn.style.display = "none";
-  //       }
-
-  //       radioButtons.forEach(r => r.disabled = true);
-
-  //     });
-  //   });
-  // });
-}
-
-
-
-function goToNext() {
+window.goToNext = function() {
   const path = window.location.pathname;
 
   // If in the LEARN section
@@ -1216,19 +1136,20 @@ function goToNext() {
   // If in QUIZ section
   else if (path.includes("/quiz1/q1")) {
     window.location.href = "/quiz1/q2";
-  } else if (path.includes("/quiz1/q2")) {
+  } else if (path.includes("/quiz1/q2") || path.includes("/quiz1/ques2")) {
     maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
     sessionStorage.setItem("currentIndex", 3);
-    history.pushState(currentIndex=3, "", "/learn/serum");
+    history.pushState({ index: 3 }, "", "/learn/serum");
     window.location.href = "/learn/serum";
   }
   else if (path.includes("/quiz2/q1")) {
     window.location.href = "/quiz2/q2";
-  } else if (path.includes("/quiz2/q2")) {
+  } 
+  else if (path === "/quiz2/q2") {
     maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
     sessionStorage.setItem("currentIndex", 7);
-    history.pushState(currentIndex=7, "", "/learn/sunscreen");
-    window.location.href = "/learn/sunscreen";
+    history.pushState({ index: 7 }, "", "/learn/sunscreen");
+    window.location.href = "/learn/sunscreen";  
   }
   else if (path.includes("/quiz3/q1")) {
     window.location.href = "/final-quiz/q1";
@@ -1237,6 +1158,8 @@ function goToNext() {
     window.location.href = "/final-quiz/q2";
   }
 }
+
+// ...rest of your JS code
 
 
 // Adding images 
