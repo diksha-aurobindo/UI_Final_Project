@@ -172,21 +172,32 @@ body {
 }
 
 #box1, #box2, #box3 {
-  color: white;
-  background-color: black;
-  margin: 40px;
-  height: 200px;
-  width: 200px;
-  justify-content: center;
+  border-color: #770fdb;
+  position: relative;
 }
 
-#box1, #box2, #box3, #build3, #build5 {
+.ondrop {
+  background-color: #770fdb !important;
+  border: solid 5px #5b07aa !important; /* Darker blue border */
+  box-shadow: 0 0 15px #bb81f1 !important;/* Optional glow effect */
+}
+
+#build3, #build5 {
   color: white;
-  background-color: black;
-  margin: 40px;
-  height: 200px;
+  background-color: #770fdb;
+  border: none;
+  padding: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background 0.2s ease-in-out;
   width: 200px;
-  justify-content: center;
+  height: 60px;
+}
+
+#build3:hover, #build5:hover {
+  background-color: #5b07aa;
 }
 
 .builds {
@@ -195,46 +206,46 @@ body {
 }
 
 #boxx1, #boxx2, #boxx3, #boxx4, #boxx5 {
-  color: white;
-  background-color: black;
-  margin: 40px;
-  height: 150px;
-  width: 180px;
-  justify-content: center;
+    border-color: #770fdb;
+    position: relative;
 }
 
 
 .products {
   color: white;
-  background-color: #fff0f8;
+  background-color: #e3d7f0;
   margin: 10px;
   width: 150px;
   height: 150px;
   justify-content: center;
-  cursor:move;
+  position: "relative";
+  display: flex;
+  align-items: center;
 }
 
 .product-images {
     max-width: 150px;
-    max-height: 126px;
-    width: 100%; 
+    max-height: 150px;
     height: auto;
+    cursor: move;
+    position: absolute;
+    z-index: 100;
 }
 
 #box1.hover, #box2.hover, #box3.hover {
-  background-color: #d835a4; 
+  background-color: #770fdb; 
 }
 
 #boxx1.hover, #boxx2.hover, #boxx3.hover, #boxx4.hover, #boxx5.hover {
-  background-color: #d835a4; 
+  background-color: #770fdb; 
 }
 
 .products.hover {
-  background-color: #d835a4; 
+  background-color: #770fdb; 
 }
 
 #routinetopic {
-  background-color: #d835a4;
+  background-color: #770fdb;
   color: white;
   height: 100px;
   padding-top: 20px;
@@ -710,4 +721,27 @@ body {
 .build-routine-btn:hover {
   background-color: #450a7d;
   color: #e6ddf1;
+}
+  
+.box-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box-label {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.step-container, .step-container2 {
+  display: flex;
+  gap: 40px; /* space between boxes */
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.img-routine {
+  max-width: 150px;
+  max-height: 150px;
 }

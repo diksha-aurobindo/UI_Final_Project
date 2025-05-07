@@ -10,64 +10,150 @@
 
     </center>
 
-
-  <div class="container">
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 col-12">
-            <div class="row">
-                <div id='box1' class="col-md-4 col-4 d-flex align-content-stretch flex-wrap">STEP 1</div>
-                <div id='box2' class="col-md-4 col-4 d-flex align-content-stretch flex-wrap">STEP 2</div>
-                <div id='box3' class="col-md-4 col-4 d-flex align-content-stretch flex-wrap">STEP 3</div>
-            </div>
+    <div class="step-container">
+        <div class="box-wrapper">
+          <label class="box-label">Step 1</label>
+          <div class="hollow-box" id="box1"></div>
         </div>
-        <div class="col-md-2"></div>
-    </div>
-    <br>
-
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 col-12">
-            <div class="row">
-                <div id='cleanser-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='cleanser'><img class="product-images" title='Face cleanser' src='/static/images/cleanser2.png' alt="cleanser"></div></div>
-                <div id='toner-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='toner'><img class="product-images" title='Face toner' src='/static/images/toner.png' alt="toner"></div></div>
-                <div id='essence-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='essence'><img class="product-images" title='Essence' src='/static/images/essence.png' alt="essence"></div></div>
-                <div id='eye-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='eye'><img class="product-images" title='Eye cream' src='/static/images/eye_cream.png' alt="eye cream"></div></div>
-                <div id='moisturizer-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='moisturizer'><img class="product-images" title='Moisturizer' src='/static/images/moisturizer.png' alt="moisturizer"></div></div>
-                <div id='sunscreen-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='sunscreen'><img class="product-images" title='Sunscreen' src='/static/images/sunscreen.png' alt="sunscreen"></div></div>
-            </div>
+        <div class="box-wrapper">
+          <label class="box-label">Step 2</label>
+          <div class="hollow-box" id="box2"></div>
         </div>
-        <div class="col-md-1"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-6 col-12">
-            <div class="row">
-                <div id='serum-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='serum'><img class="product-images" title='Serum' src='/static/images/serum.png' alt="serum"></div></div>
-                <div id='spot-box'  class="products col-md-2 col-2 d-flex align-content-stretch flex-wrap"><div id='spot'><img class="product-images" title='Spot treatment' src='/static/images/spot_treatment.png' alt="spot treatment"></div></div>
-            </div>
+        <div class="box-wrapper">
+          <label class="box-label">Step 3</label>
+          <div class="hollow-box" id="box3"></div>
         </div>
-        <div class="col-md-2"></div>
-    </div>
+      </div>
+      <br><br>
 
 
+      <div class="products-row1-container">
+        <div class="box-wrapper">
+          <div id="products1" class="products"><img id="cleanser" class="product-images" title='Face cleanser' src='/static/images/cleanser2.png' alt="cleanser"></div>
+          <label class="products-label">Cleanser</label>
+        </div>
+        <div class="box-wrapper">
+          <div id="products2" class="products"><img id='toner' class="product-images" title='Face toner' src='/static/images/toner.png' alt="toner"></div>
+          <label class="products-label">Toner</label>
+        </div>
+        <div class="box-wrapper">
+          <div id="products3" class="products"><img id="essence" class="product-images" title='Essence' src='/static/images/essence.png' alt="essence"></div>
+          <label class="products-label">Essence</label>
+        </div>
+        <div class="box-wrapper">
+            <div id="products4" class="products"><img id='eye-cream' class="product-images" title='Eye Cream' src='/static/images/eye_cream.png' alt="eye cream"></div>
+            <label class="products-label">Eye cream</label>
+          </div>
+          <div class="box-wrapper">
+            <div id="products5" class="products"><img id="moisturizer" class="product-images" title='Moisturizer' src='/static/images/moisturizer.png' alt="moisturizer"></div>
+            <label class="products-label">Moisturizer</label>
+          </div>
+      </div>
+
+
+      <div class="products-row2-container">
+        <div class="box-wrapper">
+          <div cid="products6" class="products"><img id='serum' class="product-images" title='Serum' src='/static/images/serum.png' alt="serum"></div>
+          <label class="products-label">Serum</label>
+        </div>
+        <div class="box-wrapper">
+            <div id="products7" class="products"><img id="spot-treatment" class="product-images" title='Spot treatment' src='/static/images/spot_treatment.png' alt="spot treatment"></div>
+            <label class="products-label">Spot treatment</label>
+          </div>
+          <div class="box-wrapper">
+            <div id="products8" class="products"><img id="sunscreen" class="product-images" title='Sunscreen' src='/static/images/sunscreen.png' alt="sunscreen"></div>
+            <label class="products-label">Sunscreen</label>
+          </div>
+      </div>
+
+      <br><br>
   
-  <br><br>
-  
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-7 col-12">
-        <div class="row">
-            <button type="button" class="reset btn btn-secondary col-md-2 col-2" onclick="window.location.reload()">Reset</button>
-            <button type="button" class="evaluate btn btn-primary btn-lg col-md-2 col-2" onclick="eval()">Evaluate</button>
-            <span id="routinestatus" class="default col-md-4 col-12"></span>
-        </div>
-    </div>
-    <div class="col-md-1">
-      <button type="button" class="finish btn btn-outline-success" disabled><a href="/finish">Finish</a></button>
-    </div>
-  </div>
-</div>
+      <div class="container">
+
+
+<center>
+<button type="button" class="reset btn btn-secondary col-md-2 col-2" onclick="window.location.reload()">Reset</button>
+<button type="button" id="evaluate" class="btn btn-primary btn-lg col-md-2 col-2" onclick="eval()">Evaluate</button>
+<br><span id="routinestatus" class="default col-md-4 col-12"></span><br>           
+</center>
+<button style="margin-left: 90%; width: 150px;" type="button" class="finish btn btn-outline-success" onclick="window.location.href='/routine-summary'" disabled>View summary</button>
+
+  <style>
+    .reset {
+        width: 100px;
+    }
+
+    #evaluate {
+        background-color: #770fdb;
+        color: white;
+        width: 150px;
+        border: none !important;
+        border-radius: 5px;
+        box-shadow: none !important;
+    }
+
+    #evaluate:hover {
+        background-color: #5b07aa !important;
+    }
+
+    #evaluate.clicked {
+        background-color: #5b07aa;
+        box-shadow: 0 0 15px #bb81f1 !important;
+    }
+
+
+    .step-container {
+      display: flex;
+      gap: 60px; /* space between boxes */
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .products-row1-container, .products-row2-container {
+      display: flex;
+      gap: 30px; /* space between boxes */
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .box-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .box-label {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .products-label {
+      font-weight: bold;
+      margin-top: 0px;
+    }
+
+    .hollow-box {
+      width: 200px;
+      height: 200px;
+      border: 5px dashed #000;
+      border-radius: 6px;
+      background-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+  </style>
+
+  <script>
+    document.getElementById("evaluate").addEventListener("click", function () {
+    this.classList.add("clicked");
+
+    // Remove the class after 1 second (1000 ms)
+    setTimeout(() => {
+        this.classList.remove("clicked");
+    }, 1000);
+    });
+  </script>
 {% endblock %}

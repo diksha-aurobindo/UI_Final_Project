@@ -216,102 +216,36 @@ let boxx3="";
 let boxx4="";
 let boxx5="";
 
+
 function drag_drop() {
-  $("#cleanser").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
 
-  $("#toner").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
+  function makeDraggable($el) {
+    $el.draggable({
+      revert: "invalid",
+      containment: "body",
+      stack: ".product-images",
+      start: function () {
+        // Remove transform to avoid jump on next drag
+        $(this).css("transform", "");
       }
+    });
   }
-  });
+  for (let element in routine_order) {
+    
+    $("#"+element).draggable({
+      revert: function(dropped) {
+        return !dropped; 
+      },
+      start: function(event, ui) {
+        var previousDrop = $(this).data("droppedOn");
+        if (previousDrop) {
+            $("#"+previousDrop).droppable('enable');
+        }
+        $(this).css("transform", "");
+    }
+    });
+  }
 
-  $("#essence").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
-
-  $("#serum").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
-
-  $("#eye").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
-
-  $("#spot").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
-
-  $("#moisturizer").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
-
-  $("#sunscreen").draggable({
-    revert: function(dropped) {
-      return !dropped; 
-    },
-    start: function(event, ui) {
-      var previousDrop = $(this).data("droppedOn");
-      if (previousDrop) {
-          $("#"+previousDrop).droppable('enable');
-      }
-  }
-  });
 
   $(".products").droppable({
     over: function(event, ui) {
@@ -325,23 +259,47 @@ function drag_drop() {
         .removeClass("hover")
         .droppable("disable")
         var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            console.log(previousDrop+"inside product");
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
         if (previousDrop==='box1') {
           box1='';
+          $("#box1").removeClass("ondrop")
+          $("#box1").droppable("enable");
         } else if (previousDrop==='box2') {
           box2='';
+          $("#box2").removeClass("ondrop")
+          $("#box2").droppable("enable");
         } else if (previousDrop==='box3') {
           box3='';
+          $("#box3").removeClass("ondrop")
+          $("#box3").droppable("enable");
         } else if (previousDrop==='boxx1') {
           boxx1='';
+          $("#boxx1").removeClass("ondrop")
+          $("#boxx1").droppable("enable");
         } else if (previousDrop==='boxx2') {
           boxx2='';
+          $("#boxx2").removeClass("ondrop")
+          $("#boxx2").droppable("enable");
         } else if (previousDrop==='boxx3') {
           boxx3='';
+          $("#boxx3").removeClass("ondrop")
+          $("#boxx3").droppable("enable");
         } else if (previousDrop==='boxx4') {
           boxx4='';
+          $("#boxx4").removeClass("ondrop")
+          $("#boxx4").droppable("enable");
         } else if (previousDrop==='boxx5') {
           boxx5='';
-        }
+          $("#boxx5").removeClass("ondrop")
+          $("#boxx5").droppable("enable");
+        } 
         ui.helper.data("droppedOn", $(this).attr("id"));
         
     }
@@ -357,19 +315,52 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         box1 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
 
         if (box1===box2) {
           box2='';
           $("#box2").droppable("enable");
+          $("#box2").removeClass("ondrop")
         } else if (box1===box3) {
           box3='';
           $("#box3").droppable("enable");
-        }
+          $("#box3").removeClass("ondrop")
+        } 
 
         ui.helper.data("droppedOn", $(this).attr("id"));
+
+        const $box = $(this);
+      const $item = ui.draggable;
+
+      // Move into the box
+      $item.appendTo($box);
+
+      // Center inside the box
+      const boxWidth = $box.width();
+      const boxHeight = $box.height();
+      const itemWidth = $item.outerWidth();
+      const itemHeight = $item.outerHeight();
+
+      $item.css({
+        position: "absolute",
+        left: (boxWidth - itemWidth) / 2 + "px",
+        top: (boxHeight - itemHeight) / 2 + "px"
+      });
+
+      // Reinitialize draggable after drop
+      makeDraggable($item);
+
     }
   });
 
@@ -384,18 +375,49 @@ function drag_drop() {
       $(this)
         .removeClass("hover")
         .droppable("disable")
+        .addClass("ondrop")
 
         box2 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (box1===box2) {
           box1='';
           $("#box1").droppable("enable");
+          $("#box1").removeClass("ondrop")
         } else if (box2===box3) {
           box3='';
           $("#box3").droppable("enable");
+          $("#box3").removeClass("ondrop")
         }
 
         ui.helper.data("droppedOn", $(this).attr("id"));  
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -410,17 +432,48 @@ function drag_drop() {
       $(this)
         .removeClass("hover")
         .droppable("disable")
+        .addClass("ondrop")
 
         box3 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (box3===box1) {
           box1='';
           $("#box1").droppable("enable");
+          $("#box1").removeClass("ondrop")
         } else if (box2===box3) {
           box2='';
           $("#box2").droppable("enable");
+          $("#box2").removeClass("ondrop")
         }
         ui.helper.data("droppedOn", $(this).attr("id")); 
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -434,25 +487,58 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         boxx1 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (boxx1===boxx2) {
           boxx2='';
           $("#boxx2").droppable("enable");
+          $("#boxx2").removeClass("ondrop")
         } else if (boxx1===boxx3) {
           boxx3='';
           $("#boxx3").droppable("enable");
+          $("#boxx3").removeClass("ondrop")
         } else if (boxx1===boxx4) {
           boxx4='';
           $("#boxx4").droppable("enable");
+          $("#boxx4").removeClass("ondrop")
         } else if (boxx1===boxx5) {
           boxx5='';
           $("#boxx5").droppable("enable");
+          $("#boxx5").removeClass("ondrop")
         }
 
         ui.helper.data("droppedOn", $(this).attr("id")); 
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -466,25 +552,58 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         boxx2 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (boxx1===boxx2) {
           boxx1='';
           $("#boxx1").droppable("enable");
+          $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx3) {
           boxx3='';
           $("#boxx3").droppable("enable");
+          $("#boxx3").removeClass("ondrop")
         } else if (boxx2===boxx4) {
           boxx4='';
           $("#boxx4").droppable("enable");
+          $("#boxx4").removeClass("ondrop")
         } else if (boxx2===boxx5) {
           boxx5='';
           $("#boxx5").droppable("enable");
+          $("#boxx5").removeClass("ondrop")
         }
 
         ui.helper.data("droppedOn", $(this).attr("id"));  
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -498,24 +617,57 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         boxx3 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (boxx1===boxx3) {
           boxx1='';
           $("#boxx1").droppable("enable");
+          $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx3) {
           boxx2='';
           $("#boxx2").droppable("enable");
+          $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx4) {
           boxx4='';
           $("#boxx4").droppable("enable");
+          $("#boxx4").removeClass("ondrop")
         } else if (boxx3===boxx5) {
           boxx5='';
           $("#boxx5").droppable("enable");
+          $("#boxx5").removeClass("ondrop")
         }
         ui.helper.data("droppedOn", $(this).attr("id")); 
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -529,25 +681,58 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         boxx4 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (boxx1===boxx4) {
           boxx1='';
           $("#boxx1").droppable("enable");
+          $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx4) {
           boxx2='';
           $("#boxx2").droppable("enable");
+          $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx4) {
           boxx3='';
           $("#boxx3").droppable("enable");
+          $("#boxx3").removeClass("ondrop")
         } else if (boxx4===boxx5) {
           boxx5='';
           $("#boxx5").droppable("enable");
+          $("#boxx5").removeClass("ondrop")
         }
 
         ui.helper.data("droppedOn", $(this).attr("id"));  
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
@@ -561,53 +746,110 @@ function drag_drop() {
     drop: function(event, ui) {
       $(this)
         .removeClass("hover")
+        .addClass("ondrop")
         .droppable("disable")
 
         boxx5 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
 
         if (boxx1===boxx5) {
           boxx1='';
           $("#boxx1").droppable("enable");
+          $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx5) {
           boxx2='';
           $("#boxx2").droppable("enable");
+          $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx5) {
           boxx3='';
           $("#boxx3").droppable("enable");
+          $("#boxx3").removeClass("ondrop")
         } else if (boxx4===boxx5) {
           boxx4='';
           $("#boxx4").droppable("enable");
+          $("#boxx4").removeClass("ondrop")
         }
 
         ui.helper.data("droppedOn", $(this).attr("id"));  
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 2 + "px",
+          top: (boxHeight - itemHeight) / 2 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
     }
   });
 
 }
-
+/*
+sessionStorage.setItem('box1', '');
+sessionStorage.setItem('box2', '');
+sessionStorage.setItem('box3', '');
+sessionStorage.setItem('boxx1', '');
+sessionStorage.setItem('boxx2', '');
+sessionStorage.setItem('boxx3', '');
+sessionStorage.setItem('boxx4', '');
+sessionStorage.setItem('boxx5', '');
+*/
 drag_drop();
 
 function eval() {
   $(".finish").prop("disabled", true);
   $("#routinestatus").text("");
-  $("#routinestatus").css("background-color", '#fff9fc');
   if (box1==="" || box2==="" || box3==="") {
     alert("Please fill all the steps!");
   } else {
     if (box1!=='cleanser') {
       $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
-      $("#routinestatus").css("background-color", "red");
-      $("#routinestatus").css("color", "white");
+      $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
     } else {
       if (routine_order[box2]>routine_order[box3]) {
         $("#routinestatus").text("Try again! \n You might want to use "+box3+" before "+box2+"!");
-        $("#routinestatus").css("background-color", "red");
-        $("#routinestatus").css("color", "white");
+        $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
       } else {
           $("#routinestatus").text("Good Job! Your routine seems good");
-          $("#routinestatus").css("background-color", "lightgreen");
-          $("#routinestatus").css("color", "white");
+          $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "green");
           $(".finish").prop("disabled", false);
+          sessionStorage.setItem('box1', box1);
+          sessionStorage.setItem('box2', box2);
+          sessionStorage.setItem('box3', box3);
+
+          fetch("/save-build-routine", {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify({ routine_step: [box1, box2, box3] })  // Send it along
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log("3-step saved:", data);
+          })
+          .catch(error => {
+            console.error("Error saving 3-step:", error);
+          });
 
           fetch("/save-progress", {
             method: "POST",
@@ -623,34 +865,39 @@ function eval() {
 function eval2() {
   $(".finish").prop("disabled", true);
   $("#routinestatus").text("");
-  $("#routinestatus").css("background-color", '#fff9fc');
   if (boxx1==="" || boxx2==="" || boxx3==="" || boxx4==="" || boxx5==="") {
     alert("Please fill all the steps!");
   } else {
     if (boxx1!=='cleanser') {
       $("#routinestatus").text("Try again! \n You might want to use the cleanser first!");
-      $("#routinestatus").css("background-color", "red");
-      $("#routinestatus").css("color", "white");
+      $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
     } else {
       if (routine_order[boxx2]>routine_order[boxx3]) {
         $("#routinestatus").text("Try again! \n You might want to use "+boxx3+" before "+boxx2+"!");
-        $("#routinestatus").css("background-color", "red");
-        $("#routinestatus").css("color", "white");
+        $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
       } else {
         if (routine_order[boxx3]>routine_order[boxx4]) {
           $("#routinestatus").text("Try again! \n You might want to use "+boxx4+" before "+boxx3+"!");
-          $("#routinestatus").css("background-color", "red");
-          $("#routinestatus").css("color", "white");
+          $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
         } else {
           if (routine_order[boxx4]>routine_order[boxx5]) {
             $("#routinestatus").text("Try again! \n You might want to use "+boxx5+" before "+boxx4+"!");
-            $("#routinestatus").css("background-color", "red");
-            $("#routinestatus").css("color", "white");
+            $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "red");
           } else {
           $("#routinestatus").text("Good Job! Your routine seems good");
-          $("#routinestatus").css("background-color", "lightgreen");
-          $("#routinestatus").css("color", "white");
+          $("#routinestatus").css("font-weight", "bold");
+      $("#routinestatus").css("color", "green");
           $(".finish").prop("disabled", false);
+
+          sessionStorage.setItem('boxx1', boxx1);
+          sessionStorage.setItem('boxx2', boxx2);
+          sessionStorage.setItem('boxx3', boxx3);
+          sessionStorage.setItem('boxx4', boxx4);
+          sessionStorage.setItem('boxx5', boxx5);
 
           fetch("/save-progress", {
             method: "POST",
@@ -1122,7 +1369,7 @@ function handleForm(event) {
   .catch(error => {
     console.error("Error saving progress:", error);
   });
-}
+  }
 }
 
 
@@ -1227,3 +1474,75 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateNavLocks();
 });
+
+// routine summary
+
+routine_summary();
+
+function routine_summary() {
+  let box1 = sessionStorage.getItem('box1');
+  let box2 = sessionStorage.getItem('box2');
+  let box3 = sessionStorage.getItem('box3');
+  let boxx1 = sessionStorage.getItem('boxx1');
+  let boxx2 = sessionStorage.getItem('boxx2');
+  let boxx3 = sessionStorage.getItem('boxx3');
+  let boxx4 = sessionStorage.getItem('boxx4');
+  let boxx5 = sessionStorage.getItem('boxx5');
+
+  skintype = sessionStorage.getItem("skintype");
+  skintype = skintype.charAt(0).toUpperCase() + skintype.slice(1);
+
+  let routine_data = [];
+  fetch("/data")
+  .then(res => res.json())
+  .then(data => {
+    routine_data = data.routine_steps;
+    if (box1 && box2 && box3) {
+      document.getElementById("3step").innerHTML=`<br><br><center><h3 style="color: #770fdb;">3-step</h3></center>`;
+
+      document.getElementById("3step").innerHTML+=`<div id='step-container' class="step-container">`;
+      updateSummary ("step-container", box1, routine_data, skintype);
+      updateSummary ("step-container", box2, routine_data, skintype);
+      updateSummary ("step-container", box3, routine_data, skintype);
+      document.getElementById("3step").innerHTML+=`</div>`;
+    }
+  
+    if (boxx1 && boxx2 && boxx3 && boxx4 && boxx5) {
+
+      document.getElementById("5step").innerHTML=`<br><br><center><h3 style="color: #770fdb;">5-step</h3></center>`;
+
+      document.getElementById("5step").innerHTML+=`<div id='step-container2' class="step-container2">`;
+
+      updateSummary ("step-container2", boxx1, routine_data, skintype);
+      updateSummary ("step-container2", boxx2, routine_data, skintype);
+      updateSummary ("step-container2", boxx3, routine_data, skintype);
+      updateSummary ("step-container2", boxx4, routine_data, skintype);
+      updateSummary ("step-container2", boxx5, routine_data, skintype);
+      document.getElementById("5step").innerHTML+=`</div>`;
+
+    }
+
+    if (!box1 && !boxx1) {
+      document.getElementById("routine-status").text = "Want to build a routine?";
+      document.getElementById("routine-status").href = "/build-routine";
+    } else if (box1 && !boxx1) {
+      document.getElementById("routine-status").text = "Want to build a 5-step routine?";
+      document.getElementById("routine-status").href = "/build-routine/5";
+    } else if (!box1 && boxx1) {
+      document.getElementById("routine-status").text = "Want to a 3-step routine?";
+      document.getElementById("routine-status").href = "/build-routine/3";
+    } 
+  });
+
+}
+
+function updateSummary (idx, box, routine_data, skintype) {
+  let ind = routine_order[box];
+  let { step, description, benefit, image, skin_type_ingredients, key_ingredients } = routine_data[ind];
+  box = box.charAt(0).toUpperCase() + box.slice(1);
+  document.getElementById(idx).innerHTML+=`<div class="box-wrapper">
+      <div class="products-summary"><img class='img-routine' title=${box} src='/static/${image}' alt=${box}></div>
+      <label class="box-label" style="font-weight:bold; font-size:16px">${box}</label>
+      <label class="box-label">Look for - <span style="color: purple;">${skin_type_ingredients[skintype]}</span></label>
+    </div>`;
+}

@@ -157,6 +157,10 @@ def build_step(step=3):
 def build_step5(step=5):
     return render_template('routine2.html', step=step)
 
+@app.route('/routine-summary')
+def routine_summary():
+    return render_template('routine_summary.html')
+
 
 @app.route('/finish')
 def finish():
@@ -272,6 +276,13 @@ def save_skintype():
     session["skinType"] = user_skin_type
     return jsonify({"status": "saved"})
 
+@app.route("/save-build-routine", methods=["POST"])
+def save_buildroutine():
+    data = request.get_json()
+    user_routine = data["routine_step"]
+    session["routine_step"] = user_routine
+    return jsonify({"status": "saved"})
+
 # ------------------- Save and Get Progress -------------------
 def save_user_data(user_data):
     if os.path.exists(USER_DATA_FILE):
@@ -306,7 +317,8 @@ def save_progress():
         "quiz3State": session.get("quiz_3", {}),  # ✅ ADD THIS LINE
         "finalQuizState": session.get("finalQuizState", {}),
         "routineState": session.get("routineState", {}),
-        "skinType": session.get("skinType", None)
+        "skinType": session.get("skinType", None),
+        "routine_step": session.get("routine_step")
     }
 
     save_user_data(user_data)
@@ -335,4 +347,4 @@ def quiz_q1():
 
 # -------------------
 if __name__ == '__main__':
-    app.run(debug=True, port=5004)
+    app.run(debug=True, port=5007)

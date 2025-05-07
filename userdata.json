@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 65.81,
-    "usertimeSpentOnQuiz": 9.3,
-    "usertimeSpentOnRoutine": 0,
+    "usertimeSpentOnLearn": 185.79,
+    "usertimeSpentOnQuiz": 105.84,
+    "usertimeSpentOnRoutine": 12.55,
     "userQuizScore": 2,
-    "TotalTimeSpentTillNow": 75.11,
+    "TotalTimeSpentTillNow": 304.18,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -22,19 +22,14 @@
       "scored": true,
       "user_answer": "Essence"
     },
-    "quiz3State": {
-      "answered": true,
-      "is_correct": false,
-      "scored": false,
-      "user_answer": {
-        "eye": "Eye Cream",
-        "moisturizer": "Moisturizer",
-        "serum": "Spot Treatment",
-        "spot": "Serum"
-      }
-    },
+    "quiz3State": {},
     "finalQuizState": {},
     "routineState": {},
-    "skinType": "normal"
+    "skinType": "oily",
+    "routine_step": [
+      "cleanser",
+      "spot-treatment",
+      "sunscreen"
+    ]
   }
 }

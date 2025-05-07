@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<br>
+<center><h2>Here's a summary of your routine with ingredients to look for for your skintype....</h2></center>
+
+<div id="3step"></div>
+
+<br>
+
+<div id="5step"></div>
+
+<br><br><br><br>
+<center><a id="routine-status" style="color: #770fdb; font-size: large;"></a></center>
+<br><br>
+
+<button style="margin-left: 90%; width: 100px;" type="button" class="btn btn-primary btn-lg" id="finish2" onclick="window.location.href='/finish'">Finish</button>
+
+<br><br><br><br>
+<style>
+
+    
+
+    #finish2 {
+        background-color: #770fdb;
+        color: white;
+        width: 150px;
+        border: none !important;
+        border-radius: 5px;
+        box-shadow: none !important;
+    }
+
+    #finish2:hover {
+        background-color: #5b07aa !important;
+    }
+
+    #routine-status:hover {
+        color: #5b07aa !important;
+    }
+
+    #finish2.clicked {
+        background-color: #5b07aa;
+        box-shadow: 0 0 15px #bb81f1 !important;
+    }
+
+</style>
+<script>
+    document.getElementById("finish2").addEventListener("click", function () {
+    this.classList.add("clicked");
+
+    // Remove the class after 1 second (1000 ms)
+    setTimeout(() => {
+        this.classList.remove("clicked");
+    }, 1000);
+    });
+  </script>
+{% endblock %}

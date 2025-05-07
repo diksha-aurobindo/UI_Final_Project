@@ -8,7 +8,7 @@
       "skin_type_ingredients": {
         "Oily": ["Salicylic Acid", "Niacinamide"],
         "Dry": ["Glycerin", "Ceramides"],
-        "Sensitive": ["Aloe Vera", "Centella Asiatica"],
+        "Normal": ["Aloe Vera", "Centella Asiatica"],
         "Combination": ["Niacinamide", "Green Tea Extract"],
         "Acne-Prone": ["Salicylic Acid", "Sulfur"]
       },
@@ -23,7 +23,7 @@
         {
           "name": "Glycerin",
           "percentage": "5%",
-          "good_for": ["Dry", "Sensitive"],
+          "good_for": ["Dry", "Normal"],
           "why_needed": "Attracts moisture into the skin to maintain hydration.",
           "caution": "Generally safe for all skin types."
         },
@@ -37,7 +37,7 @@
         {
           "name": "Ceramides",
           "percentage": "1%",
-          "good_for": ["Dry", "Sensitive"],
+          "good_for": ["Dry", "Normal"],
           "why_needed": "Strengthens the skin barrier and locks in moisture.",
           "caution": "Rarely causes irritation."
         },
@@ -58,7 +58,7 @@
       "skin_type_ingredients": {
         "Oily": ["Witch Hazel", "Niacinamide"],
         "Dry": ["Glycerin", "Panthenol"],
-        "Sensitive": ["Chamomile", "Aloe Vera"],
+        "Normal": ["Chamomile", "Aloe Vera"],
         "Combination": ["Niacinamide", "Green Tea"],
         "Acne-Prone": ["Salicylic Acid", "Zinc PCA"]
       },
@@ -87,7 +87,7 @@
       "skin_type_ingredients": {
         "Oily": ["Snail Mucin", "Green Tea"],
         "Dry": ["Hyaluronic Acid", "Glycerin"],
-        "Sensitive": ["Centella Asiatica", "Panthenol"],
+        "Normal": ["Centella Asiatica", "Panthenol"],
         "Combination": ["Niacinamide", "Fermented Extracts"],
         "Acne-Prone": ["Green Tea", "Centella Asiatica"]
       },
@@ -102,7 +102,7 @@
         {
           "name": "Snail Mucin",
           "percentage": "90%",
-          "good_for": ["Oily", "Sensitive"],
+          "good_for": ["Oily", "Normal"],
           "why_needed": "Repairs skin barrier and hydrates deeply.",
           "caution": "Patch test if allergic to snail secretion."
         }
@@ -116,7 +116,7 @@
       "skin_type_ingredients": {
         "Oily": ["Niacinamide", "Salicylic Acid"],
         "Dry": ["Hyaluronic Acid", "Vitamin C"],
-        "Sensitive": ["Centella Asiatica", "Peptides"],
+        "Normal": ["Centella Asiatica", "Peptides"],
         "Combination": ["Vitamin C", "Niacinamide"],
         "Acne-Prone": ["Vitamin C", "Salicylic Acid"]
       },
@@ -145,7 +145,7 @@
       "skin_type_ingredients": {
         "Oily": ["Caffeine", "Peptides"],
         "Dry": ["Hyaluronic Acid", "Ceramides"],
-        "Sensitive": ["Peptides", "Chamomile"],
+        "Normal": ["Peptides", "Chamomile"],
         "Combination": ["Caffeine", "Niacinamide"],
         "Acne-Prone": ["Peptides"]
       },
@@ -174,7 +174,7 @@
       "skin_type_ingredients": {
         "Oily": ["Benzoyl Peroxide", "Salicylic Acid"],
         "Dry": ["Sulfur"],
-        "Sensitive": ["Sulfur", "Niacinamide"],
+        "Normal": ["Sulfur", "Niacinamide"],
         "Combination": ["Salicylic Acid", "Sulfur"],
         "Acne-Prone": ["Benzoyl Peroxide", "Sulfur"]
       },
@@ -189,7 +189,7 @@
         {
           "name": "Sulfur",
           "percentage": "3%",
-          "good_for": ["Acne-Prone", "Sensitive"],
+          "good_for": ["Acne-Prone", "Normal"],
           "why_needed": "Dries out pimples and reduces oiliness.",
           "caution": "May cause dryness."
         }
@@ -203,7 +203,7 @@
       "skin_type_ingredients": {
         "Oily": ["Gel-Based Moisturizer", "Niacinamide"],
         "Dry": ["Hyaluronic Acid", "Ceramides"],
-        "Sensitive": ["Aloe Vera", "Ceramides"],
+        "Normal": ["Aloe Vera", "Ceramides"],
         "Combination": ["Niacinamide", "Hyaluronic Acid"],
         "Acne-Prone": ["Oil-Free Moisturizers"]
       },
@@ -211,7 +211,7 @@
         {
           "name": "Ceramides",
           "percentage": "3%",
-          "good_for": ["Dry", "Sensitive"],
+          "good_for": ["Dry", "Normal"],
           "why_needed": "Strengthens skin’s natural barrier.",
           "caution": "Safe."
         },
@@ -232,7 +232,7 @@
       "skin_type_ingredients": {
         "Oily": ["Zinc Oxide", "Niacinamide"],
         "Dry": ["Hyaluronic Acid", "Ceramides"],
-        "Sensitive": ["Titanium Dioxide", "Zinc Oxide"],
+        "Normal": ["Titanium Dioxide", "Zinc Oxide"],
         "Combination": ["Zinc Oxide", "Hyaluronic Acid"],
         "Acne-Prone": ["Mineral Sunscreens (Zinc)"]
       },
@@ -240,14 +240,14 @@
         {
           "name": "Zinc Oxide",
           "percentage": "20%",
-          "good_for": ["Sensitive", "Oily", "Acne-Prone"],
+          "good_for": ["Normal", "Oily", "Acne-Prone"],
           "why_needed": "Provides broad-spectrum sun protection safely.",
           "caution": "May leave white cast on deeper skin tones."
         },
         {
           "name": "Titanium Dioxide",
           "percentage": "10%",
-          "good_for": ["Sensitive"],
+          "good_for": ["Normal"],
           "why_needed": "Physical blocker, less irritating than chemical sunscreens.",
           "caution": "Minimal irritation risk."
         }
