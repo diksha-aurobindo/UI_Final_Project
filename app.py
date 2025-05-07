@@ -150,8 +150,35 @@ def quiz_results():
             "correct_answer": ["Serum", "Eye Cream", "Spot Treatment", "Moisturizer"],
             "user_answer": list(session.get("quiz_3", {}).get("user_answer", {}).values()),
             "is_correct": session.get("quiz_3", {}).get("is_correct", False),
+        },
+        {
+            "question": "You’re heading into winter and your skin starts feeling tight and flaky. You already use a cleanser and sunscreen. What combination of nourish products might help the most?",
+            "correct_answer": ["Serum with hyaluronic acid and a moisturizer with ceramides"],
+            "user_answer": list(session.get("quiz4State", {}).get("user_answer", {}).values()),
+            "is_correct": session.get("quiz4State", {}).get("is_correct", False),
         }
     ]
+
+    # Add detective quiz results
+    detective_quiz_states = session.get("detective_quiz", {})
+    detective_quiz_correct_answers = {
+        "q1": "Cleanser with Salicylic Acid",
+        "q2": "Spot Treatment with Sulfur",
+        "q3": "Ceramides",
+        "q4": "True"
+    }
+
+    for question_key, correct_answer in detective_quiz_correct_answers.items():
+        state = detective_quiz_states.get(question_key + "State", {})
+        user_answer = state.get("user_answer", "")
+        is_correct = state.get("is_correct", False)
+
+        questions.append({
+            "question": f"Detective Quiz: Your friend <strong>Maya</strong> has acne-prone, sensitive skin and just started breaking out. - {question_key.upper()}",
+            "correct_answer": [correct_answer],
+            "user_answer": [user_answer],
+            "is_correct": is_correct
+        })
 
     total_score = session.get("score", 0)
     return render_template("quizresult.html", questions=questions, total_score=total_score)
