@@ -30,23 +30,32 @@
 </center>
 <br><br><br>
 <style>
+  body {
+    background-color: #f5efff;
+  }
+
   .bubble {
-    background-color: #e0f2ff;
-    border: 2px solid #80bfff;
+    background-color: #f2e8ff;
+    border: 2px solid #c19bff;
     border-radius: 30px;
     padding: 20px;
     width: 220px;
     font-size: 18px;
     font-weight: bold;
-    color: #222;
+    color: #44008b;
     cursor: move;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 8px rgba(119, 15, 219, 0.2);
     text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .bubble:hover {
+    transform: scale(1.05);
   }
 
   .evaluate {
     padding: 12px 30px;
-    background-color: #d835a4;
+    background-color: #770fdb;
     border: none;
     color: #fff;
     font-weight: bold;
@@ -54,7 +63,30 @@
     border-radius: 8px;
     cursor: pointer;
   }
+
+  #jar {
+    border: 3px dashed #770fdb;
+    background-color: #ffffff;
+  }
+
+  #quiz-results a {
+    text-decoration: none;
+    color: #770fdb;
+  }
+
+  #quiz-results:disabled {
+    opacity: 0.5;
+  }
+
+  h1 {
+    color: #770fdb !important;
+  }
+
+  #finalFeedback {
+    font-size: 18px;
+  }
 </style>
+
 
 <script>
   const bubbleIds = ['cleanse', 'nourish', 'protect'];
@@ -86,16 +118,28 @@
   });
 
   function checkJarOrder() {
-    const dropped = Array.from(jar.children).map(el => el.id);
-    if (JSON.stringify(dropped) === JSON.stringify(correctOrder)) {
+  const dropped = Array.from(jar.children).map(el => el.id);
+  
+  // Send the dropped order to Flask backend
+  fetch('/submit-final-order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ answer: dropped })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.correct) {
       finalFeedback.textContent = '🎉 Great job! You got the order right!';
       finalFeedback.style.color = 'green';
-      $("#quiz-results").prop("disabled", false);
     } else {
       finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
       finalFeedback.style.color = 'red';
-      $("#quiz-results").prop("disabled", false);
     }
-  }
+    $("#quiz-results").prop("disabled", false);
+  });
+}
+
 </script>
 {% endblock %}

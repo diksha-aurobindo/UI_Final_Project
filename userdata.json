@@ -1,36 +1,18 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 676.66,
-    "usertimeSpentOnQuiz": 2.82,
+    "usertimeSpentOnLearn": 0,
+    "usertimeSpentOnQuiz": 7.74,
     "usertimeSpentOnRoutine": 0,
-    "userQuizScore": 1,
-    "TotalTimeSpentTillNow": 679.49,
-    "Userquiz1State": {
-      "answered": true,
-      "is_correct": true,
-      "scored": true,
-      "user_answer": [
-        "Dirt",
-        "Excess Oil",
-        "Makeup"
-      ]
-    },
-    "quiz2State": {
-      "answered": true,
-      "is_correct": false,
-      "user_answer": "Toner"
-    },
+    "userQuizScore": 0,
+    "TotalTimeSpentTillNow": 7.74,
+    "Userquiz1State": {},
+    "quiz2State": {},
     "quiz3State": {},
-    "quiz4State": {
-      "answered": true,
-      "is_correct": false,
-      "scored": false,
-      "user_answer": "C"
-    },
+    "quiz4State": {},
     "finalQuizState": {},
     "routineState": {},
-    "skinType": "oily",
+    "skinType": null,
     "routine_step": null
   }
 }

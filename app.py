@@ -304,6 +304,21 @@ def submit_quiz_4():
     return jsonify({"message": "Quiz 4 answer saved successfully."})
 
 
+ORRECT_ORDER = ['cleanse', 'nourish', 'protect']
+
+@app.route('/submit-final-order', methods=['POST'])
+def submit_final_order():
+    data = request.get_json()
+    user_order = data.get('answer', [])
+    
+    # Optional: save to a file or database
+    with open('final_quiz_responses.txt', 'a') as f:
+        f.write(f"{user_order}\n")
+
+    is_correct = user_order == CORRECT_ORDER
+    return jsonify({'correct': is_correct})
+
+
 
 @app.route("/submit-detective-quiz", methods=["POST"])
 def submit_detective_quiz():
