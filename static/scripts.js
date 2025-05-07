@@ -8,7 +8,13 @@ if (storedIndex !== null) {
   sessionStorage.setItem("currentIndex", currentIndex);
 }
 
-let maxUnlockedStep = 0;
+const storedMaxStep = sessionStorage.getItem("maxUnlockedStep");
+if (storedMaxStep !== null) {
+  maxUnlockedStep = parseInt(storedMaxStep);
+} else {
+  maxUnlockedStep = 0; // First visit: initialize to 0
+  sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
+}
 let routineData = [];
 
 const routine_order = {
@@ -35,7 +41,8 @@ fetch("/data")
       currentIndex = 0;
     }
 
-    maxUnlockedStep = currentIndex;
+    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);;
+    sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
     updateContent(currentIndex);
 
     steps.forEach((step, index) => {
@@ -103,10 +110,12 @@ function updateContent(index) {
     <h4 style="margin-top: 30px;">Learn About Active Ingredients</h4>`;
 
   key_ingredients.forEach(ingredient => {
-    learnMoreContent += `
-      <h5>${ingredient.name} (${ingredient.percentage})</h5>
-      <p><strong>Why Needed:</strong> ${ingredient.why_needed}</p>
-      <p><strong>Caution:</strong> ${ingredient.caution}</p>`;
+    if (ingredient.good_for.map(s => s.toLowerCase()).includes(userSkinType.toLowerCase())) {
+      learnMoreContent += `
+        <h5>${ingredient.name} (${ingredient.percentage})</h5>
+        <p><strong>Why Needed:</strong> ${ingredient.why_needed}</p>
+        <p><strong>Caution:</strong> ${ingredient.caution}</p>`;
+    }
   });
 
   // Set page content
@@ -1034,11 +1043,7 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
     resultMsg.style.color = quizState.is_correct ? "green" : "red";
     resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
 
-    if (quizState.is_correct) {
       nextBtn.style.display = "inline-block";
-    } else {
-      tryAgainBtn.style.display = "inline-block";
-    }
   }
 
   radioButtons.forEach(radio => {
@@ -1181,6 +1186,7 @@ function goToNext() {
     if (currentIndex < routineData.length - 1) {
       currentIndex++;
       maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+      sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
       updateContent(currentIndex);
       history.pushState(null, "", `/learn/${Object.keys(routine_order)[currentIndex]}`);
     }

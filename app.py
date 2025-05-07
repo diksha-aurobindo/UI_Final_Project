@@ -8,6 +8,14 @@ app.secret_key = os.urandom(24)  # Needed to use sessions
 
 USER_DATA_FILE = "userdata.json"
 
+# Define correct answers
+correct_answers = {
+    "q1": "Cleanser with Salicylic Acid",
+    "q2": "Spot Treatment with Sulfur",
+    "q3": "Ceramides",
+    "q4": "True"
+}
+
 # ------------------- Time Tracking -------------------
 @app.before_request
 def track_start_time():
@@ -101,9 +109,17 @@ def quiz3_q1():
 @app.route('/final-quiz/q1')
 def final_quiz_q1():
     update_time_spent("usertimeSpentOnLearn")
-    quiz_data = session.get("quiz_1", {})
-    # print(json.dumps(quiz_data))  # check if it's serializable
-    return render_template("finalquiz_ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
+
+    quiz_data = session.get("detective_quiz", {})
+    submitted = session.get("detective_quiz_submitted", False)
+
+    return render_template(
+        "finalquiz_ques1.html",
+        quiz_state=quiz_data,
+        submitted=submitted,
+        score=session.get('score', 0)
+    )
+
 
 @app.route('/final-quiz/q2')   # CORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRECTTTTTTTTTTTTTTT
 def final_quiz_q2():
@@ -140,7 +156,9 @@ def quiz_results():
     total_score = session.get("score", 0)
     return render_template("quizresult.html", questions=questions, total_score=total_score)
 
-
+@app.route('/routine-summary')
+def routine_summary():
+    return render_template('routine_summary.html')
 
 @app.route('/build-routine')
 def build():
@@ -267,7 +285,63 @@ def submit_quiz_3():
         "score": session["score"]
     })
 
+@app.route("/submit-detective-quiz", methods=["POST"])
+def submit_detective_quiz():
+    data = request.get_json()
+    user_answers = data.get("answers", {})  # should be dict {q1: "selected answer text", ...}
+    print(user_answers)
 
+    total_correct = 0
+    quiz_states = session.get('detective_quiz', {})  # Load existing states if any
+
+    correct_answers = {
+        "q1": "Cleanser with Salicylic Acid",
+        "q2": "Spot Treatment with Sulfur",
+        "q3": "Ceramides",
+        "q4": "True"
+    }
+
+    for question, correct in correct_answers.items():
+        user_answer = user_answers.get(question)
+        print(user_answer)
+
+        if user_answer == "correct":
+            is_correct = True
+        else:
+            is_correct = False
+        # is_correct = True if (user_answer == "correct") else False
+        # is_correct = (user_answer == correct) if answered else False
+        print(is_correct)
+
+        previous_state = quiz_states.get(question + "State", {})
+        already_scored = previous_state.get("scored", False)
+
+        # Only increment if correct and not already scored
+        if is_correct and not already_scored:
+            total_correct += 1
+
+        quiz_states[question + "State"] = {
+            "answered": user_answer is not None,
+            "is_correct": is_correct,
+            "scored": is_correct or already_scored,  # if correct now or already scored before
+            "user_answer": user_answer
+        }
+
+    # Save updated state
+    session['detective_quiz'] = quiz_states
+
+    print(total_correct)
+
+    # Update session score ONLY with newly correct answers
+    session["score"] = session.get("score", 0) + total_correct
+
+    print("User's Total Score in session:", session.get("score", 0))
+
+    return jsonify({
+        "total_correct": total_correct,
+        "score": session["score"],
+        "quiz_states": quiz_states
+    })
 
 @app.route("/save-skintype", methods=["POST"])
 def save_skintype():

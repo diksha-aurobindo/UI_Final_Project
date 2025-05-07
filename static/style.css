@@ -483,6 +483,9 @@ body {
   justify-content: space-between;
   gap: 3rem;
   align-items: flex-start;
+  max-height: 80vh; 
+  overflow-y: auto; 
+  padding-bottom: 4rem; 
 }
 
 
@@ -503,6 +506,7 @@ body {
   order: 2;
   display: flex;
   justify-content: center;
+  padding-right: 30px;
 }
 
 #skintype-content {
@@ -521,6 +525,7 @@ body {
 .step-image-card {
   background-color: #111; /* changed from white to dark gray/black */
   padding: 20px;
+  padding-right: 100px;
   border-radius: 20px;
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6); /* softened shadow for balance */
   max-width: 280px;
