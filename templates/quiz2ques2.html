@@ -41,13 +41,11 @@
 
   <div style="margin-top: 30px; display: flex; justify-content: space-between;">
     <button class="back-btn" onclick="history.back()">← Back</button>
-    <button id="nextBtn" class="back-btn" style="display: none;" onclick="goToNext()">Next →</button>
+    <button id="nextBtn" class="back-btn" style = "display: none;" onclick="goToNext()">Next →</button>
   </div>
 </div>
 
 <script>
-  const resultMsg = document.getElementById("result-msg");
-  const nextBtn = document.getElementById("nextBtn");
   const options = document.querySelectorAll('input[name="nourishQuiz"]');
 
   options.forEach(option => {
@@ -56,13 +54,13 @@
       const isCorrect = selectedValue === "B";
 
       // Show feedback message
-      resultMsg.textContent = isCorrect
+      document.getElementById("result-msg").textContent = isCorrect
         ? "✅ Correct! Great choice for dry, winter skin."
         : "❌ Oops! The best option is serum + moisturizer.";
-      resultMsg.style.color = isCorrect ? "green" : "red";
+        document.getElementById("result-msg").style.color = isCorrect ? "green" : "red";
 
-      // Always show the next button
-      nextBtn.style.display = "inline-block";
+        document.getElementById("nextBtn").style.display = "inline-block";
+
 
       // Save to backend
       fetch("/submit-quiz/4", {

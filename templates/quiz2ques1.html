@@ -141,7 +141,7 @@
   <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
     <button onclick="checkMatches()">Submit</button>
     <div class="feedback" id="feedback"></div>
-    <button id="nextBtn" class="back-btn" onclick="goToNext()">Next→</button>
+    <button id="nextBtn" class="back-btn" style = "display: none;" onclick="goToNext()">Next→</button>
   </div>
 </div>
 
@@ -217,10 +217,12 @@
 
     // Show feedback
     if (correct === Object.keys(correctMapping).length) {
+      document.getElementById("nextBtn").style.display = "inline-block";
       feedback.textContent = '🎉 All correct! You nailed it!';
       feedback.style.color = '#008000';
       confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
     } else {
+      document.getElementById("nextBtn").style.display = "inline-block";
       feedback.textContent = `❌ You got ${correct} out of ${Object.keys(correctMapping).length} correct. Try again!`;
       feedback.style.color = '#cc0000';
       feedback.classList.add('wiggle');
