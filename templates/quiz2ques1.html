@@ -10,7 +10,7 @@
   }
 
   h2 {
-    color: #770fdb ;
+    color: #770fdb;
     font-size: 2rem;
     margin-bottom: 1.5rem;
   }
@@ -31,6 +31,7 @@
     cursor: grab;
     user-select: none;
     transition: all 0.25s ease;
+    display: inline-block;
   }
 
   .item:hover {
@@ -102,6 +103,16 @@
   button:hover {
     background-color: #5f0bb7;
   }
+  
+  /* Style for the global Undo button */
+  #undoBtn {
+    background: #ccc;
+    color: #333;
+  }
+  
+  #undoBtn:hover {
+    background: #bbb;
+  }
 </style>
 
 <div class="container">
@@ -116,6 +127,7 @@
         <div class="item" draggable="true" data-match="moisturizer">Moisturizer</div>
       </div>
     </div>
+
     <div class="col-md-7">
       <div class="targets">
         <div class="target" data-accept="serum">
@@ -138,16 +150,24 @@
     </div>
   </div>
 
+  <!-- Global control buttons -->
   <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
     <button onclick="checkMatches()">Submit</button>
+    <button id="undoBtn" onclick="undoLastDrop()">Undo</button>
     <div class="feedback" id="feedback"></div>
-    <button id="nextBtn" class="back-btn" style = "display: none;" onclick="goToNext()">Next→</button>
+    <div class="feedback" id="dropWarning" style="display: none; color: #cc0000;">
+      ⚠️ You can only drop one item in each box!
+    </div>
+    <button id="nextBtn" class="back-btn" style="display: none;" onclick="goToNext()">Next→</button>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
   let draggedItem = null;
+  const draggables = document.getElementById('draggables');
+  // We'll maintain a drop history (stack) for undo purposes.
+  let dropHistory = [];
 
   function addDragEvents(item) {
     item.addEventListener('dragstart', () => {
@@ -178,15 +198,55 @@
     });
 
     target.addEventListener('drop', () => {
+      const dropWarning = document.getElementById('dropWarning');
+
       if (draggedItem) {
+        // If the drop slot already has an item, warn the user
+        if (dropSlot.children.length > 0) {
+          target.classList.remove('over');
+          target.classList.add('pulsed');
+
+          dropWarning.style.display = 'block';
+          dropWarning.classList.add('wiggle');
+          setTimeout(() => {
+            dropWarning.classList.remove('wiggle');
+            dropWarning.style.display = 'none';
+          }, 2000);
+          return;
+        }
+
+        // Remove the item from any previous slot
+        document.querySelectorAll('.drop-slot').forEach(slot => {
+          if (slot.contains(draggedItem)) {
+            slot.innerHTML = '';
+          }
+        });
+
+        // Place the dragged item into the drop slot
         dropSlot.innerHTML = '';
         dropSlot.appendChild(draggedItem);
         target.classList.remove('over');
         target.classList.add('pulsed');
         setTimeout(() => target.classList.remove('pulsed'), 400);
+
+        // Record this drop in history for the Undo button
+        dropHistory.push({ dropSlot: dropSlot, item: draggedItem });
       }
     });
   });
+
+  // Global Undo function: remove the last dropped item and return it to the draggable list
+  function undoLastDrop() {
+    if (dropHistory.length > 0) {
+      const lastDrop = dropHistory.pop();
+      const { dropSlot, item } = lastDrop;
+      if (dropSlot.contains(item)) {
+        dropSlot.removeChild(item);
+        // Append the item back to the main draggable list.
+        draggables.appendChild(item);
+      }
+    }
+  }
 
   function checkMatches() {
     const feedback = document.getElementById('feedback');
@@ -208,14 +268,12 @@
         const droppedText = dropped.textContent.trim();
         const expectedKey = target.dataset.accept;
         userAnswers[expectedKey] = droppedText;
-
         if (droppedText === correctMapping[expectedKey]) {
           correct++;
         }
       }
     });
 
-    // Show feedback
     if (correct === Object.keys(correctMapping).length) {
       document.getElementById("nextBtn").style.display = "inline-block";
       feedback.textContent = '🎉 All correct! You nailed it!';
@@ -228,22 +286,19 @@
       feedback.classList.add('wiggle');
     }
 
-    // Submit + Save
+    // Submit and save the user's progress
     fetch("/submit-quiz/3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ answer: userAnswers })
     })
     .then(res => res.json())
-    .then(data => {
-      console.log("✅ Quiz 3 submitted");
-      return fetch("/save-progress", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-      });
-    })
+    .then(() => fetch("/save-progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    }))
     .then(res => res.json())
-    .then(data => {
+    .then(() => {
       console.log("✅ Progress saved to userdata.json");
     })
     .catch(err => console.error("❌ Something went wrong", err));

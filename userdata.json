@@ -1,11 +1,19 @@
 {
   "1": {
     "userId": 1,
+<<<<<<< HEAD
     "usertimeSpentOnLearn": 25.65,
     "usertimeSpentOnQuiz": 28.12,
     "usertimeSpentOnRoutine": 0,
     "userQuizScore": 4,
     "TotalTimeSpentTillNow": 53.77,
+=======
+    "usertimeSpentOnLearn": 621.53,
+    "usertimeSpentOnQuiz": 5.87,
+    "usertimeSpentOnRoutine": 0,
+    "userQuizScore": 4,
+    "TotalTimeSpentTillNow": 627.39,
+>>>>>>> 870354b (changes)
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -26,7 +34,16 @@
       "answered": true,
       "is_correct": false,
       "scored": false,
+<<<<<<< HEAD
       "user_answer": {}
+=======
+      "user_answer": {
+        "eye": "Spot Treatment",
+        "moisturizer": "Moisturizer",
+        "serum": "Serum",
+        "spot": "Eye Cream"
+      }
+>>>>>>> 870354b (changes)
     },
     "quiz4State": {
       "answered": true,

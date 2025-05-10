@@ -1,6 +1,8 @@
 {% extends "index.html" %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <div class="quiz-container" style="max-width: 950px; margin: 0 auto; padding: 40px 20px;">
   <div class="quiz-header" style="margin-bottom: 30px;">
     <h1 style="color: #770fdb; font-size: 3rem; font-weight: bold;">QUIZ</h1>
@@ -10,7 +12,7 @@
     </p>
   </div>
 
-  <form class="quiz-options" style="display: flex; flex-direction: column; gap: 25px;">
+  <form class="quiz-options" id="nourishForm" style="display: flex; flex-direction: column; gap: 25px;">
     {% for opt in [
       {'val': 'A', 'text': 'Spot treatment and toner', 'imgs': ['spot_treatment.png', 'toner.png']},
       {'val': 'B', 'text': 'Serum with hyaluronic acid and a moisturizer with ceramides', 'imgs': ['serum.png', 'moisturizer.png']},
@@ -39,47 +41,56 @@
 
   <p id="result-msg" style="font-weight: bold; font-size: 1.2rem; margin-top: 25px;"></p>
 
-  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+  <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
     <button class="back-btn" onclick="history.back()">← Back</button>
-    <button id="nextBtn" class="back-btn" style = "display: none;" onclick="goToNext()">Next →</button>
+    <button type="button" id="submitBtn" onclick="submitNourishAnswer()" style="padding: 12px 30px; background-color: #770fdb; color: white; border: none; font-weight: bold; font-size: 16px; border-radius: 8px; cursor: pointer;">Submit</button>
+    <button id="nextBtn" class="back-btn" style="display: none;" onclick="goToNext()">Next →</button>
   </div>
 </div>
 
 <script>
-  const options = document.querySelectorAll('input[name="nourishQuiz"]');
+const form = document.getElementById("nourishForm");
+const submitBtn = document.getElementById("submitBtn");
+const resultMsg = document.getElementById("result-msg");
 
-  options.forEach(option => {
-    option.addEventListener("change", () => {
-      const selectedValue = option.value;
-      const selectedText = option.dataset.text;
-      const isCorrect = selectedValue === "B";
+function submitNourishAnswer() {
+  const selected = document.querySelector('input[name="nourishQuiz"]:checked');
+  if (!selected) {
+    resultMsg.textContent = "⚠️ Please select an option.";
+    resultMsg.style.color = "darkorange";
+    return;
+  }
+  const selectedValue = selected.value;
+  const selectedText = selected.dataset.text;
+  const isCorrect = selectedValue === "B";
 
-      // Show feedback message
-      document.getElementById("result-msg").textContent = isCorrect
-        ? "✅ Correct! Great choice for dry, winter skin."
-        : "❌ Oops! The best option is serum + moisturizer.";
-        document.getElementById("result-msg").style.color = isCorrect ? "green" : "red";
+  resultMsg.textContent = isCorrect
+    ? "✅ Correct! Great choice for dry, winter skin."
+    : "❌ Oops! The best option is serum + moisturizer.";
+  resultMsg.style.color = isCorrect ? "green" : "red";
+  document.getElementById("nextBtn").style.display = "inline-block";
 
-        document.getElementById("nextBtn").style.display = "inline-block";
+  if (isCorrect) {
+    confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+  }
 
+  fetch("/submit-quiz/4", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ answer: selectedText, is_correct: isCorrect })
+  })
+  .then(() => fetch("/save-progress", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  }))
+  .then(res => res.json())
+  .then(data => console.log("✅ Progress saved", data))
+  .catch(err => console.error("❌ Error saving", err));
+}
 
-      // Save to backend
-      fetch("/submit-quiz/4", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answer: selectedText, is_correct: isCorrect })
-      })
-        .then(() =>
-          fetch("/save-progress", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-          })
-        )
-        .then(res => res.json())
-        .then(data => console.log("✅ Progress saved", data))
-        .catch(err => console.error("❌ Error saving", err));
-    });
-  });
+function goToNext() {
+  window.location.href = "/learn/sunscreen";
+}
 </script>
 
 {% endblock %}

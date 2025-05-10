@@ -1,4 +1,5 @@
 ['cleanse', 'nourish', 'protect']
+<<<<<<< HEAD
 ['cleanse', 'nourish', 'protect']
 ['cleanse', 'nourish', 'protect']
 ['cleanse', 'nourish', 'protect']
@@ -13,3 +14,12 @@
 ['cleanse', 'nourish', 'protect']
 []
 []
+=======
+['nourish', 'protect', 'cleanse']
+['cleanse', 'protect', 'nourish']
+['cleanse', 'protect', 'nourish']
+['cleanse', 'nourish', 'protect']
+['cleanse', 'protect', 'nourish']
+['cleanse', 'nourish', 'protect']
+['cleanse', 'nourish', 'protect']
+>>>>>>> 870354b (changes)

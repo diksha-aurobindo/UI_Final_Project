@@ -1,6 +1,8 @@
 {% extends "index.html" %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <div class="quiz-container" style="text-align: center; padding: 50px; background-color: #fff9fc; min-height: 100vh;">
   <h1 style="font-family: 'Georgia', serif; font-size: 48px; color: #d835a4;">FINAL QUIZ</h1>
   <p style="font-size: 20px; color: #333; margin: 30px auto; max-width: 600px;">
@@ -20,15 +22,21 @@
     </div>
   </div>
 
-  <div style="margin-top: 40px;">
-    <button class="evaluate" onclick="checkJarOrder()">Check Answer</button>
-    <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
+  <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 15px; align-items: center;">
+    <div style="display: flex; gap: 20px; justify-content: center;">
+      <button id="backBtn" onclick="history.back()" style="background: none; border: none; color: #770fdb; font-weight: bold; font-size: 16px; cursor: pointer;">← BACK</button>
+      <button class="evaluate" onclick="checkJarOrder()" id="checkBtn">Check Answer</button>
+      <button class="evaluate" onclick="undoLastJarDrop()" id="undoBtn" style="background-color: #ccc; color: #333;">Undo</button>
+    </div>
+    <p id="finalFeedback" style="margin-top: 10px; font-weight: bold;"></p>
   </div>
 </div>
+
 <center>
-<button id="quiz-results" type="button" class="btn btn-outline-success" disabled><a href="/quiz-results">Quiz Results</a></button>
+  <button id="quiz-results" type="button" class="btn btn-outline-success" disabled><a href="/quiz-results">Quiz Results</a></button>
 </center>
 <br><br><br>
+
 <style>
   body {
     background-color: #f5efff;
@@ -87,22 +95,45 @@
   }
 </style>
 
-
 <script>
   const bubbleIds = ['cleanse', 'nourish', 'protect'];
   const correctOrder = ['cleanse', 'nourish', 'protect'];
+  const dropHistory = []; // for undo
+
+  const jar = document.getElementById('jar');
+  const finalFeedback = document.getElementById('finalFeedback');
+
+  const finalQuizLocked = localStorage.getItem("finalQuizLocked") === "true";
+  const savedOrder = JSON.parse(localStorage.getItem("finalQuizAnswer")) || [];
+
+  function lockQuiz() {
+    document.querySelectorAll('.bubble').forEach(el => el.draggable = false);
+    document.getElementById('checkBtn').disabled = true;
+    document.getElementById('undoBtn').disabled = true;
+  }
+
+  function restorePreviousAnswer() {
+    savedOrder.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) jar.appendChild(el);
+    });
+  }
+
+  if (finalQuizLocked) {
+    restorePreviousAnswer();
+    lockQuiz();
+    finalFeedback.textContent = '✅ Already submitted. Great job!';
+    finalFeedback.style.color = 'green';
+    document.getElementById("quiz-results").disabled = false;
+  }
 
   bubbleIds.forEach(id => {
     const el = document.getElementById(id);
     el.draggable = true;
-
     el.addEventListener('dragstart', e => {
       e.dataTransfer.setData('text/plain', id);
     });
   });
-
-  const jar = document.getElementById('jar');
-  const finalFeedback = document.getElementById('finalFeedback');
 
   jar.addEventListener('dragover', e => {
     e.preventDefault();
@@ -110,36 +141,46 @@
 
   jar.addEventListener('drop', e => {
     e.preventDefault();
+    if (finalQuizLocked) return;
     const id = e.dataTransfer.getData('text');
     const el = document.getElementById(id);
     if (!Array.from(jar.children).includes(el)) {
+      dropHistory.push({ el: el, from: el.parentElement });
       jar.appendChild(el);
     }
   });
 
-  function checkJarOrder() {
-  const dropped = Array.from(jar.children).map(el => el.id);
-  
-  // Send the dropped order to Flask backend
-  fetch('/submit-final-order', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ answer: dropped })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.correct) {
-      finalFeedback.textContent = '🎉 Great job! You got the order right!';
-      finalFeedback.style.color = 'green';
-    } else {
-      finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
-      finalFeedback.style.color = 'red';
+  function undoLastJarDrop() {
+    if (dropHistory.length > 0 && !finalQuizLocked) {
+      const last = dropHistory.pop();
+      last.from.appendChild(last.el);
     }
-    $("#quiz-results").prop("disabled", false);
-  });
-}
+  }
 
+  function checkJarOrder() {
+    const dropped = Array.from(jar.children).map(el => el.id);
+    fetch('/submit-final-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ answer: dropped })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.correct) {
+        finalFeedback.textContent = '🎉 Great job! You got the order right!';
+        finalFeedback.style.color = 'green';
+        localStorage.setItem("finalQuizLocked", "true");
+        localStorage.setItem("finalQuizAnswer", JSON.stringify(dropped));
+        lockQuiz();
+        confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
+      } else {
+        finalFeedback.textContent = '❌ Oops! Try again! The order is not correct yet.';
+        finalFeedback.style.color = 'red';
+      }
+      document.getElementById("quiz-results").disabled = false;
+    });
+  }
 </script>
 {% endblock %}

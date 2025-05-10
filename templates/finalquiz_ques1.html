@@ -8,7 +8,6 @@
   </p>
 
   <form id="detectiveQuiz" style="text-align: left; max-width: 600px; margin: 40px auto; font-size: 18px; color: #333;">
-    
     <div class="question-block">
       <p><strong>1. What should Maya use to clean her face?</strong></p>
       <label><input type="radio" name="q1" value="correct"> Cleanser with Salicylic Acid</label><br>
@@ -36,9 +35,11 @@
     <button type="button" class="evaluate" onclick="checkDetectiveQuiz()">Submit Answers</button>
     <p id="finalFeedback" style="margin-top: 20px; font-weight: bold;"></p>
   </form>
-  <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right; display: none;" onclick="goToNext()">Next →</button>
+  <div style="display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto;">
+    <button onclick="history.back()" style="background: none; border: none; color: #770fdb; font-weight: bold; font-size: 16px; cursor: pointer;">&larr; BACK</button>
+    <button id="nextBtn" class="back-btn" style="margin-top: 20px; display: none;" onclick="goToNext()">Next &rarr;</button>
+  </div>
 </div>
-
 
 <br><br><br>
 
@@ -72,35 +73,29 @@
 
 <script>
   window.onload = function() {
-    // const quizStates = {{ quiz_state|tojson }};
-    // const submitted = {{ submitted|tojson }};
-    const quizStates = JSON.parse('{{ quiz_state|tojson | safe }}');
-    const submitted = JSON.parse('{{ submitted|tojson | safe }}');
+    const quizStates = JSON.parse(localStorage.getItem("detectiveQuizState")) || {};
+    const submitted = localStorage.getItem("detectiveQuizSubmitted") === "true";
 
     if (submitted) {
-      for (const [key, state] of Object.entries(quizStates)) {
-        const qNum = key.replace("State", "");
-        const userAnswer = state.user_answer;
-  
-        const options = document.querySelectorAll(`input[name="${qNum}"]`);
+      for (const [key, value] of Object.entries(quizStates)) {
+        const options = document.querySelectorAll(`input[name="${key}"]`);
         options.forEach(option => {
-          if (option.value === userAnswer) {
-            option.checked = true;
-          }
+          if (option.value === value) option.checked = true;
           option.disabled = true;
         });
       }
       document.getElementById("nextBtn").style.display = "inline-block";
       document.getElementById("finalFeedback").textContent = "✅ Quiz already submitted.";
+      document.getElementById("finalFeedback").style.color = "green";
     }
   };
-  
+
   function checkDetectiveQuiz() {
     const form = document.getElementById("detectiveQuiz");
     const totalQuestions = 4;
     let allAnswered = true;
     let userAnswers = {};
-  
+
     for (let i = 1; i <= totalQuestions; i++) {
       const options = form.querySelectorAll(`input[name="q${i}"]`);
       let answered = false;
@@ -115,44 +110,39 @@
         break;
       }
     }
-  
+
     const feedback = document.getElementById("finalFeedback");
-  
+
     if (!allAnswered) {
       feedback.textContent = "⚠️ Please answer all the questions before submitting!";
       feedback.style.color = "darkgoldenrod";
       return;
     }
-  
+
     fetch("/submit-detective-quiz", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        answers: userAnswers
-      })
+      body: JSON.stringify({ answers: userAnswers })
     })
     .then(response => response.json())
     .then(data => {
       const correctCount = data.total_correct;
+      const total = 4;
 
-      console.log("correctCount: ", correctCount);
-      console.log("totalQe: ", totalQuestions);
-  
-      if (correctCount === totalQuestions) {
+      if (correctCount === total) {
         feedback.textContent = "🎉 You helped Maya clear her skin safely! You've earned the ‘Scenario Master’ badge! 😊";
         feedback.style.color = "green";
       } else {
-        feedback.textContent = `❌ You got ${correctCount}/${totalQuestions} correct. We're sad that you missed the 'Scenario Master' badge :(`;
+        feedback.textContent = `❌ You got ${correctCount}/${total} correct. We're sad that you missed the 'Scenario Master' badge :(`;
         feedback.style.color = "red";
       }
-  
+
       document.getElementById("nextBtn").style.display = "inline-block";
-  
-      // Disable all options
       const radios = form.querySelectorAll("input[type='radio']");
       radios.forEach(radio => radio.disabled = true);
+      localStorage.setItem("detectiveQuizState", JSON.stringify(userAnswers));
+      localStorage.setItem("detectiveQuizSubmitted", "true");
     });
   }
-  </script>
-
+</script>
 {% endblock %}

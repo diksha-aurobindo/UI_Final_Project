@@ -1300,7 +1300,7 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
     })
     .then(res => res.json())
     .then(data => {
-      resultMsg.textContent = data.correct ? "Good job!" : "That’s not correct.";
+      resultMsg.textContent = data.correct ? "Good job!" : "That’s not correct, essence helps with hydration!";
       resultMsg.style.display = "block";
       resultMsg.style.color = data.correct ? "green" : "red";
 
