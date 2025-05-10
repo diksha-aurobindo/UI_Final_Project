@@ -47,12 +47,33 @@
           "good_for": ["Acne-Prone"],
           "why_needed": "Reduces oiliness and kills acne-causing bacteria.",
           "caution": "May cause dryness; use moisturizer."
+        },
+        {
+          "name": "Aloe Vera",
+          "percentage": "10%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Soothes and calms skin while providing light hydration.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Centella Asiatica",
+          "percentage": "2%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Promotes healing and strengthens skin barrier.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Green Tea Extract",
+          "percentage": "3%",
+          "good_for": ["Combination", "Oily"],
+          "why_needed": "Provides antioxidant protection and helps control oil production.",
+          "caution": "Generally safe for all skin types."
         }
       ]
     },
     {
       "step": "Toner",
-      "description": "Balances the skin’s pH and preps for treatment.",
+      "description": "Balances the skin's pH and preps for treatment.",
       "benefit": "Refines pores and refreshes skin.",
       "image": "images/toner.png",
       "skin_type_ingredients": {
@@ -76,6 +97,55 @@
           "good_for": ["Oily", "Combination"],
           "why_needed": "Regulates oil and soothes redness.",
           "caution": "Rare irritation with very sensitive skin."
+        },
+        {
+          "name": "Glycerin",
+          "percentage": "5%",
+          "good_for": ["Dry", "Normal"],
+          "why_needed": "Attracts moisture into the skin to maintain hydration.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Panthenol",
+          "percentage": "2%",
+          "good_for": ["Dry", "Sensitive"],
+          "why_needed": "Soothes irritation and improves skin's moisture retention.",
+          "caution": "Very safe for most skin types."
+        },
+        {
+          "name": "Chamomile",
+          "percentage": "3%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Calms skin and reduces inflammation and redness.",
+          "caution": "Rare allergic reactions in those with daisy allergies."
+        },
+        {
+          "name": "Aloe Vera",
+          "percentage": "8%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Soothes and hydrates skin without clogging pores.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Green Tea",
+          "percentage": "4%",
+          "good_for": ["Combination", "Oily"],
+          "why_needed": "Antioxidant protection and helps control sebum production.",
+          "caution": "Very safe for most skin types."
+        },
+        {
+          "name": "Salicylic Acid",
+          "percentage": "1%",
+          "good_for": ["Acne-Prone", "Oily"],
+          "why_needed": "Exfoliates inside pores to prevent acne and blackheads.",
+          "caution": "May cause dryness if overused."
+        },
+        {
+          "name": "Zinc PCA",
+          "percentage": "1%",
+          "good_for": ["Acne-Prone", "Oily"],
+          "why_needed": "Regulates sebum production and has antimicrobial properties.",
+          "caution": "Generally safe for all skin types."
         }
       ]
     },
@@ -105,6 +175,48 @@
           "good_for": ["Oily", "Normal"],
           "why_needed": "Repairs skin barrier and hydrates deeply.",
           "caution": "Patch test if allergic to snail secretion."
+        },
+        {
+          "name": "Green Tea",
+          "percentage": "5%",
+          "good_for": ["Oily", "Acne-Prone"],
+          "why_needed": "Provides antioxidant protection and helps control oil.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Glycerin",
+          "percentage": "5%",
+          "good_for": ["Dry", "Normal"],
+          "why_needed": "Attracts moisture to the skin and improves hydration.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Centella Asiatica",
+          "percentage": "3%",
+          "good_for": ["Normal", "Acne-Prone"],
+          "why_needed": "Promotes wound healing and strengthens skin barrier.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Panthenol",
+          "percentage": "2%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Soothes irritation and improves skin's moisture retention.",
+          "caution": "Very safe for most skin types."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Combination", "Oily"],
+          "why_needed": "Regulates oil production and improves skin texture.",
+          "caution": "Rare irritation with very sensitive skin."
+        },
+        {
+          "name": "Fermented Extracts",
+          "percentage": "10%",
+          "good_for": ["Combination", "All Skin Types"],
+          "why_needed": "Improves product absorption and enhances skin radiance.",
+          "caution": "Patch test recommended for sensitive skin."
         }
       ]
     },
@@ -124,7 +236,7 @@
         {
           "name": "Vitamin C",
           "percentage": "10%",
-          "good_for": ["Dry", "Combination", "Oily"],
+          "good_for": ["Dry", "Combination", "Acne-Prone"],
           "why_needed": "Brightens skin and fades dark spots.",
           "caution": "May sting initially; introduce slowly."
         },
@@ -134,6 +246,34 @@
           "good_for": ["Dry", "All Skin Types"],
           "why_needed": "Attracts and retains moisture.",
           "caution": "Safe for all."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "10%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Regulates oil, minimizes pores, and improves skin texture.",
+          "caution": "High concentrations may cause flushing in some people."
+        },
+        {
+          "name": "Salicylic Acid",
+          "percentage": "2%",
+          "good_for": ["Oily", "Acne-Prone"],
+          "why_needed": "Penetrates pores to dissolve debris and prevent breakouts.",
+          "caution": "May cause dryness if overused."
+        },
+        {
+          "name": "Centella Asiatica",
+          "percentage": "3%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Soothes inflammation and promotes wound healing.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Peptides",
+          "percentage": "5%",
+          "good_for": ["Normal", "Aging Skin"],
+          "why_needed": "Stimulates collagen production and improves skin firmness.",
+          "caution": "Very safe for most skin types."
         }
       ]
     },
@@ -160,9 +300,37 @@
         {
           "name": "Peptides",
           "percentage": "2%",
-          "good_for": ["All Skin Types"],
+          "good_for": ["All Skin Types", "Normal", "Acne-Prone"],
           "why_needed": "Promotes collagen production and reduces wrinkles.",
           "caution": "Very safe."
+        },
+        {
+          "name": "Hyaluronic Acid",
+          "percentage": "1%",
+          "good_for": ["Dry", "All Skin Types"],
+          "why_needed": "Provides intense hydration to the under-eye area.",
+          "caution": "Safe for all skin types."
+        },
+        {
+          "name": "Ceramides",
+          "percentage": "3%",
+          "good_for": ["Dry", "Normal"],
+          "why_needed": "Strengthens the skin barrier and prevents moisture loss.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Chamomile",
+          "percentage": "3%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Calms and soothes the delicate eye area.",
+          "caution": "Rare allergic reactions in those with daisy allergies."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Combination", "All Skin Types"],
+          "why_needed": "Brightens dark circles and improves skin texture.",
+          "caution": "Rarely causes irritation."
         }
       ]
     },
@@ -182,16 +350,30 @@
         {
           "name": "Benzoyl Peroxide",
           "percentage": "5%",
-          "good_for": ["Acne-Prone"],
+          "good_for": ["Oily", "Acne-Prone"],
           "why_needed": "Kills acne bacteria quickly.",
           "caution": "Can cause dryness and irritation."
         },
         {
           "name": "Sulfur",
           "percentage": "3%",
-          "good_for": ["Acne-Prone", "Normal"],
+          "good_for": ["Acne-Prone", "Normal", "Dry", "Combination"],
           "why_needed": "Dries out pimples and reduces oiliness.",
           "caution": "May cause dryness."
+        },
+        {
+          "name": "Salicylic Acid",
+          "percentage": "2%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Penetrates pores to clear blockages and reduce inflammation.",
+          "caution": "May cause dryness if overused."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Normal", "All Skin Types"],
+          "why_needed": "Reduces inflammation and redness around blemishes.",
+          "caution": "Rarely causes irritation."
         }
       ]
     },
@@ -212,7 +394,7 @@
           "name": "Ceramides",
           "percentage": "3%",
           "good_for": ["Dry", "Normal"],
-          "why_needed": "Strengthens skin’s natural barrier.",
+          "why_needed": "Strengthens skin's natural barrier.",
           "caution": "Safe."
         },
         {
@@ -221,6 +403,34 @@
           "good_for": ["Dry", "Combination"],
           "why_needed": "Provides hydration without greasiness.",
           "caution": "Safe."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Oily", "Combination"],
+          "why_needed": "Regulates oil production and reduces pore appearance.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Gel-Based Moisturizer",
+          "percentage": "100%",
+          "good_for": ["Oily", "Acne-Prone"],
+          "why_needed": "Provides lightweight hydration without clogging pores.",
+          "caution": "May not be hydrating enough for dry skin."
+        },
+        {
+          "name": "Aloe Vera",
+          "percentage": "10%",
+          "good_for": ["Normal", "Sensitive"],
+          "why_needed": "Soothes skin while providing light hydration.",
+          "caution": "Generally safe for all skin types."
+        },
+        {
+          "name": "Oil-Free Moisturizers",
+          "percentage": "100%",
+          "good_for": ["Acne-Prone", "Oily"],
+          "why_needed": "Hydrates without adding excess oil that could trigger breakouts.",
+          "caution": "May not provide enough hydration for very dry skin."
         }
       ]
     },
@@ -240,7 +450,7 @@
         {
           "name": "Zinc Oxide",
           "percentage": "20%",
-          "good_for": ["Normal", "Oily", "Acne-Prone"],
+          "good_for": ["Normal", "Oily", "Acne-Prone", "Combination"],
           "why_needed": "Provides broad-spectrum sun protection safely.",
           "caution": "May leave white cast on deeper skin tones."
         },
@@ -250,6 +460,34 @@
           "good_for": ["Normal"],
           "why_needed": "Physical blocker, less irritating than chemical sunscreens.",
           "caution": "Minimal irritation risk."
+        },
+        {
+          "name": "Niacinamide",
+          "percentage": "4%",
+          "good_for": ["Oily", "All Skin Types"],
+          "why_needed": "Adds antioxidant protection and helps control oil.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Hyaluronic Acid",
+          "percentage": "1%",
+          "good_for": ["Dry", "Combination"],
+          "why_needed": "Prevents sunscreen from drying out the skin.",
+          "caution": "Safe for all skin types."
+        },
+        {
+          "name": "Ceramides",
+          "percentage": "3%",
+          "good_for": ["Dry", "Normal"],
+          "why_needed": "Strengthens skin barrier while protecting from UV damage.",
+          "caution": "Rarely causes irritation."
+        },
+        {
+          "name": "Mineral Sunscreens (Zinc)",
+          "percentage": "20%",
+          "good_for": ["Acne-Prone", "Sensitive"],
+          "why_needed": "Less likely to clog pores or irritate acne-prone skin.",
+          "caution": "May leave white cast on deeper skin tones."
         }
       ]
     }
