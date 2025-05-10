@@ -938,36 +938,33 @@ const nextBtn = document.getElementById('nextBtn');
 const quizState = window.quizState || {};
 
 // Quiz 1 ques1 functionality
-
 if (window.location.pathname.includes("/quiz1/q1")) {
-
   let selectedAnswers = [];
 
-  // 🔁 Restore previous quiz state (if exists)
+  const submitBtn = document.getElementById('submitBtn');
+
   if (quizState.answered) {
     selectedAnswers = quizState.user_answer || [];
-
-    // ✅ Re-check the previously selected answers
+  
+    // ✅ Restore and disable ALL checkboxes
     checkboxes.forEach(cb => {
-      if (selectedAnswers.includes(cb.value)) {
-        cb.checked = true;
-        cb.disabled = true;
-      }
+      cb.checked = selectedAnswers.includes(cb.value);
+      cb.disabled = true; // 🔒 Disable all checkboxes
     });
-
-    // ✅ Reset Fill the blanks
+  
+    // ✅ Restore the blanks
     blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
-
+  
     // ✅ Show result message
     resultMsg.textContent = quizState.is_correct ? "🎉 Good job!" : "That’s not correct.";
     resultMsg.style.display = "block";
     resultMsg.style.color = quizState.is_correct ? "green" : "red";
     resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
-
+  
     // ✅ Show next button
     nextBtn.style.display = "inline-block";
-
-    // ✅ Fire confetti if already correct
+  
+    // ✅ Confetti on correct
     if (quizState.is_correct && typeof confetti === "function") {
       confetti({
         particleCount: 150,
@@ -975,9 +972,13 @@ if (window.location.pathname.includes("/quiz1/q1")) {
         origin: { y: 0.6 }
       });
     }
+  
+    // ✅ Also disable the Submit button
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) submitBtn.disabled = true;
   }
+  
 
-  // 🔁 Add new selection handling
   checkboxes.forEach(cb => {
     cb.addEventListener('change', () => {
       selectedAnswers = Array.from(checkboxes)
@@ -986,40 +987,50 @@ if (window.location.pathname.includes("/quiz1/q1")) {
 
       blanks.forEach((b, i) => b.textContent = selectedAnswers[i] || '___');
 
-      if (selectedAnswers.length === 3) {
-        // Lock checkboxes
-        checkboxes.forEach(cb => cb.disabled = true);
+      // Limit selection to 3
+      if (selectedAnswers.length >= 3) {
+        checkboxes.forEach(c => {
+          if (!c.checked) c.disabled = true;
+        });
+      } else {
+        checkboxes.forEach(c => c.disabled = false);
+      }
+    });
+  });
 
-        // Send to backend
-        fetch(`/submit-quiz/1`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ answer: selectedAnswers })
-        })
-        .then(res => res.json())
-        .then(data => {
-          resultMsg.textContent = data.correct ? "🎉 Good job!" : "That’s not correct.";
-          resultMsg.style.display = "block";
-          resultMsg.style.color = data.correct ? "green" : "red";
+  // ✅ Submission only on button click
+  submitBtn.addEventListener('click', () => {
+    if (selectedAnswers.length !== 3) {
+      resultMsg.textContent = "Please select exactly 3 options.";
+      resultMsg.style.display = "block";
+      resultMsg.style.color = "orange";
+      return;
+    }
 
-          resultMsg.classList.remove("correct-message", "wrong-message");
-          resultMsg.classList.add(data.correct ? "correct-message" : "wrong-message");
+    fetch(`/submit-quiz/1`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer: selectedAnswers })
+    })
+    .then(res => res.json())
+    .then(data => {
+      resultMsg.textContent = data.correct ? "🎉 Good job!" : "That’s not correct.";
+      resultMsg.style.display = "block";
+      resultMsg.style.color = data.correct ? "green" : "red";
 
-          // 🎊 Confetti on correct answer
-          if (data.correct && typeof confetti === "function") {
-            confetti({
-              particleCount: 150,
-              spread: 70,
-              origin: { y: 0.6 }
-            });
-          }
+      resultMsg.classList.remove("correct-message", "wrong-message");
+      resultMsg.classList.add(data.correct ? "correct-message" : "wrong-message");
 
-          nextBtn.style.display = "inline-block";
-          checkboxes.forEach(cb => cb.disabled = true);
+      if (data.correct && typeof confetti === "function") {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
         });
       }
+
+      checkboxes.forEach(cb => cb.disabled = true);
+      nextBtn.style.display = "inline-block";
     });
   });
 }
@@ -1028,18 +1039,26 @@ if (window.location.pathname.includes("/quiz1/q1")) {
 // Quiz 1 ques 2 Functionality
 else if (window.location.pathname.includes("/quiz1/q2")) {
   const radioButtons = document.querySelectorAll('input[name="product"]');
+  const submitBtn = document.getElementById('submitBtn');
+  let selected = null;
 
   // 🔁 Restore previous quiz state (if exists)
   if (quizState.answered) {
-    const selected = quizState.user_answer?.[0]; // Radio buttons only have one answer
-    const selectedRadio = [...radioButtons].find(r => r.value === selected);
+    selected = quizState.user_answer?.[0];
+
+    const selectedRadio = [...radioButtons].find(r => r.value[0] === selected);
     if (selectedRadio) {
       selectedRadio.checked = true;
       selectedRadio.disabled = true;
-      selectedRadio.closest('.image-option').classList.add('selected');
+
+      // ✅ Clear old selections first (defensive)
+      document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
+
+      // ✅ Add 'selected' class to the right label
+      const imageOption = selectedRadio.closest('.image-option');
+      if (imageOption) imageOption.classList.add('selected');
     }
 
-    // ✅ Disable all radio buttons if answered
     radioButtons.forEach(r => r.disabled = true);
 
     resultMsg.textContent = quizState.is_correct ? "Answer is right!" : "Answer is wrong!";
@@ -1047,48 +1066,53 @@ else if (window.location.pathname.includes("/quiz1/q2")) {
     resultMsg.style.color = quizState.is_correct ? "green" : "red";
     resultMsg.classList.add(quizState.is_correct ? "correct-message" : "wrong-message");
 
-      nextBtn.style.display = "inline-block";
+    nextBtn.style.display = "inline-block";
+    submitBtn.disabled = true;
   }
 
+  // 🔁 Visual selection only, no submission
   radioButtons.forEach(radio => {
     radio.addEventListener('change', () => {
       document.querySelectorAll('.image-option').forEach(el => el.classList.remove('selected'));
       radio.closest('.image-option').classList.add('selected');
-      const selected = radio.value;
-
-      fetch(`/submit-quiz/2`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answer: [selected] })
-      })
-      .then(res => res.json())
-.then(data => {
-  resultMsg.textContent = data.correct ? "Good job!" : "That’s not correct.";
-  resultMsg.style.display = "block";
-  resultMsg.style.color = data.correct ? "green" : "red";
-
-  resultMsg.classList.remove("correct-message", "wrong-message");
-
-  if (data.correct) {
-    resultMsg.classList.add("correct-message");
-
-    // 🎉 Trigger confetti
-    confetti({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 }
+      selected = radio.value;
     });
-  } else {
-    resultMsg.classList.add("wrong-message");
-  }
+  });
 
-  // ✅ Always show Next button
-  nextBtn.style.display = "inline-block";
+  // ✅ Handle submit action
+  submitBtn.addEventListener('click', () => {
+    if (!selected) {
+      resultMsg.textContent = "Please select an option.";
+      resultMsg.style.display = "block";
+      resultMsg.style.color = "orange";
+      return;
+    }
 
-  // ✅ Lock all options
-  checkboxes.forEach(cb => cb.disabled = true);
-});
+    fetch(`/submit-quiz/2`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer: [selected] })
+    })
+    .then(res => res.json())
+    .then(data => {
+      resultMsg.textContent = data.correct ? "Good job!" : "That’s not correct.";
+      resultMsg.style.display = "block";
+      resultMsg.style.color = data.correct ? "green" : "red";
 
+      resultMsg.classList.remove("correct-message", "wrong-message");
+      resultMsg.classList.add(data.correct ? "correct-message" : "wrong-message");
+
+      if (data.correct && typeof confetti === "function") {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+
+      radioButtons.forEach(r => r.disabled = true);
+      submitBtn.disabled = true;
+      nextBtn.style.display = "inline-block";
     });
   });
 }
@@ -1103,7 +1127,7 @@ window.goToNext = function() {
     const currentStepName = Object.keys(routine_order)[currentIndex];
 
     // Go to next learn step
-    if (currentIndex < routineData.length - 1) {
+    if (currentIndex < routineData.length - 1 && currentStepName !== "essence" && currentStepName !== "moisturizer" && currentStepName !== "sunscreen") {
       currentIndex++;
       maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
       sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
@@ -1137,8 +1161,11 @@ window.goToNext = function() {
   else if (path.includes("/quiz1/q1")) {
     window.location.href = "/quiz1/q2";
   } else if (path.includes("/quiz1/q2") || path.includes("/quiz1/ques2")) {
-    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    currentIndex = 3;
     sessionStorage.setItem("currentIndex", 3);
+    // updateContent(currentIndex);
+    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
     history.pushState({ index: 3 }, "", "/learn/serum");
     window.location.href = "/learn/serum";
   }
@@ -1146,8 +1173,10 @@ window.goToNext = function() {
     window.location.href = "/quiz2/q2";
   } 
   else if (path === "/quiz2/q2") {
-    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    currentIndex = 7;
     sessionStorage.setItem("currentIndex", 7);
+    maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);
+    sessionStorage.setItem("maxUnlockedStep", maxUnlockedStep);
     history.pushState({ index: 7 }, "", "/learn/sunscreen");
     window.location.href = "/learn/sunscreen";  
   }
