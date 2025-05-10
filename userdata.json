@@ -1,18 +1,42 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 0,
-    "usertimeSpentOnQuiz": 7.74,
+    "usertimeSpentOnLearn": 25.65,
+    "usertimeSpentOnQuiz": 28.12,
     "usertimeSpentOnRoutine": 0,
-    "userQuizScore": 0,
-    "TotalTimeSpentTillNow": 7.74,
-    "Userquiz1State": {},
-    "quiz2State": {},
-    "quiz3State": {},
-    "quiz4State": {},
+    "userQuizScore": 4,
+    "TotalTimeSpentTillNow": 53.77,
+    "Userquiz1State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": [
+        "Dirt",
+        "Excess Oil",
+        "Makeup"
+      ]
+    },
+    "quiz2State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": "Essence"
+    },
+    "quiz3State": {
+      "answered": true,
+      "is_correct": false,
+      "scored": false,
+      "user_answer": {}
+    },
+    "quiz4State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": "Serum with hyaluronic acid and a moisturizer with ceramides"
+    },
     "finalQuizState": {},
     "routineState": {},
-    "skinType": null,
+    "skinType": "oily",
     "routine_step": null
   }
 }

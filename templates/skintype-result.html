@@ -7,10 +7,27 @@
     <h1 style="color: #770fdb;">Based on your replies, you have 
         <span id='skintyperesult' style="color: black;">{{ skinType }} </span> skin</h1>
 
-<br><br><br><br><br><br>
+<br><br><br>
+</center>
+<div id="skinresultinfo" class="step-container">
+  <div id="skinresultimg"></div>
+  <div id="skinresultdetail"></div>
+</div>
+<br><br><br><br>
+<center>
 <button type="submit" class="findskin-btn" style="margin: 0%;" onclick="window.location.href='/learn/cleanser'">Start Learning products -></button>
 </center>
 <script>
   const skinType = "{{ skinType }}";
 </script>
+<style>
+  .step-container {
+      display: flex;
+      gap: 60px; /* space between boxes */
+      justify-content: left;
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: 30%;
+    }
+</style>
 {% endblock %}

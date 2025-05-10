@@ -1,0 +1,135 @@
+{% extends "index.html" %}
+
+{% block content %}
+<center>
+  <style>
+    .btn-selected2, input[type="radio"]:checked + label {
+      background-color: #770fdb !important; /* Bootstrap primary color */
+      color: white !important;
+      border: 2px solid #5b07aa !important; /* Darker blue border */
+      box-shadow: 0 0 15px #bb81f1 !important;/* Optional glow effect */
+    }
+  </style>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts.js') }}"></script>
+
+
+<h1 id="skintypeheader">Let's find your Skin type by answering the following questions</h1><br>
+
+<div id="skintype_content">kjnjn</div>
+
+   <script>
+    $(".btn").click(function() {
+      $(".btn").removeClass("btn-selected2");
+      $(this).addClass("btn-selected2");
+    });
+
+    let skintypeques2 = {{skintypeques|tojson}}
+
+    skintypequestions();
+
+    function skintypequestions() {
+        if (skintypeques2 === '1') {
+            document.getElementById('skintype_content').innerHTML = `<form method="post" id="skin-type-form1">
+
+            <fieldset>
+
+            <div><br><br>
+                <h4 style="color: #444;">Where do you notice shine on your face by midday?</h4><br>
+                <p>(Select the image that best describes you)</p><br><br>
+            </div>
+                
+            <div class="skintype1-group">  
+                <input type="radio" id="11" class="btn-check" name="skintype1" value="1">
+                <label class="btn btn-outline-primary" for="11"><img src="/static/images/oily.png" width="140px" height="150px"></label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="21" class="btn-check" name="skintype1" value="2">
+                <label class="btn btn-outline-primary" for="21"><img src='/static/images/combination.png' width="130px" height="150px"></label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="31" class="btn-check" name="skintype1" value="3">
+                <label class="btn btn-outline-primary" for="31"><img src='/static/images/normal.png' width="130px" height="150px"></label>
+            </div>
+            </fieldset>
+            <br><br><br>
+
+                <br><br><button onclick="submitskin1(event)" type="submit" class="findskin-btn">Next</button>
+
+        </form>`;
+        } else if (skintypeques2 === '2') {
+            document.getElementById('skintype_content').innerHTML = `<form method="post" id="skin-type-form2">
+
+            <fieldset>
+
+            <div><br><br>
+                <h4 style="color: #444;">What best describes the look of your pores?</h4><br>
+                <p>(Select an option that best describes you)</p><br><br>
+            </div>
+                
+            <div class="skintype2-group">  
+                <input type="radio" id="12" class="btn-check" name="skintype2" value="1">
+                <label class="btn btn-outline-primary" for="12"><span id="skintype2span">Small and barely visible</span></label><br><br>
+                <input type="radio" id="22" class="btn-check" name="skintype2" value="2">
+                <label class="btn btn-outline-primary" for="22"><span id="skintype2span">Large and visible in T-zone</label></span><br><br>
+                <input type="radio" id="32" class="btn-check" name="skintype2" value="3">
+                <label class="btn btn-outline-primary" for="32"><span id="skintype2span">Large and visible all over</span></label>
+            </div>
+            </fieldset>
+            <br><br><br>
+            </form>
+                <br><br>
+                <button class="back-btn" onclick="history.back()" style="margin-left: 0%;">← Back</button> <button onclick="submitskin2(event)" type="submit" class="findskin-btn">Next</button>
+        `;
+        } else if (skintypeques2 === '3') {
+            document.getElementById('skintype_content').innerHTML = `<form method="post" id="skin-type-form3">
+
+            <fieldset>
+
+            <div><br><br>
+                <h4 style="color: #444;">If you skip moisturizer, how does your skin feel by midday?</h4><br>
+                <p>(Select the image that best describes you)</p><br><br>
+            </div>
+                
+            <div class="skintype3-group">  
+                <input type="radio" id="13" class="btn-check" name="skintype3" value="1">
+                <label class="btn btn-outline-primary" for="13"><img src="/static/images/oily_skin.png" width="160px" height="150px"><br>Shiny</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="23" class="btn-check" name="skintype3" value="2">
+                <label class="btn btn-outline-primary" for="23"><img src='/static/images/normal_skin.png' width="160px" height="150px"><br>No change</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="33" class="btn-check" name="skintype3" value="3">
+                <label class="btn btn-outline-primary" for="33"><img src='/static/images/dry_skin.png' width="160px" height="150px"><br>Dry/tight/flaky</label>
+            </div>
+            </fieldset>
+            <br><br><br>
+
+                <br><br>
+            </form>
+                <button class="back-btn" onclick="history.back()" style="margin-left: 0%;">← Back</button> 
+                <button onclick="handleForm(event)" type="submit" class="findskin-btn">Submit</button>
+        `;
+        } else {
+            alert("invalid");
+        }
+    }
+
+    function saveskintypeanswers() {
+            let s1=sessionStorage.getItem('skintype1');
+            let s2=sessionStorage.getItem('skintype2');
+            let s3=sessionStorage.getItem('skintype3');
+            if (s1) {
+                $("input[name='skintype1'][value="+s1+"]").prop("checked", true);
+            }
+            if (s2) {
+                $("input[name='skintype2'][value="+s2+"]").prop("checked", true);
+            }
+            if (s3) {
+                $("input[name='skintype3'][value="+s3+"]").prop("checked", true);
+            }
+    }
+
+    saveskintypeanswers();
+
+
+  </script>
+</center>
+{% endblock %}

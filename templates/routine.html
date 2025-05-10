@@ -72,7 +72,7 @@
 
 
 <center>
-<button type="button" class="reset btn btn-secondary col-md-2 col-2" onclick="window.location.reload()">Reset</button>
+<button type="button" class="reset btn btn-secondary col-md-2 col-2" onclick="reset3()">Reset</button>
 <button type="button" id="evaluate" class="btn btn-primary btn-lg col-md-2 col-2" onclick="eval()">Evaluate</button>
 <br><span id="routinestatus" class="default col-md-4 col-12"></span><br>           
 </center>
@@ -155,5 +155,329 @@
         this.classList.remove("clicked");
     }, 1000);
     });
+
+
+
+
+    function makeDraggable($el) {
+    $el.draggable({
+      revert: "invalid",
+      containment: "body",
+      stack: ".product-images",
+      start: function () {
+        var previousDrop = $(this).data("droppedOn");
+        if (previousDrop) {
+            $("#"+previousDrop).droppable('enable');
+            $("#"+previousDrop).removeClass("ondrop");
+            sessionStorage.setItem(previousDrop,'');
+
+        }
+        // Remove transform to avoid jump on next drag
+        $(this).css("transform", "");
+      }
+    });
+  }
+
+
+  $(".products").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            console.log(previousDrop+"inside product");
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
+        if (previousDrop==='box1') {
+          box1='';
+          sessionStorage.setItem('box1','');
+          $("#box1").removeClass("ondrop")
+          $("#box1").droppable("enable");
+        } else if (previousDrop==='box2') {
+          box2='';
+          sessionStorage.setItem('box2','');
+          $("#box2").removeClass("ondrop")
+          $("#box2").droppable("enable");
+        } else if (previousDrop==='box3') {
+          box3='';
+          sessionStorage.setItem('box3','');
+          $("#box3").removeClass("ondrop")
+          $("#box3").droppable("enable");
+        } else if (previousDrop==='boxx1') {
+          boxx1='';
+          sessionStorage.setItem('boxx1','');
+          $("#boxx1").removeClass("ondrop")
+          $("#boxx1").droppable("enable");
+        } else if (previousDrop==='boxx2') {
+          boxx2='';
+          sessionStorage.setItem('boxx2','');
+          $("#boxx2").removeClass("ondrop")
+          $("#boxx2").droppable("enable");
+        } else if (previousDrop==='boxx3') {
+          boxx3='';
+          sessionStorage.setItem('boxx3','');
+          $("#boxx3").removeClass("ondrop")
+          $("#boxx3").droppable("enable");
+        } else if (previousDrop==='boxx4') {
+          boxx4='';
+          sessionStorage.setItem('boxx4','');
+          $("#boxx4").removeClass("ondrop")
+          $("#boxx4").droppable("enable");
+        } else if (previousDrop==='boxx5') {
+          boxx5='';
+          sessionStorage.setItem('boxx5','');
+          $("#boxx5").removeClass("ondrop")
+          $("#boxx5").droppable("enable");
+        } 
+        ui.helper.data("droppedOn", $(this).attr("id"));
+        
+    }
+  });
+
+    $("#box1").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .addClass("ondrop")
+        .droppable("disable")
+
+        box1 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
+
+        if (box1===box2) {
+          box2='';
+          sessionStorage.setItem('box2','');
+          $("#box2").droppable("enable");
+          $("#box2").removeClass("ondrop")
+        } else if (box1===box3) {
+          box3='';
+          sessionStorage.setItem('box3','');
+          $("#box3").droppable("enable");
+          $("#box3").removeClass("ondrop")
+        } 
+
+        ui.helper.data("droppedOn", $(this).attr("id"));
+
+        const $box = $(this);
+      const $item = ui.draggable;
+
+      // Move into the box
+      $item.appendTo($box);
+
+      // Center inside the box
+      const boxWidth = $box.width();
+      const boxHeight = $box.height();
+      const itemWidth = $item.outerWidth();
+      const itemHeight = $item.outerHeight();
+
+      $item.css({
+        position: "absolute",
+        left: (boxWidth - itemWidth) / 3 + "px",
+        top: (boxHeight - itemHeight) / 3 + "px"
+      });
+
+      // Reinitialize draggable after drop
+      makeDraggable($item);
+
+    }
+  });
+
+  $("#box2").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+        .addClass("ondrop")
+
+        box2 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
+        if (box1===box2) {
+          box1='';
+          sessionStorage.setItem('box1','');
+          $("#box1").droppable("enable");
+          $("#box1").removeClass("ondrop")
+        } else if (box2===box3) {
+          box3='';
+          sessionStorage.setItem('box3','');
+          $("#box3").droppable("enable");
+          $("#box3").removeClass("ondrop")
+        }
+
+        ui.helper.data("droppedOn", $(this).attr("id"));  
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 8 + "px",
+          top: (boxHeight - itemHeight) / 8 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
+    }
+  });
+
+  $("#box3").droppable({
+    over: function(event, ui) {
+      $(this).addClass("hover");
+    },
+    out: function(event, ui) {
+      $(this).removeClass("hover");
+    },
+    drop: function(event, ui) {
+      $(this)
+        .removeClass("hover")
+        .droppable("disable")
+        .addClass("ondrop")
+
+        box3 = ui.draggable.attr("id");
+        var previousDrop = ui.helper.data("droppedOn");
+
+        if (previousDrop) {
+          if (previousDrop.startsWith('product')) {
+            $("#"+previousDrop).droppable("enable");
+          }
+        }
+
+        if (box3===box1) {
+          box1='';
+          sessionStorage.setItem('box1','');
+          $("#box1").droppable("enable");
+          $("#box1").removeClass("ondrop")
+        } else if (box2===box3) {
+          box2='';
+          sessionStorage.setItem('box2','');
+          $("#box2").droppable("enable");
+          $("#box2").removeClass("ondrop")
+        }
+        ui.helper.data("droppedOn", $(this).attr("id")); 
+
+        const $box = $(this);
+        const $item = ui.draggable;
+  
+        // Move into the box
+        $item.appendTo($box);
+  
+        // Center inside the box
+        const boxWidth = $box.width();
+        const boxHeight = $box.height();
+        const itemWidth = $item.outerWidth();
+        const itemHeight = $item.outerHeight();
+  
+        $item.css({
+          position: "absolute",
+          left: (boxWidth - itemWidth) / 8 + "px",
+          top: (boxHeight - itemHeight) /8 + "px"
+        });
+  
+        // Reinitialize draggable after drop
+        makeDraggable($item);
+    }
+  });
+
+
+    function saveroutine() {
+  box1 = sessionStorage.getItem('box1');
+  box2 = sessionStorage.getItem('box2');
+  box3 = sessionStorage.getItem('box3');
+  
+  
+  if (box1 && box2 && box3) {
+  
+  if (box1!=='') {
+
+    $box = "#box1";
+    $item = "#"+box1;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+  }
+
+  if (box2!=='') {
+    $box = "#box2";
+    $item = "#"+box2;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  if (box3!=='') {
+    $box = "#box3";
+    $item = "#"+box3;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  }
+}
+
+saveroutine();
+
+
+
   </script>
 {% endblock %}

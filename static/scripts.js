@@ -238,6 +238,13 @@ function drag_drop() {
       containment: "body",
       stack: ".product-images",
       start: function () {
+        var previousDrop = $(this).data("droppedOn");
+        if (previousDrop) {
+            $("#"+previousDrop).droppable('enable');
+            $("#"+previousDrop).removeClass("ondrop");
+            sessionStorage.setItem(previousDrop,'');
+
+        }
         // Remove transform to avoid jump on next drag
         $(this).css("transform", "");
       }
@@ -253,6 +260,9 @@ function drag_drop() {
         var previousDrop = $(this).data("droppedOn");
         if (previousDrop) {
             $("#"+previousDrop).droppable('enable');
+            $("#"+previousDrop).removeClass("ondrop");
+            sessionStorage.setItem(previousDrop,'');
+
         }
         $(this).css("transform", "");
     }
@@ -282,34 +292,42 @@ function drag_drop() {
 
         if (previousDrop==='box1') {
           box1='';
+          sessionStorage.setItem('box1','');
           $("#box1").removeClass("ondrop")
           $("#box1").droppable("enable");
         } else if (previousDrop==='box2') {
           box2='';
+          sessionStorage.setItem('box2','');
           $("#box2").removeClass("ondrop")
           $("#box2").droppable("enable");
         } else if (previousDrop==='box3') {
           box3='';
+          sessionStorage.setItem('box3','');
           $("#box3").removeClass("ondrop")
           $("#box3").droppable("enable");
         } else if (previousDrop==='boxx1') {
           boxx1='';
+          sessionStorage.setItem('boxx1','');
           $("#boxx1").removeClass("ondrop")
           $("#boxx1").droppable("enable");
         } else if (previousDrop==='boxx2') {
           boxx2='';
+          sessionStorage.setItem('boxx2','');
           $("#boxx2").removeClass("ondrop")
           $("#boxx2").droppable("enable");
         } else if (previousDrop==='boxx3') {
           boxx3='';
+          sessionStorage.setItem('boxx3','');
           $("#boxx3").removeClass("ondrop")
           $("#boxx3").droppable("enable");
         } else if (previousDrop==='boxx4') {
           boxx4='';
+          sessionStorage.setItem('boxx4','');
           $("#boxx4").removeClass("ondrop")
           $("#boxx4").droppable("enable");
         } else if (previousDrop==='boxx5') {
           boxx5='';
+          sessionStorage.setItem('boxx5','');
           $("#boxx5").removeClass("ondrop")
           $("#boxx5").droppable("enable");
         } 
@@ -343,10 +361,12 @@ function drag_drop() {
 
         if (box1===box2) {
           box2='';
+          sessionStorage.setItem('box2','');
           $("#box2").droppable("enable");
           $("#box2").removeClass("ondrop")
         } else if (box1===box3) {
           box3='';
+          sessionStorage.setItem('box3','');
           $("#box3").droppable("enable");
           $("#box3").removeClass("ondrop")
         } 
@@ -401,10 +421,12 @@ function drag_drop() {
 
         if (box1===box2) {
           box1='';
+          sessionStorage.setItem('box1','');
           $("#box1").droppable("enable");
           $("#box1").removeClass("ondrop")
         } else if (box2===box3) {
           box3='';
+          sessionStorage.setItem('box3','');
           $("#box3").droppable("enable");
           $("#box3").removeClass("ondrop")
         }
@@ -458,10 +480,12 @@ function drag_drop() {
 
         if (box3===box1) {
           box1='';
+          sessionStorage.setItem('box1','');
           $("#box1").droppable("enable");
           $("#box1").removeClass("ondrop")
         } else if (box2===box3) {
           box2='';
+          sessionStorage.setItem('box2','');
           $("#box2").droppable("enable");
           $("#box2").removeClass("ondrop")
         }
@@ -514,18 +538,22 @@ function drag_drop() {
 
         if (boxx1===boxx2) {
           boxx2='';
+          sessionStorage.setItem('boxx2','');
           $("#boxx2").droppable("enable");
           $("#boxx2").removeClass("ondrop")
         } else if (boxx1===boxx3) {
           boxx3='';
+          sessionStorage.setItem('boxx3','');
           $("#boxx3").droppable("enable");
           $("#boxx3").removeClass("ondrop")
         } else if (boxx1===boxx4) {
           boxx4='';
+          sessionStorage.setItem('boxx4','');
           $("#boxx4").droppable("enable");
           $("#boxx4").removeClass("ondrop")
         } else if (boxx1===boxx5) {
           boxx5='';
+          sessionStorage.setItem('boxx5','');
           $("#boxx5").droppable("enable");
           $("#boxx5").removeClass("ondrop")
         }
@@ -579,18 +607,22 @@ function drag_drop() {
 
         if (boxx1===boxx2) {
           boxx1='';
+          sessionStorage.setItem('boxx1','');
           $("#boxx1").droppable("enable");
           $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx3) {
           boxx3='';
+          sessionStorage.setItem('boxx3','');
           $("#boxx3").droppable("enable");
           $("#boxx3").removeClass("ondrop")
         } else if (boxx2===boxx4) {
           boxx4='';
+          sessionStorage.setItem('boxx4','');
           $("#boxx4").droppable("enable");
           $("#boxx4").removeClass("ondrop")
         } else if (boxx2===boxx5) {
           boxx5='';
+          sessionStorage.setItem('boxx5','');
           $("#boxx5").droppable("enable");
           $("#boxx5").removeClass("ondrop")
         }
@@ -644,18 +676,22 @@ function drag_drop() {
 
         if (boxx1===boxx3) {
           boxx1='';
+          sessionStorage.setItem('boxx1','');
           $("#boxx1").droppable("enable");
           $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx3) {
           boxx2='';
+          sessionStorage.setItem('boxx2','');
           $("#boxx2").droppable("enable");
           $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx4) {
           boxx4='';
+          sessionStorage.setItem('boxx4','');
           $("#boxx4").droppable("enable");
           $("#boxx4").removeClass("ondrop")
         } else if (boxx3===boxx5) {
           boxx5='';
+          sessionStorage.setItem('boxx5','');
           $("#boxx5").droppable("enable");
           $("#boxx5").removeClass("ondrop")
         }
@@ -708,18 +744,22 @@ function drag_drop() {
 
         if (boxx1===boxx4) {
           boxx1='';
+          sessionStorage.setItem('boxx1','');
           $("#boxx1").droppable("enable");
           $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx4) {
           boxx2='';
+          sessionStorage.setItem('boxx2','');
           $("#boxx2").droppable("enable");
           $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx4) {
           boxx3='';
+          sessionStorage.setItem('boxx3','');
           $("#boxx3").droppable("enable");
           $("#boxx3").removeClass("ondrop")
         } else if (boxx4===boxx5) {
           boxx5='';
+          sessionStorage.setItem('boxx5','');
           $("#boxx5").droppable("enable");
           $("#boxx5").removeClass("ondrop")
         }
@@ -773,18 +813,22 @@ function drag_drop() {
 
         if (boxx1===boxx5) {
           boxx1='';
+          sessionStorage.setItem('boxx1','');
           $("#boxx1").droppable("enable");
           $("#boxx1").removeClass("ondrop")
         } else if (boxx2===boxx5) {
           boxx2='';
+          sessionStorage.setItem('boxx2','');
           $("#boxx2").droppable("enable");
           $("#boxx2").removeClass("ondrop")
         } else if (boxx3===boxx5) {
           boxx3='';
+          sessionStorage.setItem('boxx3','');
           $("#boxx3").droppable("enable");
           $("#boxx3").removeClass("ondrop")
         } else if (boxx4===boxx5) {
           boxx4='';
+          sessionStorage.setItem('boxx4','');
           $("#boxx4").droppable("enable");
           $("#boxx4").removeClass("ondrop")
         }
@@ -827,10 +871,163 @@ sessionStorage.setItem('boxx5', '');
 */
 drag_drop();
 
+
+function saveroutine() {
+  box1 = sessionStorage.getItem('box1');
+  box2 = sessionStorage.getItem('box2');
+  box3 = sessionStorage.getItem('box3');
+  
+  if (box1 && box2 && box3) {
+  
+  if (box1!=='') {
+
+    $box = "#box1";
+    $item = "#"+box1;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+  }
+
+  if (box2!=='') {
+    $box = "#box2";
+    $item = "#"+box2;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  if (box3!=='') {
+    $box = "#box3";
+    $item = "#"+box3;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  }
+}
+
+function saveroutine2() {
+boxx1 = sessionStorage.getItem('boxx1');
+  boxx2 = sessionStorage.getItem('boxx2');
+  boxx3 = sessionStorage.getItem('boxx3');
+  boxx4 = sessionStorage.getItem('boxx4');
+  boxx5 = sessionStorage.getItem('boxx5');
+  if (boxx1 && boxx2 && boxx3 && boxx4 && boxx5) {
+
+  if (boxx1!=='') {
+    $box = "#boxx1";
+    $item = "#"+boxx1;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  if (boxx2!=='') {
+    $box = "#boxx2";
+    $item = "#"+boxx2;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+  }
+  if (boxx3!=='') {
+    $box = "#boxx3";
+   $item = "#"+boxx3;
+   var fakeEvent = jQuery.Event("drop");
+   var fakeUI = {
+     draggable: $($item),
+     helper: $($item),
+     offset: $($item).offset(),
+     position: $($item).position()
+   };
+   $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+
+  }
+  if (boxx4!=='') {
+    $box = "#boxx4";
+    $item = "#"+boxx4;
+    var fakeEvent = jQuery.Event("drop");
+    var fakeUI = {
+      draggable: $($item),
+      helper: $($item),
+      offset: $($item).offset(),
+      position: $($item).position()
+    };
+    $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+
+
+  }
+  if (boxx5!=='') {
+    $box = "#boxx5";
+     $item = "#"+boxx5;
+     var fakeEvent = jQuery.Event("drop");
+     var fakeUI = {
+       draggable: $($item),
+       helper: $($item),
+       offset: $($item).offset(),
+       position: $($item).position()
+     };
+     $($box).droppable("option", "drop").call($($box)[0], fakeEvent, fakeUI);
+  }
+ }
+
+}
+saveroutine2();
+saveroutine();
+
+function reset3 () {
+  sessionStorage.setItem('box1','');
+  sessionStorage.setItem('box2','');
+  sessionStorage.setItem('box3','');
+  window.location.reload();
+}
+
+function reset5 () {
+  sessionStorage.setItem('boxx1','');
+  sessionStorage.setItem('boxx2','');
+  sessionStorage.setItem('boxx3','');
+  sessionStorage.setItem('boxx4','');
+  sessionStorage.setItem('boxx5','');
+  window.location.reload();
+}
+
 function eval() {
   $(".finish").prop("disabled", true);
   $("#routinestatus").text("");
-  if (box1==="" || box2==="" || box3==="") {
+
+  if (box1==='' && sessionStorage.getItem('box1')) {
+      box1 = sessionStorage.getItem('box1');
+      box2 = sessionStorage.getItem('box2');
+      box3 = sessionStorage.getItem('box3');
+  }
+  if (!box1 || !box2 || !box3 || box1==="" || box2==="" || box3==="" ) {
     alert("Please fill all the steps!");
   } else {
     if (box1!=='cleanser') {
@@ -878,7 +1075,15 @@ function eval() {
 function eval2() {
   $(".finish").prop("disabled", true);
   $("#routinestatus").text("");
-  if (boxx1==="" || boxx2==="" || boxx3==="" || boxx4==="" || boxx5==="") {
+
+  if (boxx1==='' && sessionStorage.getItem('boxx1')) {
+      boxx1 = sessionStorage.getItem('boxx1');
+      boxx2 = sessionStorage.getItem('boxx2');
+      boxx3 = sessionStorage.getItem('boxx3');
+      boxx4 = sessionStorage.getItem('boxx4');
+      boxx5 = sessionStorage.getItem('boxx5');
+  }
+  if (boxx1==="" || boxx2==="" || boxx3==="" || boxx4==="" || boxx5==="" || !boxx1 || !boxx2 || !boxx3 || !boxx4 || !boxx5) {
     alert("Please fill all the steps!");
   } else {
     if (boxx1!=='cleanser') {
@@ -1282,6 +1487,7 @@ function handleForm(event) {
   const formData = new FormData(form);
 
   let skintype3 = formData.get('skintype3');
+  sessionStorage.setItem('skintype3', skintype3);
 
   if (skintype3==null) {
     alert("Please select an option!");
@@ -1463,7 +1669,7 @@ function routine_summary() {
       updateSummary ("step-container", box2, routine_data, skintype);
       updateSummary ("step-container", box3, routine_data, skintype);
       document.getElementById("3step").innerHTML+=`</div>`;
-    }
+    } 
   
     if (boxx1 && boxx2 && boxx3 && boxx4 && boxx5) {
 
@@ -1504,3 +1710,35 @@ function updateSummary (idx, box, routine_data, skintype) {
       <label class="box-label">Look for - <span style="color: purple;">${skin_type_ingredients[skintype]}</span></label>
     </div>`;
 }
+
+function updateSkintyperesult() {
+  s=sessionStorage.getItem("skintype");
+  if (s=='oily') {
+    document.getElementById('skinresultdetail').innerHTML+=`<span style="color:#770fdb; font-weight:bold;">Oily skin</span> is caused by an overproduction of sebum, 
+    the natural oil that lubricates and protects the skin. This excess oil can lead to a shiny appearance, clogged pores, 
+    and acne.`;
+
+    document.getElementById('skinresultimg').innerHTML+=`<img style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);" src='/static/images/oily_skin.png'width="160px" height="150px">`;
+  } else if (s=='normal') {
+    document.getElementById('skinresultdetail').innerHTML+=`<span style="color:#770fdb; font-weight:bold;">Normal skin</span> does not feel oily or dry, but is perceived 
+    as well-balanced and supple. The skin is perceived as smooth and soft and the pores are neither enlarged nor reduced. 
+    A normal skin type has a balanced sebum production and a normal moisture balance and has no problems with visible 
+    rashes or sensitivity.`;
+
+    document.getElementById('skinresultimg').innerHTML+=`<img style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);" src='/static/images/normal_skin.png'width="160px" height="150px">`;
+  } else if (s=='dry') {
+    document.getElementById('skinresultdetail').innerHTML+=`<span style="color:#770fdb; font-weight:bold;">Dry skin</span>, also known as xerosis, is a common condition 
+    where the skin lacks moisture, leading to a rough, flaky, or itchy feeling. It can be caused by various factors, 
+    including aging, cold weather, certain medical conditions, or harsh products.`;
+
+    document.getElementById('skinresultimg').innerHTML+=`<img style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);" src='/static/images/dry_skin.png'width="160px" height="150px">`;
+  } else if (s=='combination') {
+    document.getElementById('skinresultdetail').innerHTML+=`<span style="color:#770fdb; font-weight:bold;">Combination skin</span> means that there are some areas of your 
+    face that are dry and other areas of your face that are more oily. The T-zone (forehead, nose, and chin) is commonly oily, 
+    and the cheeks are often drier.`;
+
+    document.getElementById('skinresultimg').innerHTML+=`<img style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);" src='/static/images/combination_skin.png'width="200px" height="150px">`;
+  }
+}
+
+updateSkintyperesult();
