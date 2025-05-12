@@ -1377,7 +1377,7 @@ window.goToNext = function() {
   else if (path.includes("/quiz2/q1")) {
     window.location.href = "/quiz2/q2";
   } 
-  else if (path === "/quiz2/q2") {
+  else if (path.includes("/quiz2/q2")) {
     currentIndex = 7;
     sessionStorage.setItem("currentIndex", 7);
     maxUnlockedStep = Math.max(maxUnlockedStep, currentIndex);

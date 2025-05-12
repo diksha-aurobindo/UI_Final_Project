@@ -5,8 +5,6 @@
   body {
     font-family: 'Helvetica Neue', sans-serif;
     background: linear-gradient(135deg, #e6ddf1, #f3eafd);
-    margin: 0;
-    padding: 2rem;
   }
 
   h2 {
@@ -75,7 +73,7 @@
   .feedback {
     font-weight: bold;
     font-size: 1.1rem;
-    text-align: right;
+    text-align: center;
     min-width: 300px;
   }
 
@@ -115,8 +113,11 @@
   }
 </style>
 
+<br><br>
+
 <div class="container">
   <h2>Q3. Drag the products into its use</h2>
+  <br><br>
 
   <div class="row">
     <div class="col-md-5">
@@ -149,16 +150,20 @@
       </div>
     </div>
   </div>
+  <br><br><br>
 
   <!-- Global control buttons -->
-  <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
-    <button onclick="checkMatches()">Submit</button>
-    <button id="undoBtn" onclick="undoLastDrop()">Undo</button>
-    <div class="feedback" id="feedback"></div>
-    <div class="feedback" id="dropWarning" style="display: none; color: #cc0000;">
+    <div class="feedback" id="dropWarning" style="display: none; color: #cc0000; margin-left: 0%;">
       ⚠️ You can only drop one item in each box!
     </div>
-    <button id="nextBtn" class="back-btn" style="display: none;" onclick="goToNext()">Next→</button>
+    <br>
+    <center>
+    <button id="undoBtn" onclick="undoLastDrop()">Undo</button>   <button onclick="checkMatches()">Submit</button>
+    <div class="feedback" id="feedback"></div>
+    <button id="nextBtn" class="back-btn" style="display: none; margin-left: 90%;" onclick="goToNext()">Next→</button>
+    <br>
+  </center>
+  <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
   </div>
 </div>
 
