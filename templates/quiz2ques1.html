@@ -298,14 +298,15 @@
       body: JSON.stringify({ answer: userAnswers })
     })
     .then(res => res.json())
-    .then(() => fetch("/save-progress", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }
-    }))
-    .then(res => res.json())
+    // .then(() => fetch("/save-progress", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" }
+    // }))
+    // .then(res => res.json())
     .then(() => {
       console.log("✅ Progress saved to userdata.json");
     })
+    
     .catch(err => console.error("❌ Something went wrong", err));
   }
 </script>

@@ -79,11 +79,11 @@ function submitNourishAnswer() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ answer: selectedText, is_correct: isCorrect })
   })
-  .then(() => fetch("/save-progress", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }
-  }))
-  .then(res => res.json())
+  // .then(() => fetch("/save-progress", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" }
+  // }))
+  // .then(res => res.json())
   .then(data => console.log("✅ Progress saved", data))
   .catch(err => console.error("❌ Error saving", err));
 }
