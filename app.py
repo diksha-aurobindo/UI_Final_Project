@@ -81,21 +81,21 @@ def quiz1_q2():
 @app.route('/quiz2/q1')
 def quiz2_q1():
     update_time_spent("usertimeSpentOnLearn")
-    quiz_data = session.get("quiz_1", {})
+    quiz_data = session.get("quiz_3", {})
     # print(json.dumps(quiz_data))  # check if it's serializable
     return render_template("quiz2ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
 
 @app.route('/quiz2/q2')
 def quiz2_q2():
     update_time_spent("usertimeSpentOnLearn")
-    quiz_data = session.get("quiz_1", {})
+    quiz_data = session.get("quiz4State", {})
     # print(json.dumps(quiz_data))  # check if it's serializable
     return render_template("quiz2ques2.html", quiz_state=quiz_data, score=session.get('score', 0))
 
 @app.route('/quiz3/q1')
 def quiz3_q1():
     update_time_spent("usertimeSpentOnLearn")
-    quiz_data = session.get("quiz_1", {})
+    quiz_data = session.get("quiz_5", {})
     # print(json.dumps(quiz_data))  # check if it's serializable
     return render_template("quiz3ques1.html", quiz_state=quiz_data, score=session.get('score', 0))
 
@@ -109,7 +109,7 @@ def final_quiz_q1():
     return render_template(
         "finalquiz_ques1.html",
         quiz_state=quiz_data,
-        submitted=submitted,
+        # submitted=submitted,
         score=session.get('score', 0)
     )
 
@@ -117,7 +117,11 @@ def final_quiz_q1():
 @app.route('/final-quiz/q2')   # CORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRECTTTTTTTTTTTTTTT
 def final_quiz_q2():
     update_time_spent("usertimeSpentOnQuiz")
-    return render_template('finalquiz_ques2.html')
+
+    quiz_data = session.get("quiz_7", {})
+    submitted = session.get("detective_quiz_submitted", False)
+
+    return render_template('finalquiz_ques2.html', quiz_state=quiz_data, score=session.get('score', 0))
 
 # @app.route("/quiz-result")
 # def quiz_result():
@@ -140,7 +144,7 @@ def quiz_results():
         },
         {
             "question": "Match each product to its correct use case.",
-            "correct_answer": ["Serum", "Eye Cream", "Spot Treatment", "Moisturizer"],
+            "correct_answer": ["Eye Cream", "Moisturizer", "Serum", "Spot Treatment"],
             "user_answer": list(session.get("quiz_3", {}).get("user_answer", {}).values()),
             "is_correct": session.get("quiz_3", {}).get("is_correct", False),
         },
@@ -153,8 +157,8 @@ def quiz_results():
         {
             "question": "Why is sunscreen an essential step in skincare?",
             "correct_answer": ["Shields UV damage and signs of aging"],
-            "user_answer": ["Shields UV damage and signs of aging"],
-            "is_correct": True,
+            "user_answer": [session.get("quiz_5", {}).get("user_answer")],
+            "is_correct": session.get("quiz_5", {}).get("is_correct", False),
         }
     ]
 
@@ -182,8 +186,9 @@ def quiz_results():
     questions.append({
             "question": "Drag and drop the skincare step bubbles in the correct order one by one into the jar to fill it completely",
             "correct_answer": ["Cleansing & Prepping","Nourishing","Protecting"],
-            "user_answer": ["Cleansing & Prepping","Nourishing","Protecting"],
-            "is_correct": True
+            "user_answer": session.get("quiz_7", {}).get("user_answer"),
+            # "user_answer": list(session.get("quiz_7", {}).get("user_answer", {}).values()),
+            "is_correct": session.get("quiz_7", {}).get("is_correct", False),
         })
 
     total_score = session.get("score", 0)
@@ -325,37 +330,72 @@ def submit_quiz_4():
     session["quiz4State"] = {
         "answered": True,
         "is_correct": is_correct,
-        "scored": is_correct,
+        "scored": False,
         "user_answer": answer
     }
     print("User answers values")
     print(answer)
     print(session.get("quiz4State", {}).get("user_answer"))
-    # print(list(session.get("quiz4State", {}).get("user_answer", {}).values()))
 
     # ✅ Optional: increment score if correct and not already counted
     if is_correct and not session["quiz4State"].get("scored", False):
+        print("!!!!  inside if !!!!!")
         session["score"] = session.get("score", 0) + 1
+        print(session["score"])
         session["quiz4State"]["scored"] = True
 
     return jsonify({"message": "Quiz 4 answer saved successfully."})
 
+@app.route("/submit-quiz/5", methods=["POST"])
+def submit_quiz_5():
+    data = request.get_json()
+    answer = data.get("answer")
+    is_correct = data.get("is_correct")
 
-CORRECT_ORDER = ['cleanse', 'nourish', 'protect']
+    # Save quiz 4 state directly to session (like quiz_1, quiz_2, etc.)
+    session["quiz_5"] = {
+        "answered": True,
+        "is_correct": is_correct,
+        "scored": False,
+        "user_answer": answer
+    }
+    print("User answers values")
+    print(answer)
+    print(session.get("quiz_5", {}).get("user_answer"))
+
+    # ✅ Optional: increment score if correct and not already counted
+    if is_correct and not session["quiz_5"].get("scored", False):
+        print("!!!!  inside if !!!!!")
+        session["score"] = session.get("score", 0) + 1
+        print(session["score"])
+        session["quiz_5"]["scored"] = True
+
+    return jsonify({"message": "Quiz 5 answer saved successfully."})
+
+
+CORRECT_ORDER = ['Cleansing & Prepping', 'Nourishing', 'Protecting']
 
 @app.route('/submit-final-order', methods=['POST'])
 def submit_final_order():
     data = request.get_json()
     user_order = data.get('answer', [])
-    
-    # Optional: save to a file or database
-    with open('final_quiz_responses.txt', 'a') as f:
-        f.write(f"{user_order}\n")
 
     is_correct = user_order == CORRECT_ORDER
+
+    # Save to session
+    session["quiz_7"] = {
+        "answered": True,
+        "user_answer": user_order,
+        "is_correct": is_correct,
+        "scored": False
+    }
+
+    # Optional: update score if not already counted
+    if is_correct and not session["quiz_7"].get("scored", False):
+        session["score"] = session.get("score", 0) + 1
+        session["quiz_7"]["scored"] = True
+
     return jsonify({'correct': is_correct})
-
-
 
 @app.route("/submit-detective-quiz", methods=["POST"])
 def submit_detective_quiz():
@@ -377,12 +417,10 @@ def submit_detective_quiz():
         user_answer = user_answers.get(question)
         print(user_answer)
 
-        if user_answer == "correct":
+        if user_answer == correct:
             is_correct = True
         else:
             is_correct = False
-        # is_correct = True if (user_answer == "correct") else False
-        # is_correct = (user_answer == correct) if answered else False
         print(is_correct)
 
         previous_state = quiz_states.get(question + "State", {})
@@ -462,7 +500,9 @@ def save_progress():
         "quiz2State": session.get("quiz_2", {}),
         "quiz3State": session.get("quiz_3", {}), 
         "quiz4State": session.get("quiz4State", {}),  # ✅ Now it will save properly
-        "finalQuizState": session.get("finalQuizState", {}),
+        "quiz5State": session.get("quiz_5", {}),
+        # "quiz6State": session.get("quiz_6", {}),
+        "quiz7State": session.get("quiz_7", {}),
         "routineState": session.get("routineState", {}),
         "skinType": session.get("skinType", None),
         "routine_step": session.get("routine_step")

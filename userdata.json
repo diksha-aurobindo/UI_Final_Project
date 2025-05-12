@@ -1,19 +1,11 @@
 {
   "1": {
     "userId": 1,
-<<<<<<< HEAD
-    "usertimeSpentOnLearn": 25.65,
-    "usertimeSpentOnQuiz": 28.12,
+    "usertimeSpentOnLearn": 28.31,
+    "usertimeSpentOnQuiz": 10.53,
     "usertimeSpentOnRoutine": 0,
-    "userQuizScore": 4,
-    "TotalTimeSpentTillNow": 53.77,
-=======
-    "usertimeSpentOnLearn": 621.53,
-    "usertimeSpentOnQuiz": 5.87,
-    "usertimeSpentOnRoutine": 0,
-    "userQuizScore": 4,
-    "TotalTimeSpentTillNow": 627.39,
->>>>>>> 870354b (changes)
+    "userQuizScore": 10,
+    "TotalTimeSpentTillNow": 38.84,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -32,18 +24,14 @@
     },
     "quiz3State": {
       "answered": true,
-      "is_correct": false,
-      "scored": false,
-<<<<<<< HEAD
-      "user_answer": {}
-=======
+      "is_correct": true,
+      "scored": true,
       "user_answer": {
-        "eye": "Spot Treatment",
+        "eye": "Eye Cream",
         "moisturizer": "Moisturizer",
         "serum": "Serum",
-        "spot": "Eye Cream"
+        "spot": "Spot Treatment"
       }
->>>>>>> 870354b (changes)
     },
     "quiz4State": {
       "answered": true,
@@ -51,7 +39,22 @@
       "scored": true,
       "user_answer": "Serum with hyaluronic acid and a moisturizer with ceramides"
     },
-    "finalQuizState": {},
+    "quiz5State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": "Shields UV damage and signs of aging"
+    },
+    "quiz7State": {
+      "answered": true,
+      "is_correct": true,
+      "scored": true,
+      "user_answer": [
+        "Cleansing & Prepping",
+        "Nourishing",
+        "Protecting"
+      ]
+    },
     "routineState": {},
     "skinType": "oily",
     "routine_step": null

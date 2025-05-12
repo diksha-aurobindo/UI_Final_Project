@@ -10,26 +10,26 @@
   <form id="detectiveQuiz" style="text-align: left; max-width: 600px; margin: 40px auto; font-size: 18px; color: #333;">
     <div class="question-block">
       <p><strong>1. What should Maya use to clean her face?</strong></p>
-      <label><input type="radio" name="q1" value="correct"> Cleanser with Salicylic Acid</label><br>
-      <label><input type="radio" name="q1" value="wrong"> Toner with Witch Hazel</label>
+      <label><input type="radio" name="q1" value="Cleanser with Salicylic Acid"> Cleanser with Salicylic Acid</label><br>
+      <label><input type="radio" name="q1" value="Toner with Witch Hazel"> Toner with Witch Hazel</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>2. Which treatment will help her most without irritation?</strong></p>
-      <label><input type="radio" name="q2" value="correct"> Spot Treatment with Sulfur</label><br>
-      <label><input type="radio" name="q2" value="wrong"> Retinol Serum</label>
+      <label><input type="radio" name="q2" value="Spot Treatment with Sulfur"> Spot Treatment with Sulfur</label><br>
+      <label><input type="radio" name="q2" value="Retinol Serum"> Retinol Serum</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>3. What’s the best ingredient for moisture?</strong></p>
-      <label><input type="radio" name="q3" value="correct"> Ceramides</label><br>
-      <label><input type="radio" name="q3" value="wrong"> Heavy Oils</label>
+      <label><input type="radio" name="q3" value="Ceramides"> Ceramides</label><br>
+      <label><input type="radio" name="q3" value="Heavy Oils"> Heavy Oils</label>
     </div><br>
 
     <div class="question-block">
       <p><strong>4. True or False: Sunscreen with Zinc Oxide is good for acne-prone skin.</strong></p>
-      <label><input type="radio" name="q4" value="correct"> True</label><br>
-      <label><input type="radio" name="q4" value="wrong"> False</label>
+      <label><input type="radio" name="q4" value="True"> True</label><br>
+      <label><input type="radio" name="q4" value="False"> False</label>
     </div><br>
 
     <button type="button" class="evaluate" onclick="checkDetectiveQuiz()">Submit Answers</button>
@@ -73,8 +73,10 @@
 
 <script>
   window.onload = function() {
-    const quizStates = JSON.parse(localStorage.getItem("detectiveQuizState")) || {};
-    const submitted = localStorage.getItem("detectiveQuizSubmitted") === "true";
+    // const quizStates = JSON.parse(localStorage.getItem("detectiveQuizState")) || {};
+    const submitted = quizState.answered === true;
+    const quizStates = quizState.user_answer || [];
+    // const submitted = localStorage.getItem("detectiveQuizSubmitted") === "true";
 
     if (submitted) {
       for (const [key, value] of Object.entries(quizStates)) {
@@ -140,8 +142,8 @@
       document.getElementById("nextBtn").style.display = "inline-block";
       const radios = form.querySelectorAll("input[type='radio']");
       radios.forEach(radio => radio.disabled = true);
-      localStorage.setItem("detectiveQuizState", JSON.stringify(userAnswers));
-      localStorage.setItem("detectiveQuizSubmitted", "true");
+      // localStorage.setItem("detectiveQuizState", JSON.stringify(userAnswers));
+      // localStorage.setItem("detectiveQuizSubmitted", "true");
     });
   }
 </script>

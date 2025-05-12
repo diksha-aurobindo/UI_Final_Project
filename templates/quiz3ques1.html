@@ -1,6 +1,7 @@
 {% extends "index.html" %}
 
 {% block content %}
+
 <style>
   body {
     font-family: 'Helvetica Neue', sans-serif;
@@ -90,13 +91,13 @@
     <h2>Choose the correct option</h2>
     <div class="question">Q5. Why is sunscreen an essential step in skincare?</div>
 
-    <label class="option"><input type="radio" name="quiz" value="wrong"> Hydrates</label>
-    <label class="option"><input type="radio" name="quiz" value="wrong"> Removes dead skin cells</label>
-    <label class="option"><input type="radio" name="quiz" value="correct"> Shields UV damage and signs of aging</label>
-    <label class="option"><input type="radio" name="quiz" value="wrong"> Unclogs pores</label>
+    <label class="option"><input type="radio" name="quiz" value="wrong" data-text="Hydrates"> Hydrates</label>
+    <label class="option"><input type="radio" name="quiz" value="wrong" data-text="Removes dead skin cells"> Removes dead skin cells</label>
+    <label class="option"><input type="radio" name="quiz" value="correct" data-text="Shields UV damage and signs of aging"> Shields UV damage and signs of aging</label>
+    <label class="option"><input type="radio" name="quiz" value="wrong" data-text="Unclogs pores"> Unclogs pores</label>
 
     <button class="submit-btn" onclick="checkQuizAnswer()">Submit</button>
-    <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right;" onclick="goToNext()">Next-></button>
+    <button id="nextBtn" class="back-btn" style="margin-top: 20px; float:right; display: none;" onclick="goToNext()">Next-></button>
     <div class="feedback" id="quiz-feedback"></div>
   </div>
 
@@ -105,39 +106,84 @@
   </div>
 </div>
 
-<!-- Confetti script -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-  function checkQuizAnswer() {
-    const selected = document.querySelector('input[name="quiz"]:checked');
+  // const quizState = {{ quiz_state | tojson | default('{"answered": false}', true) }};
+  document.addEventListener("DOMContentLoaded", () => {
+    const checkboxes = document.querySelectorAll('input[name="quiz"]');
     const feedback = document.getElementById("quiz-feedback");
+    const submitBtn = document.querySelector(".submit-btn");
+    const nextBtn = document.getElementById("nextBtn");
 
-    if (!selected) {
-      feedback.textContent = "⚠️ Please select an option.";
-      feedback.style.color = "orange";
-      return;
-    }
-
-    // Disable all options and button
-    document.querySelectorAll('input[name="quiz"]').forEach(input => input.disabled = true);
-    document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
-    document.querySelector('.submit-btn').disabled = true;
-
-    if (selected.value === "correct") {
-      feedback.textContent = "✅ Correct! Sunscreen protects from UV and signs of aging.";
-      feedback.style.color = "green";
-
-      // Trigger confetti 🎉
-      confetti({
-        particleCount: 120,
-        spread: 100,
-        origin: { y: 0.6 }
+    if (quizState.answered) {
+      // Restore and lock state
+      checkboxes.forEach(cb => {
+        if (cb.dataset.text === quizState.user_answer) cb.checked = true;
+        cb.disabled = true;
       });
-    } else {
-      feedback.textContent = "❌ Not quite. The right answer is: Shields UV damage and signs of aging.";
-      feedback.style.color = "#cc0000";
+      document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+      submitBtn.disabled = true;
+
+      feedback.textContent = quizState.is_correct
+        ? "✅ Correct! Sunscreen protects from UV and signs of aging."
+        : "❌ Not quite. The right answer is: Shields UV damage and signs of aging.";
+      feedback.style.color = quizState.is_correct ? "green" : "#cc0000";
+
+      nextBtn.style.display = "inline-block";
+
+      if (quizState.is_correct && typeof confetti === "function") {
+        confetti({
+          particleCount: 120,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      }
     }
-  }
+
+    submitBtn.addEventListener("click", () => {
+      const selected = document.querySelector('input[name="quiz"]:checked');
+      if (!selected) {
+        feedback.textContent = "⚠️ Please select an option.";
+        feedback.style.color = "orange";
+        return;
+      }
+
+      const isCorrect = selected.value === "correct";
+      const selectedText = selected.dataset.text;
+
+      checkboxes.forEach(cb => cb.disabled = true);
+      document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+      submitBtn.disabled = true;
+
+      feedback.textContent = isCorrect
+        ? "✅ Correct! Sunscreen protects from UV and signs of aging."
+        : "❌ Not quite. The right answer is: Shields UV damage and signs of aging.";
+      feedback.style.color = isCorrect ? "green" : "#cc0000";
+
+      nextBtn.style.display = "inline-block";
+
+      if (isCorrect && typeof confetti === "function") {
+        confetti({
+          particleCount: 120,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      }
+
+      fetch("/submit-quiz/5", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          answer: selectedText,
+          is_correct: isCorrect
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log("Saved:", data.message))
+      .catch(err => console.error("Error saving quiz answer:", err));
+    });
+  });
 </script>
+
 {% endblock %}
