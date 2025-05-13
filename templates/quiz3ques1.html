@@ -183,6 +183,9 @@
       .then(res => res.json())
       .then(data => console.log("Saved:", data.message))
       .catch(err => console.error("Error saving quiz answer:", err));
+
+      sessionStorage.setItem('learnCompleted', 'true');
+      console.log('learnCompleted set to true from quiz3q1');
     });
   });
 </script>

@@ -1341,9 +1341,9 @@ window.goToNext = function() {
     }
 
     // If it's the last step, mark as complete
-    if (currentIndex === routineData.length - 1) {
-      sessionStorage.setItem('learnCompleted', true);
-    }
+    // if (currentIndex === routineData.length - 1) {
+    //   sessionStorage.setItem('learnCompleted', true);
+    // }
 
     // Move to quiz after 'essence'
     if (currentStepName === "essence") {
