@@ -1,11 +1,11 @@
 {
   "1": {
     "userId": 1,
-    "usertimeSpentOnLearn": 1846.96,
-    "usertimeSpentOnQuiz": 756.37,
-    "usertimeSpentOnRoutine": 4.92,
-    "userQuizScore": 10,
-    "TotalTimeSpentTillNow": 2608.26,
+    "usertimeSpentOnLearn": 29.3,
+    "usertimeSpentOnQuiz": 9.74,
+    "usertimeSpentOnRoutine": 0,
+    "userQuizScore": 9,
+    "TotalTimeSpentTillNow": 39.04,
     "Userquiz1State": {
       "answered": true,
       "is_correct": true,
@@ -24,13 +24,13 @@
     },
     "quiz3State": {
       "answered": true,
-      "is_correct": false,
-      "scored": false,
+      "is_correct": true,
+      "scored": true,
       "user_answer": {
-        "eye": "Moisturizer",
-        "moisturizer": "Spot Treatment",
+        "eye": "Eye Cream",
+        "moisturizer": "Moisturizer",
         "serum": "Serum",
-        "spot": "Eye Cream"
+        "spot": "Spot Treatment"
       }
     },
     "quiz4State": {
@@ -41,9 +41,9 @@
     },
     "quiz5State": {
       "answered": true,
-      "is_correct": true,
-      "scored": true,
-      "user_answer": "Shields UV damage and signs of aging"
+      "is_correct": false,
+      "scored": false,
+      "user_answer": "Hydrates"
     },
     "quiz7State": {
       "answered": true,

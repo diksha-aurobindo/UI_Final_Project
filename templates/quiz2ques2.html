@@ -52,6 +52,37 @@
 const form = document.getElementById("nourishForm");
 const submitBtn = document.getElementById("submitBtn");
 
+// Restore and lock if previously submitted
+function lockQuiz() {
+  // Disable all radio buttons
+  document.querySelectorAll('input[name="nourishQuiz"]').forEach(radio => {
+    radio.disabled = true;
+  });
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = 0.5;
+}
+
+function restoreAnswer() {
+  if (!quizState.answered) return;
+
+  const selectedText = quizState.user_answer;
+  const isCorrect = quizState.is_correct;
+
+  document.querySelectorAll('input[name="nourishQuiz"]').forEach(radio => {
+    if (radio.dataset.text === selectedText) {
+      radio.checked = true;
+    }
+  });
+
+  resultMsg.textContent = isCorrect
+    ? "✅ Correct! Great choice for dry, winter skin."
+    : "❌ Oops! The best option is serum + moisturizer.";
+  resultMsg.style.color = isCorrect ? "green" : "red";
+  nextBtn.style.display = "inline-block";
+
+  lockQuiz();
+}
+
 function submitNourishAnswer() {
   const resultMsg = document.getElementById("result-msg");
   const selected = document.querySelector('input[name="nourishQuiz"]:checked');
@@ -91,6 +122,9 @@ function submitNourishAnswer() {
 // function goToNext() {
 //   window.location.href = "/learn/sunscreen";
 // }
+
+// Restore on load if answered
+document.addEventListener("DOMContentLoaded", restoreAnswer);
 </script>
 
 {% endblock %}

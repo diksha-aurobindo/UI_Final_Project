@@ -73,23 +73,33 @@
 
 <script>
   window.onload = function() {
-    // const quizStates = JSON.parse(localStorage.getItem("detectiveQuizState")) || {};
-    const submitted = quizState.answered === true;
-    const quizStates = quizState.user_answer || [];
-    // const submitted = localStorage.getItem("detectiveQuizSubmitted") === "true";
+    const submitted = quizState.q1State.answered === true;
 
-    if (submitted) {
-      for (const [key, value] of Object.entries(quizStates)) {
-        const options = document.querySelectorAll(`input[name="${key}"]`);
-        options.forEach(option => {
-          if (option.value === value) option.checked = true;
-          option.disabled = true;
+    // Loop through all question states (q1State to q4State)
+    for (let i = 1; i <= 4; i++) {
+      const stateKey = `q${i}State`;
+      const questionState = quizState[stateKey];
+
+      if (questionState && questionState.answered) {
+        const userAnswer = questionState.user_answer;
+        const inputs = document.querySelectorAll(`input[name="q${i}"]`);
+
+        inputs.forEach(input => {
+          if (input.value === userAnswer) {
+            input.checked = true;
+          }
+          input.disabled = true;
         });
+
+        // Optional: Log for debugging
+        console.log(`Restored Q${i}:`, userAnswer);
+        const submitBtn = document.querySelector(".evaluate");
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = 0.5;
+        document.getElementById("nextBtn").style.display = "inline-block";
       }
-      document.getElementById("nextBtn").style.display = "inline-block";
-      document.getElementById("finalFeedback").textContent = "✅ Quiz already submitted.";
-      document.getElementById("finalFeedback").style.color = "green";
     }
+
   };
 
   function checkDetectiveQuiz() {

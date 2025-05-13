@@ -169,10 +169,24 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-  let draggedItem = null;
   const draggables = document.getElementById('draggables');
-  // We'll maintain a drop history (stack) for undo purposes.
-  let dropHistory = [];
+  const feedback = document.getElementById("feedback");
+  const nextBtn = document.getElementById("nextBtn");
+  const dropHistory = [];
+  const quizState = {{ quiz_state | tojson | default('{"answered": false}', true) }};
+  console.log(quizState);
+  const isLocked = quizState.answered === true;
+  const savedAnswers = quizState.user_answer || {};
+
+  const correctMapping = {
+    serum: "Serum",
+    eye: "Eye Cream",
+    spot: "Spot Treatment",
+    moisturizer: "Moisturizer"
+  };
+
+  const items = Array.from(document.querySelectorAll('.item'));
+  const targets = document.querySelectorAll('.target');
 
   function addDragEvents(item) {
     item.addEventListener('dragstart', () => {
@@ -186,92 +200,82 @@
     });
   }
 
-  document.querySelectorAll('.item').forEach(addDragEvents);
+  let draggedItem = null;
 
-  const targets = document.querySelectorAll('.target');
+  if (!isLocked) {
+    items.forEach(addDragEvents);
+  }
 
   targets.forEach(target => {
     const dropSlot = target.querySelector('.drop-slot');
 
-    target.addEventListener('dragover', e => {
-      e.preventDefault();
-      target.classList.add('over');
-    });
+    if (!isLocked) {
+      target.addEventListener('dragover', e => {
+        e.preventDefault();
+        target.classList.add('over');
+      });
 
-    target.addEventListener('dragleave', () => {
-      target.classList.remove('over');
-    });
+      target.addEventListener('dragleave', () => {
+        target.classList.remove('over');
+      });
 
-    target.addEventListener('drop', () => {
-      const dropWarning = document.getElementById('dropWarning');
+      target.addEventListener('drop', () => {
+        const dropWarning = document.getElementById('dropWarning');
 
-      if (draggedItem) {
-        // If the drop slot already has an item, warn the user
-        if (dropSlot.children.length > 0) {
+        if (draggedItem) {
+          if (dropSlot.children.length > 0) {
+            target.classList.remove('over');
+            target.classList.add('pulsed');
+            dropWarning.style.display = 'block';
+            dropWarning.classList.add('wiggle');
+            setTimeout(() => {
+              dropWarning.classList.remove('wiggle');
+              dropWarning.style.display = 'none';
+            }, 2000);
+            return;
+          }
+
+          document.querySelectorAll('.drop-slot').forEach(slot => {
+            if (slot.contains(draggedItem)) {
+              slot.innerHTML = '';
+            }
+          });
+
+          dropSlot.innerHTML = '';
+          dropSlot.appendChild(draggedItem);
           target.classList.remove('over');
           target.classList.add('pulsed');
+          setTimeout(() => target.classList.remove('pulsed'), 400);
 
-          dropWarning.style.display = 'block';
-          dropWarning.classList.add('wiggle');
-          setTimeout(() => {
-            dropWarning.classList.remove('wiggle');
-            dropWarning.style.display = 'none';
-          }, 2000);
-          return;
+          dropHistory.push({ dropSlot: dropSlot, item: draggedItem });
         }
-
-        // Remove the item from any previous slot
-        document.querySelectorAll('.drop-slot').forEach(slot => {
-          if (slot.contains(draggedItem)) {
-            slot.innerHTML = '';
-          }
-        });
-
-        // Place the dragged item into the drop slot
-        dropSlot.innerHTML = '';
-        dropSlot.appendChild(draggedItem);
-        target.classList.remove('over');
-        target.classList.add('pulsed');
-        setTimeout(() => target.classList.remove('pulsed'), 400);
-
-        // Record this drop in history for the Undo button
-        dropHistory.push({ dropSlot: dropSlot, item: draggedItem });
-      }
-    });
+      });
+    }
   });
 
-  // Global Undo function: remove the last dropped item and return it to the draggable list
   function undoLastDrop() {
+    if (isLocked) return;
+
     if (dropHistory.length > 0) {
       const lastDrop = dropHistory.pop();
       const { dropSlot, item } = lastDrop;
       if (dropSlot.contains(item)) {
         dropSlot.removeChild(item);
-        // Append the item back to the main draggable list.
         draggables.appendChild(item);
       }
     }
   }
 
   function checkMatches() {
-    const feedback = document.getElementById('feedback');
-    feedback.classList.remove('wiggle');
-
     const userAnswers = {};
     let correct = 0;
 
-    const correctMapping = {
-      serum: "Serum",
-      eye: "Eye Cream",
-      spot: "Spot Treatment",
-      moisturizer: "Moisturizer"
-    };
-
     targets.forEach(target => {
       const dropped = target.querySelector('.drop-slot .item');
+      const expectedKey = target.dataset.accept;
+
       if (dropped) {
         const droppedText = dropped.textContent.trim();
-        const expectedKey = target.dataset.accept;
         userAnswers[expectedKey] = droppedText;
         if (droppedText === correctMapping[expectedKey]) {
           correct++;
@@ -279,35 +283,56 @@
       }
     });
 
+    nextBtn.style.display = "inline-block";
     if (correct === Object.keys(correctMapping).length) {
-      document.getElementById("nextBtn").style.display = "inline-block";
       feedback.textContent = '🎉 All correct! You nailed it!';
       feedback.style.color = '#008000';
       confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 } });
     } else {
-      document.getElementById("nextBtn").style.display = "inline-block";
       feedback.textContent = `❌ You got ${correct} out of ${Object.keys(correctMapping).length} correct. Try again!`;
       feedback.style.color = '#cc0000';
       feedback.classList.add('wiggle');
     }
 
-    // Submit and save the user's progress
     fetch("/submit-quiz/3", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ answer: userAnswers })
     })
     .then(res => res.json())
-    // .then(() => fetch("/save-progress", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" }
-    // }))
-    // .then(res => res.json())
     .then(() => {
-      console.log("✅ Progress saved to userdata.json");
+      console.log("✅ Progress saved to backend");
+      lockQuiz();
     })
-    
-    .catch(err => console.error("❌ Something went wrong", err));
+    .catch(err => console.error("❌ Save error", err));
+  }
+
+  function lockQuiz() {
+    items.forEach(item => item.setAttribute("draggable", "false"));
+    document.getElementById("undoBtn").disabled = true;
+    document.querySelectorAll('.target').forEach(target => {
+      const newTarget = target.cloneNode(true);
+      target.parentNode.replaceChild(newTarget, target);
+    });
+  }
+
+  function restorePreviousAnswers() {
+    Object.entries(savedAnswers).forEach(([key, text]) => {
+      const target = document.querySelector(`.target[data-accept="${key}"] .drop-slot`);
+      const item = items.find(i => i.textContent.trim() === text);
+      if (target && item) target.appendChild(item);
+    });
+    if (isLocked) {
+      lockQuiz();
+      nextBtn.style.display = "inline-block";
+      feedback.textContent = 'Already submitted.';
+      feedback.style.color = 'green';
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", restorePreviousAnswers);
+  function goToNext() {
+    window.location.href = "/quiz2/q2";
   }
 </script>
 {% endblock %}
