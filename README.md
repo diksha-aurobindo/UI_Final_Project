@@ -9,3 +9,8 @@ Built by:
 Vidushi Bansal , 
 Felicia Sharon ,
 Diksha Aurobindo.
+
+Command to run the website locally:
+1. Download the repo
+2. Run 'python app.py' using any python version
+3. Open the url "http://127.0.0.1:5004" on a web browser (Chrome/Firefox)
